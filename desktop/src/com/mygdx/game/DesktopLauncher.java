@@ -19,8 +19,7 @@ public class DesktopLauncher { //funcion principal
 		config.setWindowSizeLimits(400, 320, Integer.MAX_VALUE, Integer.MAX_VALUE);
 		config.setForegroundFPS(60);
 		config.useVsync(true);
-		//config.setWindowIcon("miscAssets/AngyBowler.png");
-		config.setTitle("que");
+		config.setTitle("jueguito");
 		new Lwjgl3Application(new Gamemap(), config); //el coso este es la primera clase que se muestra
 	}
 }

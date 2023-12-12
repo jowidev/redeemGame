@@ -135,7 +135,7 @@ public class GameScreen implements Screen {
         if (Slime != null) {
             Slime.render();
         }
-        //System.out.println(troopArr);
+        System.out.println(troopArr);
         Gamemap.batch.end();
         stage.draw();
         handleInput();

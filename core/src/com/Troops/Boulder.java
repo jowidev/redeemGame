@@ -5,7 +5,6 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g2d.Animation.PlayMode;
-import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.mygdx.game.Gamemap;
@@ -14,12 +13,10 @@ import com.Server.Client;
 public class Boulder extends BaseTroop {
 	private final Gamemap game;
 	public float stateTime;
-	private boolean boulderOnMouse;
 	float boulderW, boulderH;
 
 
-	//public Rectangle boulderHitbox = new Rectangle(); //shape crea el coso
-	// shaperenderer muestra el coso
+
 	public Boulder(Gamemap game, int x, int y) {
 		super(x, y, 2, 2, 150);
 		stateTime = 0;
@@ -34,7 +31,7 @@ public class Boulder extends BaseTroop {
 
 	public void HitboxCheck(Slime slime) {
 
-		if (hitbox.overlaps(slime.slimeHitbox)) {
+		if (hitbox.overlaps(slime.hitbox)) {
 				hitbox.x -=.0f*Gdx.graphics.getDeltaTime();
 				slime.takeDamage(1);
 		}
@@ -47,18 +44,19 @@ public class Boulder extends BaseTroop {
 	}
 
 	public void update(Viewport viewport, Slime slime) {
-		if(!boulderOnMouse) {
+		placeTroop(viewport, troopOnMouse);/*
+		if(!troopOnMouse) {
 			Vector3 position = viewport.unproject(new Vector3(Gdx.input.getX(),Gdx.input.getY(),0));
 			hitbox.x = position.x-1;
 			hitbox.y = position.y-1;
 			hitbox.setPosition(position.x, position.y);
 		}
-		if(Gdx.input.isButtonJustPressed(Input.Buttons.LEFT) && !boulderOnMouse) {
-			boulderOnMouse = true;
+		if(Gdx.input.isButtonJustPressed(Input.Buttons.LEFT) && !troopOnMouse) {
+			troopOnMouse = true;
 			game.assets.boulderPlaced.play();
-		}
+		}*/
 		HitboxCheck(slime);
-		Client.placeBoulder(boulderOnMouse, hitbox);
+		Client.placeBoulder(troopOnMouse, hitbox);
 	}
 
 
