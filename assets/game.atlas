@@ -13,70 +13,70 @@ slimes/Player Roll 48x48
   index: -1
 slimes/planta
   rotate: false
-  xy: 1342, 954
+  xy: 1004, 904
   size: 48, 48
   orig: 48, 48
   offset: 0, 0
   index: 0
 slimes/planta
   rotate: false
-  xy: 1004, 838
+  xy: 1342, 954
   size: 48, 48
   orig: 48, 48
   offset: 0, 0
   index: 1
 slimes/planta
   rotate: false
-  xy: 1258, 904
+  xy: 1004, 854
   size: 48, 48
   orig: 48, 48
   offset: 0, 0
   index: 2
 slimes/planta
   rotate: false
-  xy: 1392, 954
+  xy: 1054, 904
   size: 48, 48
   orig: 48, 48
   offset: 0, 0
   index: 3
 slimes/planta
   rotate: false
-  xy: 1004, 788
+  xy: 1392, 954
   size: 48, 48
   orig: 48, 48
   offset: 0, 0
   index: 4
 slimes/planta
   rotate: false
-  xy: 1054, 838
+  xy: 1004, 804
   size: 48, 48
   orig: 48, 48
   offset: 0, 0
   index: 5
 slimes/planta
   rotate: false
-  xy: 1308, 904
+  xy: 1054, 854
   size: 48, 48
   orig: 48, 48
   offset: 0, 0
   index: 6
 slimes/planta
   rotate: false
-  xy: 1442, 954
+  xy: 1104, 904
   size: 48, 48
   orig: 48, 48
   offset: 0, 0
   index: 7
 slimes/planta
   rotate: false
-  xy: 1004, 738
+  xy: 1442, 954
   size: 48, 48
   orig: 48, 48
   offset: 0, 0
   index: 8
 slimes/planta
   rotate: false
-  xy: 1054, 788
+  xy: 1004, 754
   size: 48, 48
   orig: 48, 48
   offset: 0, 0
@@ -86,13 +86,6 @@ slimes/slimeCurr
   xy: 2, 2
   size: 1000, 1000
   orig: 1000, 1000
-  offset: 0, 0
-  index: -1
-slimes/slimesheet
-  rotate: false
-  xy: 1004, 888
-  size: 252, 64
-  orig: 252, 64
   offset: 0, 0
   index: -1
 
@@ -110,69 +103,62 @@ skin/freezing-ui
   index: -1
 
 game3.png
-size: 4096, 2048
+size: 2048, 2048
 format: RGBA8888
 filter: Nearest, Nearest
 repeat: none
-miscAssets/AngyBowler
-  rotate: false
-  xy: 2, 69
-  size: 1920, 1920
-  orig: 1920, 1920
-  offset: 0, 0
-  index: -1
 miscAssets/Timer
   rotate: false
-  xy: 1924, 108
+  xy: 2, 2
   size: 288, 120
   orig: 288, 120
   offset: 0, 0
   index: -1
 miscAssets/TroopBg
   rotate: false
-  xy: 3846, 1821
+  xy: 1655, 700
   size: 168, 168
   orig: 168, 168
   offset: 0, 0
   index: -1
 miscAssets/bando
   rotate: false
-  xy: 1924, 230
+  xy: 2, 191
   size: 528, 135
   orig: 528, 135
   offset: 0, 0
   index: -1
 miscAssets/currBg
   rotate: false
-  xy: 3577, 823
+  xy: 532, 242
   size: 196, 84
   orig: 196, 84
   offset: 0, 0
   index: -1
 miscAssets/fnaf
   rotate: false
-  xy: 1924, 367
+  xy: 2, 328
   size: 960, 540
   orig: 960, 540
   offset: 0, 0
   index: -1
 miscAssets/logo
   rotate: false
-  xy: 2, 2
+  xy: 2, 124
   size: 564, 65
   orig: 564, 65
   offset: 0, 0
   index: -1
 miscAssets/manface
   rotate: false
-  xy: 2886, 348
+  xy: 964, 309
   size: 689, 559
   orig: 689, 559
   offset: 0, 0
   index: -1
 miscAssets/minecraft
   rotate: false
-  xy: 1924, 909
+  xy: 2, 870
   size: 1920, 1080
   orig: 1920, 1080
   offset: 0, 0

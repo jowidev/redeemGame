@@ -4,6 +4,7 @@ import com.MenuScreens.Grid;
 import com.MenuScreens.HUD;
 import com.MenuScreens.MainMenuScreen;
 import com.MenuScreens.TeamSelScreen;
+import com.Server.Client;
 import com.Troops.BaseTroop;
 import com.Troops.Boulder;
 import com.Troops.Slime;
@@ -48,12 +49,16 @@ public class GameScreen implements Screen {
         HUD hud = new HUD(gamemap);
         camera = new OrthographicCamera();
         stage = new Stage();
-        stage.addActor(grid);
+        //stage.addActor(grid);
+        Client client = new Client();
+        client.start();
 
         if (team.equals(TeamSelScreen.Team.SLIME)) {
             stage.addActor(hud.getSlimeTable());
+
         } else if (team.equals(TeamSelScreen.Team.BOULDER)){
             stage.addActor(hud.getBoulderHud());
+
         }
         stage.addActor(hud.getTimerTable());
         Gdx.input.setInputProcessor(stage);
@@ -66,9 +71,9 @@ public class GameScreen implements Screen {
         this.viewport = new FitViewport(Constants.GAME_WORLD_WIDTH_tile,Constants.GAME_WORLD_HEIGHT_tile, camera);
 
         camera.position.set(Constants.GAME_WORLD_WIDTH_tile/2, Constants.GAME_WORLD_HEIGHT_tile/2, 0);
-        mainsong.play();
+        //mainsong.play();
 
-        time = 180f;
+        time = 180.1f;
 
     }
 
@@ -123,7 +128,6 @@ public class GameScreen implements Screen {
         if (Boulder != null) {
             Boulder.update(viewport, Slime);
         }
-        System.out.println(time);
         Gamemap.batch.begin();
         if (Boulder != null) {
             Boulder.render();
@@ -131,12 +135,12 @@ public class GameScreen implements Screen {
         if (Slime != null) {
             Slime.render();
         }
-        System.out.println(troopArr);
+        //System.out.println(troopArr);
         Gamemap.batch.end();
-        //stage.act(Gdx.graphics.getDeltaTime());
         stage.draw();
         handleInput();
         time -= Gdx.graphics.getDeltaTime(); // EL TIMER
+        //System.out.println(time);
         if (time<=0) {
              gamemap.dispose();
         }

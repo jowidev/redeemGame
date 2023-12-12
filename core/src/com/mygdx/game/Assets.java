@@ -51,6 +51,9 @@ public class Assets {
 
 		this.atlas = manager.get("game.atlas");
         this.slimewalk = atlas.findRegions("slimes/planta");
+		if (slimewalk.size==0) {
+			System.out.println("a");
+		}
         this.boulderwalk = atlas.findRegions("boulders/boulder");
 		this.trumpsong= manager.get("miscAssets/gloriousmorning.mp3");
 		this.finalbattle = manager.get("miscAssets/finalbattle.mp3");

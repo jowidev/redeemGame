@@ -1,5 +1,6 @@
 package com.Troops;
 
+import com.Server.Client;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.Animation;
@@ -24,21 +25,26 @@ public class Slime extends BaseTroop {
 		stateTime = 0;
 		this.game = game;
 		baseAnimation = new Animation<TextureRegion>(0.033f, game.assets.slimewalk, PlayMode.LOOP);
+		assert false;
+		if (game.assets.slimewalk.size==0) {
+			System.out.println("o");
+		}
+
 	}
 	public void update(Viewport viewport) {
 		if (!slimeOnMouse) {
 			Vector3 pos = viewport.unproject(new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0));
 			slimeHitbox.x = pos.x -1;
 			slimeHitbox.y = pos.y -1;
-
 		}
 		if (Gdx.input.isButtonJustPressed(Input.Buttons.LEFT) && !slimeOnMouse) {
 			slimeOnMouse = true;
 			game.assets.slimeplaced.play();
 			slimeHitbox.set(slimeHitbox.x,slimeHitbox.y, 1, 1.25f);
+			System.out.println(slimeHitbox.x + " " + slimeHitbox.y);
 
 		}
-
+		Client.placeSlime(slimeOnMouse, slimeHitbox);
 	}
 
 	public void render() {
