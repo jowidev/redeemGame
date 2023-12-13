@@ -29,19 +29,20 @@ public class Slime extends BaseTroop {
 
 	}
 	public void update(Viewport viewport) {
+		troopOnMouse = placeTroop(viewport, troopOnMouse, "slime");
+		/*
 		if (!troopOnMouse) {
 			Vector3 pos = viewport.unproject(new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0));
 			hitbox.x = pos.x -1;
 			hitbox.y = pos.y -1;
+			hitbox.set(hitbox.x,hitbox.y, 1, 1.25f);
 		}
 		if (Gdx.input.isButtonJustPressed(Input.Buttons.LEFT) && !troopOnMouse) {
 			troopOnMouse = true;
 			game.assets.slimeplaced.play();
-			hitbox.set(hitbox.x,hitbox.y, 1, 1.25f);
-			System.out.println(hitbox.x + " " + hitbox.y);
 
-		}
-		Client.placeSlime(troopOnMouse, hitbox);
+		}//nose pq no funca el coso de inheritance lol*/
+		Client.placeObject(troopOnMouse, hitbox, "slime");
 	}
 
 	public void render() {

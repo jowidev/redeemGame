@@ -19,7 +19,7 @@ public class Client extends Thread{
             clientSocket = new DatagramSocket(); //auto
             serverAddress = InetAddress.getByName("127.0.0.1");
             serverPort = 5000; //tiene que ser el mismo que el del serevr
-            String message = "hola profe";
+            String message = "cliente conectado, hola";
             byte[] sendData = message.getBytes();
 
             DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, serverAddress, serverPort);
@@ -32,39 +32,18 @@ public class Client extends Thread{
         }
     }
 
-
-    public static void placeSlime(boolean slimeOnMouse, Rectangle slimeHitbox) {
-        try {
-            // Check if slime is on the mouse and mouse left button is just pressed
-            if (slimeOnMouse && Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)) {
-                String message = "Slime placed at x:" + slimeHitbox.x + ", y:" + slimeHitbox.y; // Construct the message
-                byte[] sendData = message.getBytes();
-                // Create and send the DatagramPacket to the server
-                DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, serverAddress, serverPort);
-                clientSocket.send(sendPacket);
-            }
-		}
-		catch (Exception e) {
-			e.printStackTrace();
-		}
-    }
-
-
-    public static void placeBoulder(boolean boulderOnMouse, Rectangle boulderHitbox) {
-        try {
-            // Check if the boulder is interacted with
-            if (boulderOnMouse && Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)) {
-                String message = "Boulder placed at x:" + boulderHitbox.x + ", y:" + boulderHitbox.y; // Construct the message
-                byte[] sendData = message.getBytes();
-                // Create and send the DatagramPacket to the server
-                DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, serverAddress, serverPort);
-                clientSocket.send(sendPacket);
-
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
+ public static void placeObject(boolean objectOnMouse, Rectangle objectHitbox, String objectType) {
+    try {
+        if (objectOnMouse && Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)) {
+            String message = objectType + " placed at x,y:" + objectHitbox.x + ":" + objectHitbox.y;
+            byte[] sendData = message.getBytes();
+            DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, serverAddress, serverPort);
+            clientSocket.send(sendPacket);
         }
+    } catch (Exception e) {
+        e.printStackTrace();
     }
+}
     @Override
     public void run() {
         while (true) {
@@ -76,7 +55,7 @@ public class Client extends Thread{
                 throw new RuntimeException(e);
             }
             String receivedMessage = new String(receivePacket.getData(), 0, receivePacket.getLength());
-            System.out.println("el otro chabon dijo: " + receivedMessage);
+            System.out.println("el server dijo: " + receivedMessage);
         }
 
 

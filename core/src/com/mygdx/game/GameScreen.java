@@ -81,13 +81,13 @@ public class GameScreen implements Screen {
     private void handleInput() {
         if(Gdx.input.isKeyJustPressed(Input.Keys.NUM_1)) {
             this.Slime = new Slime(gamemap, Gdx.input.getX(),Gdx.input.getY());
-            troopArr.add(Slime);
+            //troopArr.add(Slime);
 
         }
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_0)) {
             this.Boulder = new Boulder(gamemap, Gdx.input.getX(), Gdx.input.getY());
-            troopArr.add(Boulder);
+            //troopArr.add(Boulder);
 
         }
         if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
@@ -135,7 +135,7 @@ public class GameScreen implements Screen {
         if (Slime != null) {
             Slime.render();
         }
-        System.out.println(troopArr);
+        //System.out.println(troopArr);
         Gamemap.batch.end();
         stage.draw();
         handleInput();

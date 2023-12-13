@@ -1,5 +1,6 @@
 package com.Troops;
 
+import com.Server.Client;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.Animation;
@@ -12,7 +13,7 @@ public class BaseTroop {
     protected float hp;
     public Rectangle hitbox = new Rectangle();
     protected Animation<TextureRegion> baseAnimation;
-    boolean troopOnMouse;
+    protected boolean troopOnMouse;
     public BaseTroop(int x, int y, float width, float height, float hp) {
         hitbox.set(x, y, width, height);
         this.hp = hp;
@@ -23,20 +24,21 @@ public class BaseTroop {
         hp -= damage;
         if (hp == 0) {
             System.out.println("muerto");
+            hitbox.setPosition(-10,-10);
         }
     }
 
-    public boolean placeTroop(Viewport viewport, boolean troopOnMouse) {
+    public boolean placeTroop(Viewport viewport, boolean troopOnMouse, String type) {
         if(!troopOnMouse) {
             Vector3 position = viewport.unproject(new Vector3(Gdx.input.getX(),Gdx.input.getY(),0));
             hitbox.x = position.x-1;
             hitbox.y = position.y-1;
-            hitbox.setPosition(position.x, position.y);
+            hitbox.setPosition(position.x-1, position.y);
         }
         if(Gdx.input.isButtonJustPressed(Input.Buttons.LEFT) && !troopOnMouse) {
             troopOnMouse = true;
-            //game.assets.boulderPlaced.play();
         }
+
         return troopOnMouse;
     }
 

@@ -44,7 +44,10 @@ public class Boulder extends BaseTroop {
 	}
 
 	public void update(Viewport viewport, Slime slime) {
-		placeTroop(viewport, troopOnMouse);/*
+		troopOnMouse = placeTroop(viewport, troopOnMouse, "boulder");
+
+		/*
+
 		if(!troopOnMouse) {
 			Vector3 position = viewport.unproject(new Vector3(Gdx.input.getX(),Gdx.input.getY(),0));
 			hitbox.x = position.x-1;
@@ -56,7 +59,7 @@ public class Boulder extends BaseTroop {
 			game.assets.boulderPlaced.play();
 		}*/
 		HitboxCheck(slime);
-		Client.placeBoulder(troopOnMouse, hitbox);
+		Client.placeObject(troopOnMouse, hitbox, "boulder");
 	}
 
 
