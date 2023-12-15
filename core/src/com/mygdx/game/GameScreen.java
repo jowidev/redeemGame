@@ -31,9 +31,8 @@ public class GameScreen implements Screen {
     public com.Troops.Boulder Boulder;
     private final Music mainsong;
     public Stage st;
-    public Stage s;
     public Gamemap gamemap;
-    public static Float time;
+    public static Float time = 180f;
     public boolean songPlaying;
 
 //    private ArrayList<BaseTroop> troopArr;
@@ -48,12 +47,8 @@ public class GameScreen implements Screen {
         HUD hud = new HUD(gamemap);
         camera = new OrthographicCamera();
         st = new Stage();
-        GridStage s = new GridStage(st);
-        st.addActor(s);
-        GridCell grid = new GridCell(64,64, st);
-        //st.addActor(gridd);
-        Client client = new Client(this);
-        client.start();
+        GridStage gs = new GridStage(st);
+        st.addActor(gs);
 
         if (team.equals(TeamSelScreen.Team.SLIME)) {
             st.addActor(hud.getSlimeTable());
@@ -73,7 +68,8 @@ public class GameScreen implements Screen {
         camera.position.set(Constants.GAME_WORLD_WIDTH_tile/2, Constants.GAME_WORLD_HEIGHT_tile/2, 0);
         //mainsong.play();
 
-        time = 180.0f;
+        Client client = new Client(this);
+        client.start();
 
     }
 
