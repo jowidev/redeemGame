@@ -17,7 +17,7 @@ public class Slime extends BaseTroop {
 
 
 	public Slime(Gamemap game, int x, int y) {
-		super(x, y, 2, 2, 100);
+		super(x, y, 1, 2, 100);
 		troopOnMouse = false;
 		stateTime = 0;
 		this.game = game;

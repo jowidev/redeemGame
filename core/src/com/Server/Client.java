@@ -1,8 +1,10 @@
 package com.Server;
 
+import com.MenuScreens.TeamSelScreen;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.math.Rectangle;
+import com.mygdx.game.GameScreen;
 
 
 import java.io.IOException;
@@ -14,7 +16,10 @@ public class Client extends Thread{
     static DatagramSocket clientSocket;
     static int serverPort;
     static InetAddress serverAddress;
-    public Client() {
+    private final GameScreen gameScreen;
+
+    public Client(GameScreen gameScreen) {
+        this.gameScreen = gameScreen;
         try {
             clientSocket = new DatagramSocket(); //auto
             serverAddress = InetAddress.getByName("127.0.0.1");
@@ -56,6 +61,7 @@ public class Client extends Thread{
             }
             String receivedMessage = new String(receivePacket.getData(), 0, receivePacket.getLength());
             System.out.println("el server dijo: " + receivedMessage);
+            gameScreen.handleReceivedTroopCoordinates(receivedMessage, TeamSelScreen.Team.SLIME);
         }
 
 

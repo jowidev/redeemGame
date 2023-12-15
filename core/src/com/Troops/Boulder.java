@@ -18,7 +18,7 @@ public class Boulder extends BaseTroop {
 
 
 	public Boulder(Gamemap game, int x, int y) {
-		super(x, y, 2, 2, 150);
+		super(x, y, 0.5f, 2, 150);
 		stateTime = 0;
 		this.game = game;
 		boulderW = 1;
@@ -30,12 +30,18 @@ public class Boulder extends BaseTroop {
 
 
 	public void HitboxCheck(Slime slime) {
-
-		if (hitbox.overlaps(slime.hitbox)) {
+		if (slime.hitbox!=null) {
+			if (hitbox.overlaps(slime.hitbox)) {
 				hitbox.x -=.0f*Gdx.graphics.getDeltaTime();
 				slime.takeDamage(1);
-		}
-		else {
+			}
+			else {
+				hitbox.x -= 2*Gdx.graphics.getDeltaTime();
+				if (hitbox.x==1) {
+					System.out.println("+1");
+				}
+			}
+		} else {
 			hitbox.x -= 2*Gdx.graphics.getDeltaTime();
 			if (hitbox.x==1) {
 				System.out.println("+1");
@@ -58,7 +64,14 @@ public class Boulder extends BaseTroop {
 			troopOnMouse = true;
 			game.assets.boulderPlaced.play();
 		}*/
-		HitboxCheck(slime);
+		if (slime != null) {
+			HitboxCheck(slime);
+		}	else {
+			hitbox.x -= 2*Gdx.graphics.getDeltaTime();
+			if (hitbox.x==1) {
+				System.out.println("+1");
+			}
+		}
 		Client.placeObject(troopOnMouse, hitbox, "boulder");
 	}
 

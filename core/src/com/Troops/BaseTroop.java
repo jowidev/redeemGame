@@ -1,53 +1,53 @@
-package com.Troops;
+    package com.Troops;
 
-import com.Server.Client;
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
-import com.badlogic.gdx.graphics.g2d.Animation;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.math.Vector3;
-import com.badlogic.gdx.utils.viewport.Viewport;
+    import com.Server.Client;
+    import com.badlogic.gdx.Gdx;
+    import com.badlogic.gdx.Input;
+    import com.badlogic.gdx.graphics.g2d.Animation;
+    import com.badlogic.gdx.graphics.g2d.TextureRegion;
+    import com.badlogic.gdx.math.Rectangle;
+    import com.badlogic.gdx.math.Vector3;
+    import com.badlogic.gdx.utils.viewport.Viewport;
 
-public class BaseTroop {
-    protected float hp;
-    public Rectangle hitbox = new Rectangle();
-    protected Animation<TextureRegion> baseAnimation;
-    protected boolean troopOnMouse;
-    public BaseTroop(int x, int y, float width, float height, float hp) {
-        hitbox.set(x, y, width, height);
-        this.hp = hp;
+    public class BaseTroop {
+        protected float hp;
+        public Rectangle hitbox = new Rectangle();
+        protected Animation<TextureRegion> baseAnimation;
+        protected boolean troopOnMouse;
+        public BaseTroop(int x, int y, float width, float height, float hp) {
+            hitbox.set(x, y, width, height);
+            this.hp = hp;
 
-    }
-
-    public void takeDamage(int damage) {
-        hp -= damage;
-        if (hp == 0) {
-            System.out.println("muerto");
-            hitbox.setPosition(-10,-10);
-        }
-    }
-
-    public boolean placeTroop(Viewport viewport, boolean troopOnMouse, String type) {
-        if(!troopOnMouse) {
-            Vector3 position = viewport.unproject(new Vector3(Gdx.input.getX(),Gdx.input.getY(),0));
-            hitbox.x = position.x-1;
-            hitbox.y = position.y-1;
-            hitbox.setPosition(position.x-1, position.y);
-        }
-        if(Gdx.input.isButtonJustPressed(Input.Buttons.LEFT) && !troopOnMouse) {
-            troopOnMouse = true;
         }
 
-        return troopOnMouse;
-    }
+        public void takeDamage(int damage) {
+            hp -= damage;
+            if (hp == 0) {
+                System.out.println("muerto");
+                hitbox.setPosition(-10,-10);
+            }
+        }
 
-    public float getHp() {
-        return hp;
-    }
+        public boolean placeTroop(Viewport viewport, boolean troopOnMouse, String type) {
+            if(!troopOnMouse) {
+                Vector3 position = viewport.unproject(new Vector3(Gdx.input.getX(),Gdx.input.getY(),0));
+                hitbox.x = position.x-1;
+                hitbox.y = position.y-1;
+                hitbox.setPosition(position.x-1, position.y);
+            }
+            if(Gdx.input.isButtonJustPressed(Input.Buttons.LEFT) && !troopOnMouse) {
+                troopOnMouse = true;
+            }
 
-    public void setHp(float hp) {
-        this.hp = hp;
-    }
+            return troopOnMouse;
+        }
 
-}
+        public float getHp() {
+            return hp;
+        }
+
+        public void setHp(float hp) {
+            this.hp = hp;
+        }
+
+    }

@@ -44,16 +44,6 @@ public class TeamSelScreen implements Screen {
         teamTable.row();
         selSong.setVolume(.1f);
 
-        addButton("Boulders").center().
-                addListener(
-                        new ClickListener(){
-                            @Override
-                            public void clicked(InputEvent event, float x, float y){
-                                gamemap.setScreen(new GameScreen(gamemap, Team.BOULDER));
-                                selSong.dispose();
-                            }
-                        }
-                );
         addButton("Slimes").center().
                 addListener(
                         new ClickListener(){
@@ -64,6 +54,16 @@ public class TeamSelScreen implements Screen {
 
                             }
                         });
+        addButton("Boulders").center().
+                addListener(
+                        new ClickListener(){
+                            @Override
+                            public void clicked(InputEvent event, float x, float y){
+                                gamemap.setScreen(new GameScreen(gamemap, Team.BOULDER));
+                                selSong.dispose();
+                            }
+                        }
+                );
         teamTable.row();
 
 

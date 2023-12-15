@@ -1,5 +1,6 @@
 package com.Server;
 
+import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
@@ -8,7 +9,7 @@ import java.util.List;
 
 public class Server {
     private static final int SERVER_PORT = 5000;
-
+    private int chabonesConectados = 0;
     private DatagramSocket serverSocket;
     private List<ClientInfo> clients;
 
@@ -42,9 +43,16 @@ public class Server {
                 int clientPort = receivePacket.getPort();
 
                 // Verificar si el cliente ya está registrado
-                if (!clientExists(clientAddress, clientPort)) {
-                    // Nuevo cliente, registrar su dirección y puerto
-                    clients.add(new ClientInfo(clientAddress, clientPort));
+                if (chabonesConectados <3) {
+                    if (!clientExists(clientAddress, clientPort)) {
+                        // Nuevo cliente, registrar su dirección y puerto
+                        clients.add(new ClientInfo(clientAddress, clientPort));
+                        chabonesConectados++;
+                    }
+                } else {
+                    String rejectionMessage = "Server is full. Try again later.";
+                    sendToClientIfFull(rejectionMessage, clientAddress, clientPort);
+                    continue;
                 }
 
                 // Obtener el mensaje del cliente
@@ -55,6 +63,17 @@ public class Server {
                 sendToAllClients(receivedMessage);
             }
         } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void sendToClientIfFull(String message, InetAddress clientAddress, int clientPort) {
+        try {
+            byte[] sendData = message.getBytes();
+            DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, clientAddress, clientPort);
+            serverSocket.send(sendPacket);
+            System.out.println("Message sent to client: " + message);
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
