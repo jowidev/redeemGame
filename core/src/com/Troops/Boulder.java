@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g2d.Animation.PlayMode;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.mygdx.game.Gamemap;
 import com.Server.Client;
@@ -49,8 +50,8 @@ public class Boulder extends BaseTroop {
 		}
 	}
 
-	public void update(Viewport viewport, Slime slime) {
-		troopOnMouse = placeTroop(viewport, troopOnMouse, "boulder");
+	public void update(Viewport viewport, Slime slime, Stage s) {
+		troopOnMouse = placeTroop(viewport, troopOnMouse, s);
 
 		/*
 

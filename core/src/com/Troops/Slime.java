@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Animation.PlayMode;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.mygdx.game.Gamemap;
 
@@ -28,8 +29,8 @@ public class Slime extends BaseTroop {
 		}
 
 	}
-	public void update(Viewport viewport) {
-		troopOnMouse = placeTroop(viewport, troopOnMouse, "slime");
+	public void update(Viewport viewport, Stage stage) {
+		troopOnMouse = placeTroop(viewport, troopOnMouse,stage);
 		/*
 		if (!troopOnMouse) {
 			Vector3 pos = viewport.unproject(new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0));

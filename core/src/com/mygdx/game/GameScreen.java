@@ -118,11 +118,11 @@ public class GameScreen implements Screen {
         mapRenderer.setView((OrthographicCamera) viewport.getCamera());
         mapRenderer.render();
         if (Slime != null) {
-            Slime.update(viewport);
+            Slime.update(viewport, st);
 
         }
         if (Boulder != null) {
-            Boulder.update(viewport, Slime);
+            Boulder.update(viewport, Slime, st);
         }
         Gamemap.batch.begin();
         if (Boulder != null) {

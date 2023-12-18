@@ -10,10 +10,10 @@ public class GridStage extends Actor {
 
     public GridStage(Stage s) {
         gridCells = new GridCell[9][5];
-        float cellW = Gdx.graphics.getWidth() * (Constants.pixeltotile * 3.2f);
-        float cellH = Gdx.graphics.getHeight() * (Constants.pixeltotile * 5.35f);
-        float pX = Gdx.graphics.getWidth() * (Constants.pixeltotile * 1.51f);
-        float pY =Gdx.graphics.getWidth() * (Constants.pixeltotile * 1.5f);
+        float cellW = Gdx.graphics.getWidth() * (Constants.pixeltotile * 3.21f);
+        float cellH = Gdx.graphics.getHeight() * (Constants.pixeltotile * 5.4f);
+        float pX = Gdx.graphics.getWidth() * (Constants.pixeltotile * 1.52f);
+        float pY =Gdx.graphics.getWidth() * (Constants.pixeltotile * 1.7f);
         for (int r = 0; r < 5; r++) {
             for (int c = 0; c < 9; c++) {
                 float cellX = pX + c * cellW;

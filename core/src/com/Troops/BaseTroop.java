@@ -7,6 +7,7 @@
     import com.badlogic.gdx.graphics.g2d.TextureRegion;
     import com.badlogic.gdx.math.Rectangle;
     import com.badlogic.gdx.math.Vector3;
+    import com.badlogic.gdx.scenes.scene2d.Stage;
     import com.badlogic.gdx.utils.viewport.Viewport;
 
     public class BaseTroop {
@@ -28,15 +29,18 @@
             }
         }
 
-        public boolean placeTroop(Viewport viewport, boolean troopOnMouse, String type) {
+        public boolean placeTroop(Viewport viewport, boolean troopOnMouse, Stage stage ) {
             if(!troopOnMouse) {
                 Vector3 position = viewport.unproject(new Vector3(Gdx.input.getX(),Gdx.input.getY(),0));
                 hitbox.x = position.x-1;
                 hitbox.y = position.y-1;
                 hitbox.setPosition(position.x-1, position.y);
+
             }
             if(Gdx.input.isButtonJustPressed(Input.Buttons.LEFT) && !troopOnMouse) {
                 troopOnMouse = true;
+                GridCell cell = new GridCell(hitbox.x, hitbox.y, stage);
+                cell.snapToGrid(this);
             }
 
             return troopOnMouse;
