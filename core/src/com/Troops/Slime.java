@@ -9,15 +9,15 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.mygdx.game.Gamemap;
+import com.mygdx.game.TDGame;
 
 public class Slime extends BaseTroop {
 
-	private final Gamemap game;
+	private final TDGame game;
 	public float stateTime;
 
 
-	public Slime(Gamemap game, int x, int y) {
+	public Slime(TDGame game, int x, int y) {
 		super(x, y, 1, 2, 100);
 		troopOnMouse = false;
 		stateTime = 0;
@@ -31,25 +31,27 @@ public class Slime extends BaseTroop {
 	}
 	public void update(Viewport viewport, Stage stage) {
 		troopOnMouse = placeTroop(viewport, troopOnMouse,stage);
-		/*
+
 		if (!troopOnMouse) {
 			Vector3 pos = viewport.unproject(new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0));
 			hitbox.x = pos.x -1;
 			hitbox.y = pos.y -1;
-			hitbox.set(hitbox.x,hitbox.y, 1, 1.25f);
+			hitbox.set(pos.x,pos.y, 1, 1.25f);
 		}
 		if (Gdx.input.isButtonJustPressed(Input.Buttons.LEFT) && !troopOnMouse) {
+			//hitbox.set(Gdx.input.getX(),hitbox.y, 1, 1.25f);
 			troopOnMouse = true;
 			game.assets.slimeplaced.play();
 
-		}//nose pq no funca el coso de inheritance lol*/
+
+		}//nose pq no funca el coso de inheritance lol
 		Client.placeObject(troopOnMouse, hitbox, "slime");
 	}
 
 	public void render() {
 		stateTime += Gdx.graphics.getDeltaTime();
 		TextureRegion currentFrame = baseAnimation.getKeyFrame(stateTime, true);
-		Gamemap.batch.draw(currentFrame, hitbox.x, hitbox.y, 2, 2);
+		TDGame.batch.draw(currentFrame, hitbox.x, hitbox.y, 2, 2);
 
 
 	}

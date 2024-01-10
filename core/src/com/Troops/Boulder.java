@@ -1,24 +1,22 @@
 package com.Troops;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g2d.Animation.PlayMode;
-import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.mygdx.game.Gamemap;
+import com.mygdx.game.TDGame;
 import com.Server.Client;
 
 public class Boulder extends BaseTroop {
-	private final Gamemap game;
+	private final TDGame game;
 	public float stateTime;
 	float boulderW, boulderH;
 
 
 
-	public Boulder(Gamemap game, int x, int y) {
+	public Boulder(TDGame game, int x, int y) {
 		super(x, y, 0.5f, 2, 150);
 		stateTime = 0;
 		this.game = game;
@@ -80,7 +78,7 @@ public class Boulder extends BaseTroop {
 	public void render() {
 		stateTime += Gdx.graphics.getDeltaTime();
 		TextureRegion currentFrame = baseAnimation.getKeyFrame(stateTime, true);
-		Gamemap.batch.draw(currentFrame, hitbox.x, hitbox.y,2,2);
+		TDGame.batch.draw(currentFrame, hitbox.x, hitbox.y,2,2);
 	}
 
 

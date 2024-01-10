@@ -1,6 +1,5 @@
 package com.MenuScreens;
 
-import com.Server.Client;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
@@ -15,10 +14,10 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.mygdx.game.Assets;
 import com.mygdx.game.GameScreen;
-import com.mygdx.game.Gamemap;
+import com.mygdx.game.TDGame;
 
 import static com.mygdx.game.Assets.SKIN;
-import static com.mygdx.game.Gamemap.batch;
+import static com.mygdx.game.TDGame.batch;
 
 public class TeamSelScreen implements Screen {
     private final OrthographicCamera cam;
@@ -26,58 +25,73 @@ public class TeamSelScreen implements Screen {
     public Skin skin;
     public Music selSong;
     private Table teamTable;
-    public TeamSelScreen(final Gamemap gamemap) {
+    public TDGame TDGame;
+    private ScreenViewport sVp;
+    public TeamSelScreen(final TDGame TDGame) {
+        this.TDGame = TDGame;
         skin = Assets.manager.get(SKIN);
-        Texture bando = gamemap.assets.bando;
+        Texture bando = TDGame.assets.bando;
         Image bandoImg = new Image(bando);
-        selSong = gamemap.assets.trumpsong;
+        selSong = TDGame.assets.trumpsong;
+
+
         cam = new OrthographicCamera();
+        sVp = new ScreenViewport(cam);
+        stage = new Stage(sVp, batch);
+
         cam.setToOrtho(false,800, 600);
-        final Viewport viewport = new ScreenViewport(cam);
-        stage = new Stage(viewport, batch);
         Gdx.input.setInputProcessor(stage);
-        teamTable = new Table();
+        posTeamTable(bandoImg);
         stage.addActor(teamTable);
-        teamTable.setFillParent(true);
-        teamTable.setPosition(0,0);
-        teamTable.add(bandoImg);
-        teamTable.row();
-        selSong.setVolume(.1f);
-
-        addButton("Slimes").center().
-                addListener(
-                        new ClickListener(){
-                            @Override
-                            public void clicked(InputEvent event, float x, float y){
-                                gamemap.setScreen(new GameScreen(gamemap, Team.SLIME)); //aca se lo pasa pq lo usa el boulder
-                                selSong.dispose();
-
-                            }
-                        });
-        addButton("Boulders").center().
-                addListener(
-                        new ClickListener(){
-                            @Override
-                            public void clicked(InputEvent event, float x, float y){
-                                gamemap.setScreen(new GameScreen(gamemap, Team.BOULDER));
-                                selSong.dispose();
-                            }
-                        }
-                );
-        teamTable.row();
+        //selSong.setVolume(.1f);
 
 
-        //teamTable.setDebug(true);
+
+        createButtons();
+
 
     }
     public enum Team {
         SLIME, BOULDER;
     }
+
+    private void posTeamTable(Image bandoImg) {
+        teamTable = new Table();
+        teamTable.setFillParent(true);
+        teamTable.setPosition(0,0);
+        teamTable.add(bandoImg);
+        teamTable.row();
+
+        //teamTable.setDebug(true);
+    }
+    private void createButtons() {
+        addButton("Slimes").
+                addListener(
+                        new ClickListener(){
+                            @Override
+                            public void clicked(InputEvent event, float x, float y){
+                                TDGame.setScreen(new GameScreen(TDGame, Team.SLIME));
+                                selSong.dispose();
+
+                            }
+                        });
+        addButton("Boulders").
+                addListener(
+                        new ClickListener(){
+                            @Override
+                            public void clicked(InputEvent event, float x, float y){
+                                TDGame.setScreen(new GameScreen(TDGame, Team.BOULDER));
+                                selSong.dispose();
+                            }
+                        }
+                );
+    }
     private TextButton addButton(String name){
         TextButton button = new TextButton(name, skin);
         teamTable.add(button).
-                width((float) Gdx.graphics.getWidth() / 5)
-                .height((float) Gdx.graphics.getHeight() /4);
+                width((float) Gdx.graphics.getWidth() / 6)
+                .height((float) Gdx.graphics.getHeight() /6.5f);
+        teamTable.row();
         return button;
     }
 
@@ -90,8 +104,6 @@ public class TeamSelScreen implements Screen {
     public void render(float delta) {
         Gdx.gl.glClearColor(.4f,.5f,.7f,1);
         cam.update();
-        selSong.play();
-
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         stage.draw();
         batch.setProjectionMatrix(cam.combined);
@@ -99,7 +111,7 @@ public class TeamSelScreen implements Screen {
 
     @Override
     public void resize(int width, int height) {
-
+        sVp.update(width, height,true);
     }
 
     @Override
