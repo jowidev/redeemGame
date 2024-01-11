@@ -34,10 +34,10 @@ public class TeamSelScreen implements Screen {
         Image bandoImg = new Image(bando);
         selSong = TDGame.assets.trumpsong;
 
-
         cam = new OrthographicCamera();
         sVp = new ScreenViewport(cam);
         stage = new Stage(sVp, batch);
+
 
         cam.setToOrtho(false,800, 600);
         Gdx.input.setInputProcessor(stage);
@@ -45,11 +45,7 @@ public class TeamSelScreen implements Screen {
         stage.addActor(teamTable);
         //selSong.setVolume(.1f);
 
-
-
         createButtons();
-
-
     }
     public enum Team {
         SLIME, BOULDER;
@@ -96,11 +92,6 @@ public class TeamSelScreen implements Screen {
     }
 
     @Override
-    public void show() {
-
-    }
-
-    @Override
     public void render(float delta) {
         Gdx.gl.glClearColor(.4f,.5f,.7f,1);
         cam.update();
@@ -112,6 +103,11 @@ public class TeamSelScreen implements Screen {
     @Override
     public void resize(int width, int height) {
         sVp.update(width, height,true);
+    }
+
+    @Override
+    public void show() {
+
     }
 
     @Override
@@ -131,6 +127,6 @@ public class TeamSelScreen implements Screen {
 
     @Override
     public void dispose() {
-
+        stage.dispose();
     }
 }

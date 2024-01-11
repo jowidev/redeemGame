@@ -69,7 +69,7 @@ public class MainMenuScreen implements Screen {
                         new ClickListener(){
                             @Override
                             public void clicked(InputEvent event, float x, float y){
-                                TDGame.setScreen(new TeamSelScreen(TDGame));
+                                TDGame.setScreen(new GameScreen(TDGame, TeamSelScreen.Team.BOULDER));
                                 menuSong.dispose();
                             }
                         });
@@ -96,7 +96,6 @@ public class MainMenuScreen implements Screen {
                             }
                         });
     }
-
     private TextButton addButton(String name){
         TextButton button = new TextButton(name, skin);
         MainTable.add(button).
@@ -104,11 +103,6 @@ public class MainMenuScreen implements Screen {
                 height((float) Gdx.graphics.getHeight() / 8).padBottom(10);
         MainTable.row();
         return button;
-    }
-
-    @Override
-    public void show() {
-
     }
 
     @Override
@@ -128,6 +122,11 @@ public class MainMenuScreen implements Screen {
     public void resize(int width, int height) {
         vp.update(width,height,true);
         //cam.position.set((float) width / 2, (float) height / 2, 0);
+    }
+
+    @Override
+    public void show() {
+
     }
 
     @Override

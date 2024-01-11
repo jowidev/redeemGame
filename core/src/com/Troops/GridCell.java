@@ -9,8 +9,8 @@
 
     public class GridCell extends Actor {
         private boolean isOcc = false;
-        public float gridCellW = Gdx.graphics.getWidth() * (Constants.pixeltotile * 3.25f);
-        public float gridCellH = Gdx.graphics.getHeight() * (Constants.pixeltotile * 5.25f);
+        public float gridCellW = Gdx.graphics.getWidth() * (Constants.PIXELTOTILE * 3.25f);
+        public float gridCellH = Gdx.graphics.getHeight() * (Constants.PIXELTOTILE * 5.25f);
         public GridCell(Stage s) {
 
             setTouchable(Touchable.enabled);

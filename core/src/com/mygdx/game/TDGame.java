@@ -6,9 +6,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public class TDGame extends Game {
 	public static SpriteBatch batch;
-	public Assets assets;
-
-
+	public static Assets assets;
 	@Override
 	public void create() {
 		this.assets = new Assets();
@@ -17,24 +15,12 @@ public class TDGame extends Game {
 		this.setScreen(new MainMenuScreen(this)); //va ultimo
 		//Gdx.input.setInputProcessor(hud.timerTable.getStage());
 	}
-
-
-
-	public void resize(int w, int h) {
-
-	}
-
-
-
+	public void resize(int w, int h) {}
 	@Override
 	public void render() {
-		super.render(); //llama al render parent
-
+		super.render(); //llama al render parent no se q mierda significa
 	}
 
 	@Override
-	public void dispose() {
-		batch.dispose();
-
-	}
+	public void dispose() {batch.dispose();}
 }

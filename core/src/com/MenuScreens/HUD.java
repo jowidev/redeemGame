@@ -20,8 +20,8 @@ public class HUD extends Table {
                 padTop(16).setPosition((float) Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight());
 
         timerTable.add(timerBg).
-                width(Gdx.graphics.getWidth() * (Constants.pixeltotile * 2))
-                .height(Gdx.graphics.getHeight() * (Constants.pixeltotile * 2));
+                width(Gdx.graphics.getWidth() * (Constants.PIXELTOTILE * 2))
+                .height(Gdx.graphics.getHeight() * (Constants.PIXELTOTILE * 2));
 
     }
 

@@ -20,41 +20,22 @@ public class Assets {
 	public final Music finalbattle;
 	public final Sound slimeplaced;
 	private final TextureAtlas atlas;
-	public Texture bgTxT;
-	public Sound boulderPlaced;
-	public Texture slimeCurr;
-	public Texture boulderCurr;
-	public Texture timerBg;
-	public Texture currBg;
-	public Texture troopBg;
-	public Music selSong;
-	public Texture bando;
+	public final Texture bgTxT;
+	public final Sound boulderPlaced;
+	public final Texture slimeCurr;
+	public final Texture boulderCurr;
+	public final Texture timerBg;
+	public final Texture currBg;
+	public final Texture troopBg;
+	public final Music selSong;
+	public final Texture bando;
 	public static final AssetDescriptor<Skin> SKIN = new AssetDescriptor<Skin>("skin/freezing-ui.json", Skin.class, new SkinLoader.SkinParameter("skin/freezing-ui.atlas"));
 	public Assets() {
-		manager.load("game.atlas", TextureAtlas.class);
-		manager.load("slimes/slimeCurr.png", Texture.class);
-		manager.load(SKIN);
-		manager.load("miscAssets/trumpsong.mp3", Music.class);
-		manager.load("miscAssets/bando.png", Texture.class);
-		manager.load("miscAssets/logo.png", Texture.class);
-		manager.load("miscAssets/currBg.png", Texture.class);
-		manager.load("miscAssets/gloriousmorning.mp3", Music.class);
-		manager.load("miscAssets/finalbattle.mp3", Music.class);
-		manager.load("slimes/slimeplaced.mp3", Sound.class);
-		manager.load("boulders/boulderPlaced.mp3", Sound.class);
-		manager.load("boulders/boulderCurr.png", Texture.class);
-		manager.load("miscAssets/Timer.png", Texture.class);
-		manager.load("miscAssets/TroopBg.png", Texture.class);
-
-		//meter acatodo lo que hay que cargar
-		manager.finishLoading();
+		loadManager(); //meter aca todo lo que hay que cargar
 
 		this.atlas = manager.get("game.atlas");
-        this.slimewalk = atlas.findRegions("slimes/planta");
-		if (slimewalk.size==0) {
-			System.out.println("a");
-		}
-        this.boulderwalk = atlas.findRegions("boulders/boulder");
+		this.slimewalk = atlas.findRegions("slimes/planta");
+		this.boulderwalk = atlas.findRegions("boulders/boulder");
 		this.trumpsong= manager.get("miscAssets/gloriousmorning.mp3");
 		this.finalbattle = manager.get("miscAssets/finalbattle.mp3");
 		this.slimeplaced = manager.get("slimes/slimeplaced.mp3");
@@ -70,7 +51,28 @@ public class Assets {
 
 		//hacertodo lo de los assets aca
 
-
+		if (slimewalk.size==0) {
+			System.out.println("a");
+		}
 	}
+		private void loadManager() {
+			manager.load(SKIN);
+			manager.load("game.atlas", TextureAtlas.class);
+			manager.load("slimes/slimeCurr.png", Texture.class);
+			manager.load("miscAssets/trumpsong.mp3", Music.class);
+			manager.load("miscAssets/bando.png", Texture.class);
+			manager.load("miscAssets/logo.png", Texture.class);
+			manager.load("miscAssets/currBg.png", Texture.class);
+			manager.load("miscAssets/gloriousmorning.mp3", Music.class);
+			manager.load("miscAssets/finalbattle.mp3", Music.class);
+			manager.load("slimes/slimeplaced.mp3", Sound.class);
+			manager.load("boulders/boulderPlaced.mp3", Sound.class);
+			manager.load("boulders/boulderCurr.png", Texture.class);
+			manager.load("miscAssets/Timer.png", Texture.class);
+			manager.load("miscAssets/TroopBg.png", Texture.class);
+
+			manager.finishLoading();
+
+		}
 
 }
