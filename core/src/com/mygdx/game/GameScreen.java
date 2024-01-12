@@ -1,8 +1,9 @@
 package com.mygdx.game;
 
-import com.MenuScreens.HUD;
+import com.MenuScreens.Timer;
 import com.MenuScreens.TeamSelScreen;
 import com.Server.Client;
+import com.Troops.BaseTroop;
 import com.Troops.Boulder;
 import com.Troops.GridCell;
 import com.Troops.Slime;
@@ -18,26 +19,27 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 
+import java.util.ArrayList;
+
 public class GameScreen implements Screen {
     private final TiledMap map;
     private final OrthogonalTiledMapRenderer mapRenderer;
     public FitViewport fVp;
     public OrthographicCamera camera;
 
-    public com.Troops.Slime Slime;
-    public com.Troops.Boulder Boulder;
+    public Slime slime;
+    public Boulder boulder;
     private final Music mainsong;
     public Stage st;
-    public TDGame TDGame;
-    public static Float time = 100f;
+    public TDGame game;
     public boolean songPlaying = true;
 
-    //private ArrayList<BaseTroop> troopArr;
-    public GameScreen(TDGame TDGame, TeamSelScreen.Team team) {
-        this.TDGame = TDGame;
-        mainsong = TDGame.assets.finalbattle;
-        this.map = new TmxMapLoader().load("tilemap/tilemap.tmx"); 		// mandarlo al assetmanager dsp si hincha las bolas
-        HUD hud = new HUD(TDGame);
+    private ArrayList<BaseTroop> troopArr = new ArrayList<BaseTroop>();;
+    public GameScreen(TDGame game, TeamSelScreen.Team team) {
+        this.game = game;
+        mainsong = game.assets.finalbattle;
+        this.map = new TmxMapLoader().load("tilemap/tilemap.tmx");
+        Timer timer = new Timer(game);
         camera = new OrthographicCamera();
         st = new Stage();
         GridCell gs = new GridCell(st);
@@ -46,8 +48,10 @@ public class GameScreen implements Screen {
         fVp = new FitViewport(Constants.GAME_WORLD_WIDTH_tile,Constants.GAME_WORLD_HEIGHT_tile, camera);
 
 
+
+
         st.addActor(gs);
-        st.addActor(hud.getTimerTable());
+        st.addActor(timer.getTimerTable());
         Gdx.input.setInputProcessor(st);
         mainsong.setLooping(true);
         mainsong.setVolume(.01f);
@@ -55,20 +59,19 @@ public class GameScreen implements Screen {
         mainsong.play();
 
         client.start();
-
     }
 
     private void handleInput() {
         if(Gdx.input.isKeyJustPressed(Input.Keys.NUM_1)) {
-            this.Slime = new Slime(TDGame, Gdx.input.getX(),Gdx.input.getY());
-
+            this.slime = new Slime(game, Gdx.input.getX(),Gdx.input.getY());
+            if (Gdx.input.isButtonJustPressed(Input.Buttons.LEFT))
+                troopArr.add(slime);
         }
 
-        if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_0)) {
-            this.Boulder = new Boulder(TDGame, Gdx.input.getX(), Gdx.input.getY());
+        if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_0)) this.boulder = new Boulder(game, Gdx.input.getX(), Gdx.input.getY());
 
-        }
         if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) Gdx.app.exit();
+
         if (Gdx.input.isKeyJustPressed(Input.Keys.M)&&songPlaying) {
             mainsong.setVolume(0);
             songPlaying = false;
@@ -77,6 +80,8 @@ public class GameScreen implements Screen {
             songPlaying = true;
         }
     }
+
+
 
 
     @Override
@@ -89,32 +94,31 @@ public class GameScreen implements Screen {
         st.act(Gdx.graphics.getDeltaTime());
         mapRenderer.setView((OrthographicCamera) fVp.getCamera());
         mapRenderer.render();
-        if (Slime != null) {
-            Slime.update(fVp);
+        if (slime != null) {
+            slime.update(fVp);
 
         }
-        if (Boulder != null) {
-            Boulder.update(fVp, Slime, st);
+        if (boulder != null) {
+            boulder.update(fVp, slime, st);
         }
         TDGame.batch.begin();
-        if (Boulder != null) {
-            Boulder.render();
+
+        if (boulder != null) {
+            boulder.render();
         }
-        if (Slime != null) {
-            Slime.render();
+        for (BaseTroop baseTroop : troopArr) {
+            if (baseTroop != null) baseTroop.render();
         }
+        if (slime != null) {
+            slime.render();
+        }
+        System.out.println(troopArr);
         TDGame.batch.end();
         st.draw();
         handleInput();
-        time -= Gdx.graphics.getDeltaTime();
-        if (time<=0) {
-             TDGame.dispose();
-        }
-
 
         resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
     }
-
     @Override
     public void resize(int width, int height) {
         fVp.update(width, height, true);
@@ -138,9 +142,9 @@ public class GameScreen implements Screen {
 
         // Create the troop based on the team and render it
         if (team == TeamSelScreen.Team.SLIME) {
-            Slime = new Slime(TDGame, x, y);
+            slime = new Slime(game, x, y);
         } else if (team == TeamSelScreen.Team.BOULDER) {
-            Boulder = new Boulder(TDGame, x, y);
+            boulder = new Boulder(game, x, y);
         }
     }
 
@@ -158,6 +162,7 @@ public class GameScreen implements Screen {
     @Override
     public void dispose() {
         //se llama cuando se cierra el programa
+        game.dispose();
         map.dispose();
         mapRenderer.dispose();
         mainsong.dispose();

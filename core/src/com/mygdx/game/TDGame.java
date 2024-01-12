@@ -9,7 +9,7 @@ public class TDGame extends Game {
 	public static Assets assets;
 	@Override
 	public void create() {
-		this.assets = new Assets();
+		assets = new Assets();
 		batch = new SpriteBatch();
 
 		this.setScreen(new MainMenuScreen(this)); //va ultimo

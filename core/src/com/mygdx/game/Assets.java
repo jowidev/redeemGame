@@ -31,7 +31,7 @@ public class Assets {
 	public final Texture bando;
 	public static final AssetDescriptor<Skin> SKIN = new AssetDescriptor<Skin>("skin/freezing-ui.json", Skin.class, new SkinLoader.SkinParameter("skin/freezing-ui.atlas"));
 	public Assets() {
-		loadManager(); //meter aca todo lo que hay que cargar
+		loadToManager(); //meter aca lo que haya que cargar
 
 		this.atlas = manager.get("game.atlas");
 		this.slimewalk = atlas.findRegions("slimes/planta");
@@ -49,13 +49,11 @@ public class Assets {
 		this.timerBg = manager.get("miscAssets/Timer.png");
 		this.troopBg = manager.get("miscAssets/TroopBg.png");
 
-		//hacertodo lo de los assets aca
-
 		if (slimewalk.size==0) {
 			System.out.println("a");
 		}
 	}
-		private void loadManager() {
+		private void loadToManager() {
 			manager.load(SKIN);
 			manager.load("game.atlas", TextureAtlas.class);
 			manager.load("slimes/slimeCurr.png", Texture.class);

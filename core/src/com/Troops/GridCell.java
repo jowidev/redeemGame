@@ -15,7 +15,7 @@
 
             setTouchable(Touchable.enabled);
             setColor(1,0,0,1);
-            setBounds(32,32, gridCellW, gridCellH);
+            setBounds(64,64, gridCellW, gridCellH);
             s.addActor(this);
 
             setDebug(true);

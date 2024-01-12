@@ -1,5 +1,7 @@
 package com.Troops;
 
+import com.MenuScreens.TeamSelScreen;
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.Animation;
@@ -9,6 +11,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.mygdx.game.Constants;
+import com.mygdx.game.GameScreen;
 import com.mygdx.game.TDGame;
 import com.Server.Client;
 import com.sun.org.apache.bcel.internal.Const;
@@ -16,15 +19,13 @@ import com.sun.org.apache.bcel.internal.Const;
 public class Boulder extends BaseTroop {
 	private final TDGame game;
 	public float stateTime;
-	float boulderW, boulderH;
-
-
 
 	public Boulder(TDGame game, int x, int y) {
 		super(x, y, 150);
 		stateTime = 0;
 		this.game = game;
 		baseAnimation = new Animation<TextureRegion>(.7f/7, game.assets.boulderwalk, PlayMode.LOOP);
+
 	}
 
 
@@ -50,7 +51,7 @@ public class Boulder extends BaseTroop {
 	}
 
 	public void update(Viewport viewport, Slime slime, Stage s) {
-		placeTroop(viewport);
+		placeTroop(viewport, TeamSelScreen.Team.BOULDER);
 
 		if (slime != null) {
 			HitboxCheck(slime);

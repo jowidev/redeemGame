@@ -1,5 +1,6 @@
 package com.Troops;
 
+import com.MenuScreens.TeamSelScreen;
 import com.Server.Client;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
@@ -24,13 +25,13 @@ public class Slime extends BaseTroop {
 		this.game = game;
 		troopOnMouse = false;
 		stateTime = 0;
-		baseAnimation = new Animation<TextureRegion>(0.033f, game.assets.slimewalk, PlayMode.LOOP);
+		baseAnimation = new Animation<TextureRegion>(0.033f, TDGame.assets.slimewalk, PlayMode.LOOP);
 
 		if (TDGame.assets.slimewalk.size==0)System.out.println("o");
 
 	}
 	public void update(Viewport viewport) {
-		placeTroop(viewport);
+		placeTroop(viewport, TeamSelScreen.Team.SLIME);
 
 		//Client.placeObject(troopOnMouse, hitbox, "slime");
 	}

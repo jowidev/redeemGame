@@ -25,10 +25,10 @@ public class TeamSelScreen implements Screen {
     public Skin skin;
     public Music selSong;
     private Table teamTable;
-    public TDGame TDGame;
+    public TDGame game;
     private ScreenViewport sVp;
-    public TeamSelScreen(final TDGame TDGame) {
-        this.TDGame = TDGame;
+    public TeamSelScreen(final TDGame game) {
+        this.game = game;
         skin = Assets.manager.get(SKIN);
         Texture bando = TDGame.assets.bando;
         Image bandoImg = new Image(bando);
@@ -66,7 +66,7 @@ public class TeamSelScreen implements Screen {
                         new ClickListener(){
                             @Override
                             public void clicked(InputEvent event, float x, float y){
-                                TDGame.setScreen(new GameScreen(TDGame, Team.SLIME));
+                                game.setScreen(new GameScreen(game, Team.SLIME));
                                 selSong.dispose();
 
                             }
@@ -76,7 +76,7 @@ public class TeamSelScreen implements Screen {
                         new ClickListener(){
                             @Override
                             public void clicked(InputEvent event, float x, float y){
-                                TDGame.setScreen(new GameScreen(TDGame, Team.BOULDER));
+                                game.setScreen(new GameScreen(game, Team.BOULDER));
                                 selSong.dispose();
                             }
                         }
