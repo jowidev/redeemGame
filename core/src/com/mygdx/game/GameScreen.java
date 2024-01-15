@@ -25,29 +25,27 @@ public class GameScreen implements Screen {
     private final TiledMap map;
     private final OrthogonalTiledMapRenderer mapRenderer;
     public FitViewport fVp;
-    public OrthographicCamera camera;
-
-    public Slime slime;
-    public Boulder boulder;
+    public OrthographicCamera cam;
     private final Music mainsong;
     public Stage st;
     public TDGame game;
     public boolean songPlaying = true;
-
-    private ArrayList<BaseTroop> troopArr = new ArrayList<BaseTroop>();;
+    public Slime slime;
+    public Boulder boulder;
+    public BaseTroop troop;
+    private ArrayList<BaseTroop> troopArr = new ArrayList<>();
+    private ArrayList<BaseTroop> tempArr = new ArrayList<>();
     public GameScreen(TDGame game, TeamSelScreen.Team team) {
         this.game = game;
         mainsong = game.assets.finalbattle;
         this.map = new TmxMapLoader().load("tilemap/tilemap.tmx");
         Timer timer = new Timer(game);
-        camera = new OrthographicCamera();
+        cam = new OrthographicCamera();
         st = new Stage();
         GridCell gs = new GridCell(st);
         Client client = new Client(this);
         mapRenderer = new OrthogonalTiledMapRenderer(map, Constants.PIXELTOTILE, TDGame.batch); // Create the map renderer
-        fVp = new FitViewport(Constants.GAME_WORLD_WIDTH_tile,Constants.GAME_WORLD_HEIGHT_tile, camera);
-
-
+        fVp = new FitViewport(Constants.GAME_WORLD_WIDTH_tile,Constants.GAME_WORLD_HEIGHT_tile, cam);
 
 
         st.addActor(gs);
@@ -55,20 +53,16 @@ public class GameScreen implements Screen {
         Gdx.input.setInputProcessor(st);
         mainsong.setLooping(true);
         mainsong.setVolume(.01f);
-        camera.position.set(Constants.GAME_WORLD_WIDTH_tile/2, Constants.GAME_WORLD_HEIGHT_tile/2, 0);
+        cam.position.set(Constants.GAME_WORLD_WIDTH_tile/2, Constants.GAME_WORLD_HEIGHT_tile/2, 0);
         mainsong.play();
 
         client.start();
     }
 
     private void handleInput() {
-        if(Gdx.input.isKeyJustPressed(Input.Keys.NUM_1)) {
-            this.slime = new Slime(game, Gdx.input.getX(),Gdx.input.getY());
-            if (Gdx.input.isButtonJustPressed(Input.Buttons.LEFT))
-                troopArr.add(slime);
-        }
+        if(Gdx.input.isKeyJustPressed(Input.Keys.NUM_1))this.slime = new Slime(Gdx.input.getX(),Gdx.input.getY());
 
-        if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_0)) this.boulder = new Boulder(game, Gdx.input.getX(), Gdx.input.getY());
+        if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_0)) this.boulder = new Boulder(Gdx.input.getX(), Gdx.input.getY());
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) Gdx.app.exit();
 
@@ -87,42 +81,63 @@ public class GameScreen implements Screen {
     @Override
     public void render(float delta) {
         Gdx.gl.glClearColor(.2f, .5f, .7f, 1);
-        camera.update();
+        cam.update();
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        TDGame.batch.setProjectionMatrix(camera.combined);
+        TDGame.batch.setProjectionMatrix(cam.combined);
         fVp.apply();
         st.act(Gdx.graphics.getDeltaTime());
         mapRenderer.setView((OrthographicCamera) fVp.getCamera());
         mapRenderer.render();
-        if (slime != null) {
-            slime.update(fVp);
 
-        }
-        if (boulder != null) {
-            boulder.update(fVp, slime, st);
-        }
+        if (slime != null) slime.update(fVp,troopArr);
+        if (boulder != null) boulder.update(fVp, slime, troopArr, tempArr);
+
         TDGame.batch.begin();
 
-        if (boulder != null) {
-            boulder.render();
-        }
-        for (BaseTroop baseTroop : troopArr) {
-            if (baseTroop != null) baseTroop.render();
-        }
-        if (slime != null) {
-            slime.render();
-        }
-        System.out.println(troopArr);
+        troopRendering();
+
         TDGame.batch.end();
         st.draw();
         handleInput();
-
         resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+    }
+    public void troopRendering() {
+        tempArr.clear();
+        if (slime != null) {
+            if (!troopArr.contains(slime)) {
+                slime.render();
+            }
+        }
+
+        if (boulder != null) {
+            if (!troopArr.contains(boulder))  {
+                boulder.render();
+            }
+        }
+
+
+        for (BaseTroop troop : troopArr) {
+            if (troop != null) {
+                troop.render();
+                if (troop == slime) {
+                    System.out.println("a");
+                    ((Slime) troop).update(fVp,troopArr);
+                } else if (troop == boulder) {
+                    ((Boulder) troop).update(fVp,slime, troopArr, tempArr);
+                }
+            }
+        }
+
+        for (BaseTroop tempTroop : tempArr) {
+            troopArr.remove(tempTroop);
+        }
+
     }
     @Override
     public void resize(int width, int height) {
         fVp.update(width, height, true);
     }
+
 
     public void handleReceivedTroopCoordinates(String message, TeamSelScreen.Team team) {
         // Example: "Slime placed at x,y:100:200"
@@ -137,28 +152,22 @@ public class GameScreen implements Screen {
             // Render the troop in the game screen
         }
     }
-
     private void renderReceivedTroop(int x, int y, TeamSelScreen.Team team) {
 
         // Create the troop based on the team and render it
         if (team == TeamSelScreen.Team.SLIME) {
-            slime = new Slime(game, x, y);
+            slime = new Slime(x, y);
         } else if (team == TeamSelScreen.Team.BOULDER) {
-            boulder = new Boulder(game, x, y);
+            boulder = new Boulder(x, y);
         }
     }
-
     @Override
     public void pause() {}
-
     @Override
     public void resume() {}
-
     @Override
     public void hide() {}
-    public void show() {
-
-    }
+    public void show() {}
     @Override
     public void dispose() {
         //se llama cuando se cierra el programa

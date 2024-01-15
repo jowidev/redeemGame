@@ -13,33 +13,23 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.mygdx.game.Constants;
+import com.mygdx.game.GameScreen;
 import com.mygdx.game.TDGame;
 
+import java.util.ArrayList;
+
 public class Slime extends BaseTroop {
-
-	private final TDGame game;
-	public float stateTime;
-
-	public Slime(TDGame game, int x, int y) {
+	public Slime( int x, int y) {
 		super(x, y,100);
-		this.game = game;
 		troopOnMouse = false;
-		stateTime = 0;
 		baseAnimation = new Animation<TextureRegion>(0.033f, TDGame.assets.slimewalk, PlayMode.LOOP);
 
-		if (TDGame.assets.slimewalk.size==0)System.out.println("o");
-
+		//if (TDGame.assets.slimewalk.size==0)System.out.println("o");
 	}
-	public void update(Viewport viewport) {
-		placeTroop(viewport, TeamSelScreen.Team.SLIME);
+
+	public void update(Viewport vp, ArrayList array) {
+		placeTroop(vp, TeamSelScreen.Team.SLIME, array);
 
 		//Client.placeObject(troopOnMouse, hitbox, "slime");
-	}
-
-	public void render() {
-		stateTime += Gdx.graphics.getDeltaTime();
-		TextureRegion currentFrame = baseAnimation.getKeyFrame(stateTime, true);
-		TDGame.batch.draw(currentFrame, hitbox.x, hitbox.y, 2, 2);
-
 	}
 }
