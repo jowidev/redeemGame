@@ -1,6 +1,7 @@
 package com.mygdx.game;
 
 import com.MenuScreens.MainMenuScreen;
+import com.MenuScreens.TeamScreen;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
@@ -18,7 +19,7 @@ public class TDGame extends Game {
 	public void resize(int w, int h) {}
 	@Override
 	public void render() {
-		super.render(); //llama al render parent no se q mierda significa
+		super.render();
 	}
 
 	@Override

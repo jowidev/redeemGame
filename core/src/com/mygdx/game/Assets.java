@@ -5,11 +5,15 @@ import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.assets.loaders.SkinLoader;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.Array;
+
+import java.util.concurrent.TimeUnit;
 
 
 public class Assets {
@@ -29,11 +33,15 @@ public class Assets {
 	public final Texture troopBg;
 	public final Music selSong;
 	public final Texture bando;
-	public static final AssetDescriptor<Skin> SKIN = new AssetDescriptor<Skin>("skin/freezing-ui.json", Skin.class, new SkinLoader.SkinParameter("skin/freezing-ui.atlas"));
+	public final Texture mmBg;
+	public final Texture mmBgg;
+
+	public static final AssetDescriptor<Skin> SKIN = new AssetDescriptor<Skin>("flat-earth/skin/flat-earth-ui.json", Skin.class, new SkinLoader.SkinParameter("flat-earth/skin/flat-earth-ui.atlas"));
 	public Assets() {
 		loadToManager(); //meter aca lo que haya que cargar
-
 		this.atlas = manager.get("game.atlas");
+		this.mmBgg = manager.get("miscAssets/promotionalbg2.png");
+		this.mmBg = manager.get("miscAssets/promotionalbg.png");
 		this.slimewalk = atlas.findRegions("slimes/planta");
 		this.boulderwalk = atlas.findRegions("boulders/boulder");
 		this.trumpsong= manager.get("miscAssets/gloriousmorning.mp3");
@@ -49,6 +57,7 @@ public class Assets {
 		this.timerBg = manager.get("miscAssets/Timer.png");
 		this.troopBg = manager.get("miscAssets/TroopBg.png");
 
+
 		if (slimewalk.size==0) {
 			System.out.println("a");
 		}
@@ -56,6 +65,8 @@ public class Assets {
 		private void loadToManager() {
 			manager.load(SKIN);
 			manager.load("game.atlas", TextureAtlas.class);
+			manager.load("miscAssets/promotionalbg2.png", Texture.class);
+			manager.load("miscAssets/promotionalbg.png", Texture.class);
 			manager.load("slimes/slimeCurr.png", Texture.class);
 			manager.load("miscAssets/trumpsong.mp3", Music.class);
 			manager.load("miscAssets/bando.png", Texture.class);

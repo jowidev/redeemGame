@@ -11,7 +11,6 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
-import com.badlogic.gdx.utils.viewport.Viewport;
 import com.mygdx.game.Assets;
 import com.mygdx.game.GameScreen;
 import com.mygdx.game.TDGame;
@@ -23,19 +22,22 @@ public class MainMenuScreen implements Screen {
     private final Skin skin;
     private final OrthographicCamera cam;
     private final Table MainTable;
-    public TDGame TDGame;
+    public TDGame game;
     private final Music menuSong;
     private final ScreenViewport vp;
-
-    public MainMenuScreen(final TDGame TDGame) {
-        this.TDGame = TDGame;
-        Texture bg = TDGame.assets.bgTxT;
+    private final Image img;
+    public MainMenuScreen(final TDGame game) {
+        this.game = game;
+        Texture texture = game.assets.mmBg;
+        img = new Image(texture);
+        Texture bg = TDGame.assets.currBg;
         Image bgImg = new Image(bg);
         skin = Assets.manager.get(SKIN);
-        menuSong = TDGame.assets.selSong;
-
+        menuSong = game.assets.selSong;
+        img.setPosition(0,0);
+        img.setSize(Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
         cam = new OrthographicCamera();
-        vp = new ScreenViewport(cam);
+        vp = new ScreenViewport();
         stage = new Stage(vp);
         cam.setToOrtho(false,800, 600);
         MainTable = new Table();
@@ -44,13 +46,31 @@ public class MainMenuScreen implements Screen {
         //menuSong.setVolume(.1f);
         Gdx.input.setInputProcessor(stage);
         bgImg.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        stage.addActor(img);
         stage.addActor(bgImg);
         stage.addActor(MainTable);
-
         setTablePos(bgImg);
         createButtons();
 
     }
+
+    @Override
+    public void render(float delta) {
+        Gdx.gl.glClearColor(.5f,.7f,.7f,1);
+        cam.update();
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
+        TDGame.batch.setProjectionMatrix(cam.combined);
+
+        stage.act(Gdx.graphics.getDeltaTime()); //el act registra clicks, mov mouse, etc.
+        stage.draw();
+    }
+
+    @Override
+    public void resize(int width, int height) {
+        vp.update(width,height,true);
+    }
+
     private void setTablePos(Image bgImg) {
         MainTable.setFillParent(true);
         MainTable.setPosition(0,0);
@@ -63,13 +83,14 @@ public class MainMenuScreen implements Screen {
         MainTable.row();
 
     }
+
     private void createButtons() {
         addButton("Jugar").
                 addListener(
                         new ClickListener(){
                             @Override
                             public void clicked(InputEvent event, float x, float y){
-                                TDGame.setScreen(new GameScreen(TDGame, TeamSelScreen.Team.BOULDER));
+                                game.setScreen(new TeamScreen(game));
                                 menuSong.dispose();
                             }
                         });
@@ -99,31 +120,11 @@ public class MainMenuScreen implements Screen {
     private TextButton addButton(String name){
         TextButton button = new TextButton(name, skin);
         MainTable.add(button).
-                width((float) Gdx.graphics.getWidth() / 3).
+                width((float) Gdx.graphics.getWidth() / 3.5f).
                 height((float) Gdx.graphics.getHeight() / 8).padBottom(10);
         MainTable.row();
         return button;
     }
-
-    @Override
-    public void render(float delta) {
-        Gdx.gl.glClearColor(.5f,.7f,.7f,1);
-        cam.update();
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
-        TDGame.batch.setProjectionMatrix(cam.combined);
-
-        stage.act(Gdx.graphics.getDeltaTime()); //el act registra clicks, mov mouse, etc.
-        stage.draw();
-    }
-
-
-    @Override
-    public void resize(int width, int height) {
-        vp.update(width,height,true);
-        //cam.position.set((float) width / 2, (float) height / 2, 0);
-    }
-
     @Override
     public void show() {
 

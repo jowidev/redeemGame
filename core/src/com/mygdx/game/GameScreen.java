@@ -1,12 +1,9 @@
 package com.mygdx.game;
 
 import com.MenuScreens.Timer;
-import com.MenuScreens.TeamSelScreen;
+import com.MenuScreens.TeamScreen;
 import com.Server.Client;
-import com.Troops.BaseTroop;
-import com.Troops.Boulder;
-import com.Troops.GridCell;
-import com.Troops.Slime;
+import com.Troops.*;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
@@ -35,11 +32,12 @@ public class GameScreen implements Screen {
     public BaseTroop troop;
     private ArrayList<BaseTroop> troopArr = new ArrayList<>();
     private ArrayList<BaseTroop> tempArr = new ArrayList<>();
-    public GameScreen(TDGame game, TeamSelScreen.Team team) {
+    private Timer timer;
+    public GameScreen(TDGame game, TeamScreen.Team team) {
         this.game = game;
         mainsong = game.assets.finalbattle;
         this.map = new TmxMapLoader().load("tilemap/tilemap.tmx");
-        Timer timer = new Timer(game);
+        timer = new Timer(game);
         cam = new OrthographicCamera();
         st = new Stage();
         GridCell gs = new GridCell(st);
@@ -55,12 +53,14 @@ public class GameScreen implements Screen {
         mainsong.setVolume(.01f);
         cam.position.set(Constants.GAME_WORLD_WIDTH_tile/2, Constants.GAME_WORLD_HEIGHT_tile/2, 0);
         mainsong.play();
+        st.addActor(timer.getTimerTable());
 
         client.start();
     }
 
-    private void handleInput() {
+    private void inputHandling() {
         if(Gdx.input.isKeyJustPressed(Input.Keys.NUM_1))this.slime = new Slime(Gdx.input.getX(),Gdx.input.getY());
+
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_0)) this.boulder = new Boulder(Gdx.input.getX(), Gdx.input.getY());
 
@@ -74,9 +74,6 @@ public class GameScreen implements Screen {
             songPlaying = true;
         }
     }
-
-
-
 
     @Override
     public void render(float delta) {
@@ -95,11 +92,21 @@ public class GameScreen implements Screen {
         TDGame.batch.begin();
 
         troopRendering();
-
+        renderTimer(delta);
+        //System.out.println(timer);
         TDGame.batch.end();
         st.draw();
-        handleInput();
+        inputHandling();
         resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+    }
+    public void renderTimer(float delta) {
+        if (timer != null) {
+            timer.update(game, delta);
+            if (timer.getTime() <= 0) {
+                timer.stop();
+                //timer things
+            }
+        }
     }
     public void troopRendering() {
         tempArr.clear();
@@ -108,30 +115,26 @@ public class GameScreen implements Screen {
                 slime.render();
             }
         }
-
         if (boulder != null) {
-            if (!troopArr.contains(boulder))  {
+            if (!troopArr.contains(boulder)) {
                 boulder.render();
             }
         }
 
-
         for (BaseTroop troop : troopArr) {
             if (troop != null) {
                 troop.render();
-                if (troop == slime) {
-                    System.out.println("a");
-                    ((Slime) troop).update(fVp,troopArr);
-                } else if (troop == boulder) {
+                if (troop instanceof Boulder) {
                     ((Boulder) troop).update(fVp,slime, troopArr, tempArr);
+                }
+                if (troop instanceof Slime) {
+                    ((Slime) troop).update(fVp,troopArr);
                 }
             }
         }
-
         for (BaseTroop tempTroop : tempArr) {
             troopArr.remove(tempTroop);
         }
-
     }
     @Override
     public void resize(int width, int height) {
@@ -139,7 +142,7 @@ public class GameScreen implements Screen {
     }
 
 
-    public void handleReceivedTroopCoordinates(String message, TeamSelScreen.Team team) {
+    public void handleReceivedTroopCoordinates(String message, TeamScreen.Team team) {
         // Example: "Slime placed at x,y:100:200"
         if (message.startsWith("Slime placed at") || message.startsWith("Boulder placed at")) {
             String[] parts = message.split(":");
@@ -152,12 +155,12 @@ public class GameScreen implements Screen {
             // Render the troop in the game screen
         }
     }
-    private void renderReceivedTroop(int x, int y, TeamSelScreen.Team team) {
+    private void renderReceivedTroop(int x, int y, TeamScreen.Team team) {
 
         // Create the troop based on the team and render it
-        if (team == TeamSelScreen.Team.SLIME) {
+        if (team == TeamScreen.Team.SLIME) {
             slime = new Slime(x, y);
-        } else if (team == TeamSelScreen.Team.BOULDER) {
+        } else if (team == TeamScreen.Team.BOULDER) {
             boulder = new Boulder(x, y);
         }
     }
@@ -169,8 +172,7 @@ public class GameScreen implements Screen {
     public void hide() {}
     public void show() {}
     @Override
-    public void dispose() {
-        //se llama cuando se cierra el programa
+    public void dispose() { //se llama cuando se cierra el programa
         game.dispose();
         map.dispose();
         mapRenderer.dispose();

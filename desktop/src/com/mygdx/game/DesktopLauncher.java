@@ -19,7 +19,9 @@ public class DesktopLauncher { //funcion principal
 		config.setForegroundFPS(60);
 		config.useVsync(true);
 		config.setTitle("Redeem Game");
+		config.setWindowIcon("miscAssets/sddefault.png");
 		new Lwjgl3Application(new TDGame(), config); //el coso este es la primera clase que se muestra
+
 	}
 }
 

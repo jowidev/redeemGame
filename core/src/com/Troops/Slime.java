@@ -1,19 +1,10 @@
 package com.Troops;
 
-import com.MenuScreens.TeamSelScreen;
-import com.Server.Client;
-import com.badlogic.gdx.Game;
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
+import com.MenuScreens.TeamScreen;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Animation.PlayMode;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.math.Vector3;
-import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.mygdx.game.Constants;
-import com.mygdx.game.GameScreen;
 import com.mygdx.game.TDGame;
 
 import java.util.ArrayList;
@@ -28,7 +19,7 @@ public class Slime extends BaseTroop {
 	}
 
 	public void update(Viewport vp, ArrayList array) {
-		placeTroop(vp, TeamSelScreen.Team.SLIME, array);
+		placeTroop(vp, TeamScreen.Team.SLIME, array);
 
 		//Client.placeObject(troopOnMouse, hitbox, "slime");
 	}

@@ -1,6 +1,6 @@
 package com.Server;
 
-import com.MenuScreens.TeamSelScreen;
+import com.MenuScreens.TeamScreen;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.math.Rectangle;
@@ -61,7 +61,7 @@ public class Client extends Thread{
             }
             String receivedMessage = new String(receivePacket.getData(), 0, receivePacket.getLength());
             System.out.println("el server dijo: " + receivedMessage);
-            gameScreen.handleReceivedTroopCoordinates(receivedMessage, TeamSelScreen.Team.SLIME);
+            gameScreen.handleReceivedTroopCoordinates(receivedMessage, TeamScreen.Team.SLIME);
         }
 
 
