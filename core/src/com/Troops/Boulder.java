@@ -18,6 +18,7 @@ public class Boulder extends BaseTroop {
 		baseAnimation = new Animation<TextureRegion>(.7f/7, TDGame.assets.boulderwalk, PlayMode.LOOP);
 
 	}
+
 	public void update(Viewport vp, Slime slime, ArrayList troopArr, ArrayList tempArr) {
 		placeTroop(vp, TeamScreen.Team.BOULDER, troopArr);
 		HitboxCheck(slime, troopArr, tempArr);
@@ -43,6 +44,11 @@ public class Boulder extends BaseTroop {
 			arr.remove(this);
 			System.out.println("llega");
 		}
+	}
+
+	@Override
+	public void update() {
+
 	}
 }
 

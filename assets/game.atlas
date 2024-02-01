@@ -1,5 +1,58 @@
 
 game.png
+size: 1024, 1024
+format: RGBA8888
+filter: Nearest, Nearest
+repeat: none
+flat-earth/preview
+  rotate: false
+  xy: 2, 2
+  size: 802, 832
+  orig: 802, 832
+  offset: 0, 0
+  index: -1
+
+game2.png
+size: 1024, 1024
+format: RGBA8888
+filter: Nearest, Nearest
+repeat: none
+flat-earth/skin/flat-earth-ui
+  rotate: false
+  xy: 2, 2
+  size: 512, 512
+  orig: 512, 512
+  offset: 0, 0
+  index: -1
+
+game3.png
+size: 2048, 512
+format: RGBA8888
+filter: Nearest, Nearest
+repeat: none
+tilemap/IceTileset
+  rotate: false
+  xy: 645, 2
+  size: 640, 288
+  orig: 640, 288
+  offset: 0, 0
+  index: -1
+tilemap/RPG Nature Tileset
+  rotate: false
+  xy: 2, 2
+  size: 641, 288
+  orig: 641, 288
+  offset: 0, 0
+  index: -1
+tilemap/RPG_Nature_Tileset_Autumn
+  rotate: false
+  xy: 1287, 2
+  size: 480, 288
+  orig: 480, 288
+  offset: 0, 0
+  index: -1
+
+game4.png
 size: 512, 512
 format: RGBA8888
 filter: Nearest, Nearest
@@ -61,34 +114,69 @@ boulders/boulderCurr
   offset: 0, 0
   index: -1
 
-game2.png
-size: 2048, 512
+game5.png
+size: 4096, 4096
 format: RGBA8888
 filter: Nearest, Nearest
 repeat: none
-tilemap/IceTileset
+miscAssets/Timer
   rotate: false
-  xy: 645, 2
-  size: 640, 288
-  orig: 640, 288
+  xy: 2916, 2073
+  size: 288, 120
+  orig: 288, 120
   offset: 0, 0
   index: -1
-tilemap/RPG Nature Tileset
+miscAssets/TroopBg
+  rotate: false
+  xy: 3558, 2507
+  size: 168, 168
+  orig: 168, 168
+  offset: 0, 0
+  index: -1
+miscAssets/bando
+  rotate: false
+  xy: 2, 88
+  size: 528, 135
+  orig: 528, 135
+  offset: 0, 0
+  index: -1
+miscAssets/currBg
   rotate: false
   xy: 2, 2
-  size: 641, 288
-  orig: 641, 288
+  size: 196, 84
+  orig: 196, 84
   offset: 0, 0
   index: -1
-tilemap/RPG_Nature_Tileset_Autumn
+miscAssets/logo
   rotate: false
-  xy: 1287, 2
-  size: 480, 288
-  orig: 480, 288
+  xy: 1460, 976
+  size: 564, 65
+  orig: 564, 65
+  offset: 0, 0
+  index: -1
+miscAssets/promotionalbg
+  rotate: false
+  xy: 2, 225
+  size: 1456, 816
+  orig: 1456, 816
+  offset: 0, 0
+  index: -1
+miscAssets/promotionalbg2
+  rotate: false
+  xy: 2, 1043
+  size: 2912, 1632
+  orig: 2912, 1632
+  offset: 0, 0
+  index: -1
+miscAssets/sddefault
+  rotate: false
+  xy: 2916, 2195
+  size: 640, 480
+  orig: 640, 480
   offset: 0, 0
   index: -1
 
-game3.png
+game6.png
 size: 2048, 1024
 format: RGBA8888
 filter: Nearest, Nearest
@@ -175,93 +263,5 @@ slimes/slimeCurr
   xy: 2, 2
   size: 1000, 1000
   orig: 1000, 1000
-  offset: 0, 0
-  index: -1
-
-game4.png
-size: 4096, 4096
-format: RGBA8888
-filter: Nearest, Nearest
-repeat: none
-miscAssets/Timer
-  rotate: false
-  xy: 2916, 2073
-  size: 288, 120
-  orig: 288, 120
-  offset: 0, 0
-  index: -1
-miscAssets/TroopBg
-  rotate: false
-  xy: 3558, 2507
-  size: 168, 168
-  orig: 168, 168
-  offset: 0, 0
-  index: -1
-miscAssets/bando
-  rotate: false
-  xy: 2, 88
-  size: 528, 135
-  orig: 528, 135
-  offset: 0, 0
-  index: -1
-miscAssets/currBg
-  rotate: false
-  xy: 2, 2
-  size: 196, 84
-  orig: 196, 84
-  offset: 0, 0
-  index: -1
-miscAssets/logo
-  rotate: false
-  xy: 1460, 976
-  size: 564, 65
-  orig: 564, 65
-  offset: 0, 0
-  index: -1
-miscAssets/promotionalbg
-  rotate: false
-  xy: 2, 225
-  size: 1456, 816
-  orig: 1456, 816
-  offset: 0, 0
-  index: -1
-miscAssets/promotionalbg2
-  rotate: false
-  xy: 2, 1043
-  size: 2912, 1632
-  orig: 2912, 1632
-  offset: 0, 0
-  index: -1
-miscAssets/sddefault
-  rotate: false
-  xy: 2916, 2195
-  size: 640, 480
-  orig: 640, 480
-  offset: 0, 0
-  index: -1
-
-game5.png
-size: 1024, 1024
-format: RGBA8888
-filter: Nearest, Nearest
-repeat: none
-flat-earth/preview
-  rotate: false
-  xy: 2, 2
-  size: 802, 832
-  orig: 802, 832
-  offset: 0, 0
-  index: -1
-
-game6.png
-size: 1024, 1024
-format: RGBA8888
-filter: Nearest, Nearest
-repeat: none
-flat-earth/skin/flat-earth-ui
-  rotate: false
-  xy: 2, 2
-  size: 512, 512
-  orig: 512, 512
   offset: 0, 0
   index: -1

@@ -49,7 +49,7 @@
                     TDGame.assets.slimeplaced.play();
                     troopArr.add(this);
                 }
-                else{
+                else {
                     TDGame.assets.boulderPlaced.play();
                     troopArr.add(this);
                 }
@@ -63,8 +63,9 @@
 
         }
 
-
+	    public abstract void update(Viewport vp, ArrayList tempArr);
         public void setHp(float hp) {this.hp = hp;}
         public float getHp() {return hp;}
 
+        public abstract void update();
     }

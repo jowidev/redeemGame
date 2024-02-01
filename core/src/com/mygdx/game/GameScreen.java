@@ -30,9 +30,9 @@ public class GameScreen implements Screen {
     public Slime slime;
     public Boulder boulder;
     public BaseTroop troop;
-    private ArrayList<BaseTroop> troopArr = new ArrayList<>();
-    private ArrayList<BaseTroop> tempArr = new ArrayList<>();
-    private Timer timer;
+    private final ArrayList<BaseTroop> troopArr = new ArrayList<>();
+    private final ArrayList<BaseTroop> tempArr = new ArrayList<>();
+    private final Timer timer;
     public GameScreen(TDGame game, TeamScreen.Team team) {
         this.game = game;
         mainsong = game.assets.finalbattle;

@@ -17,10 +17,18 @@ public class Slime extends BaseTroop {
 
 		//if (TDGame.assets.slimewalk.size==0)System.out.println("o");
 	}
+	
+	/*public void update(Viewport vp, ArrayList array) {
 
-	public void update(Viewport vp, ArrayList array) {
-		placeTroop(vp, TeamScreen.Team.SLIME, array);
+	}*/
+
+	@Override
+	public void update(Viewport vp,ArrayList troopArr) {
+		placeTroop(vp, TeamScreen.Team.SLIME, troopArr);
 
 		//Client.placeObject(troopOnMouse, hitbox, "slime");
 	}
+
+
+
 }
