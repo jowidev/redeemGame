@@ -14,7 +14,9 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.sun.org.apache.bcel.internal.generic.IF_ACMPEQ;
 
 import java.util.ArrayList;
 
@@ -33,6 +35,7 @@ public class GameScreen implements Screen {
     private final ArrayList<BaseTroop> troopArr = new ArrayList<>();
     private final ArrayList<BaseTroop> tempArr = new ArrayList<>();
     private final Timer timer;
+    private float money;
     public GameScreen(TDGame game, TeamScreen.Team team) {
         this.game = game;
         mainsong = game.assets.finalbattle;
@@ -46,6 +49,10 @@ public class GameScreen implements Screen {
         fVp = new FitViewport(Constants.GAME_WORLD_WIDTH_tile,Constants.GAME_WORLD_HEIGHT_tile, cam);
 
 
+
+        if (team == TeamScreen.Team.SLIME) st.addActor(timer.getSlimeTable());
+        else st.addActor(timer.getBoulderTable());
+
         st.addActor(gs);
         st.addActor(timer.getTimerTable());
         Gdx.input.setInputProcessor(st);
@@ -53,7 +60,6 @@ public class GameScreen implements Screen {
         mainsong.setVolume(.01f);
         cam.position.set(Constants.GAME_WORLD_WIDTH_tile/2, Constants.GAME_WORLD_HEIGHT_tile/2, 0);
         mainsong.play();
-        st.addActor(timer.getTimerTable());
 
         client.start();
     }
@@ -93,7 +99,6 @@ public class GameScreen implements Screen {
 
         troopRendering();
         renderTimer(delta);
-        //System.out.println(timer);
         TDGame.batch.end();
         st.draw();
         inputHandling();
@@ -113,7 +118,7 @@ public class GameScreen implements Screen {
         if (slime != null) {
             if (!troopArr.contains(slime)) {
                 slime.render();
-            }
+           }
         }
         if (boulder != null) {
             if (!troopArr.contains(boulder)) {
@@ -123,13 +128,12 @@ public class GameScreen implements Screen {
 
         for (BaseTroop troop : troopArr) {
             if (troop != null) {
-                troop.render();
-                if (troop instanceof Boulder) {
-                    ((Boulder) troop).update(fVp,slime, troopArr, tempArr);
-                }
                 if (troop instanceof Slime) {
-                    ((Slime) troop).update(fVp,troopArr);
+                    troop.update(fVp,slime, troopArr, tempArr);
+                } else {
+                    troop.update(fVp,slime, troopArr, tempArr);
                 }
+                troop.render();
             }
         }
         for (BaseTroop tempTroop : tempArr) {

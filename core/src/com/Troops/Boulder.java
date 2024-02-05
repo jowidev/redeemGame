@@ -5,6 +5,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g2d.Animation.PlayMode;
+import com.badlogic.gdx.utils.compression.lzma.Base;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.mygdx.game.Constants;
 import com.mygdx.game.TDGame;
@@ -19,24 +20,24 @@ public class Boulder extends BaseTroop {
 
 	}
 
-	public void update(Viewport vp, Slime slime, ArrayList troopArr, ArrayList tempArr) {
-		placeTroop(vp, TeamScreen.Team.BOULDER, troopArr);
-		HitboxCheck(slime, troopArr, tempArr);
 
-		//Client.placeObject(troopOnMouse, hitbox, "boulder");
-	}
-	public void HitboxCheck(Slime slime, ArrayList troopArr, ArrayList tempArr) {
-		if (slime!=null) {
-			if (hitbox.overlaps(slime.hitbox)) {
-				slime.takeDamage(.5f, tempArr);
+	public void HitboxCheck(Slime slime, ArrayList<BaseTroop> troopArr, ArrayList tempArr) {
+		boolean isColliding = false;
+
+		if (slime != null) {
+			for (BaseTroop troop : troopArr) {
+				if (troop instanceof Slime && troop.hitbox.overlaps(hitbox)) {
+					troop.takeDamage(0.5f, tempArr);
+					isColliding = true;
+				}
 			}
-			else {
-				boulderMov(troopArr);
-			}
-		} else {
+		}
+
+		if (!isColliding) {
 			boulderMov(troopArr);
 		}
 	}
+
 
 	public void boulderMov(ArrayList arr) {
 		hitbox.x -= .8f*Gdx.graphics.getDeltaTime();
@@ -47,8 +48,17 @@ public class Boulder extends BaseTroop {
 	}
 
 	@Override
-	public void update() {
+	public void update(Viewport vp, ArrayList tempArr) {
 
 	}
+
+	@Override
+	public void update(Viewport vp, Slime slime, ArrayList troopArr, ArrayList tempArr) {
+		placeTroop(vp, TeamScreen.Team.BOULDER, troopArr);
+		HitboxCheck(slime, troopArr, tempArr);
+
+		//Client.placeObject(troopOnMouse, hitbox, "boulder");
+	}
+
 }
 

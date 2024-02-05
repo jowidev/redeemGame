@@ -14,7 +14,7 @@ public class DesktopLauncher { //funcion principal
 
 		TexturePacker.processIfModified(settings, "./assets", "./assets",  "game"); //name del atlas
 		Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
-		config.setWindowedMode(1024,576); //usar 16:9
+		config.setWindowedMode(1280,768); //usar 16:9
 		config.setWindowSizeLimits(800, 600, Integer.MAX_VALUE, Integer.MAX_VALUE);
 		config.setForegroundFPS(60);
 		config.useVsync(true);

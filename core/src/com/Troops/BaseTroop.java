@@ -46,6 +46,7 @@
             if (Gdx.input.isButtonJustPressed(Input.Buttons.LEFT) && !troopOnMouse) {
                 troopOnMouse = true;
                 if (team.equals(TeamScreen.Team.SLIME)) {
+
                     TDGame.assets.slimeplaced.play();
                     troopArr.add(this);
                 }
@@ -64,8 +65,8 @@
         }
 
 	    public abstract void update(Viewport vp, ArrayList tempArr);
+        public abstract void update(Viewport vp, Slime slime, ArrayList troopArr, ArrayList tempArr);
         public void setHp(float hp) {this.hp = hp;}
-        public float getHp() {return hp;}
 
-        public abstract void update();
+        public float getHp() {return hp;}
     }

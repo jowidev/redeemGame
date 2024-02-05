@@ -2,6 +2,7 @@
 
     import com.badlogic.gdx.Gdx;
     import com.badlogic.gdx.Input;
+    import com.badlogic.gdx.math.Rectangle;
     import com.badlogic.gdx.scenes.scene2d.Actor;
     import com.badlogic.gdx.scenes.scene2d.Stage;
     import com.badlogic.gdx.scenes.scene2d.Touchable;
@@ -19,15 +20,20 @@
             s.addActor(this);
 
             setDebug(true);
-            touched();
         }
 
-        public void touched() {
+        public void touched(Rectangle hitbox) {
             if (Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)&& !isOcc) {
                 System.out.println("click");
                 isOcc= true;
                 System.out.println(isOcc);
-            } else if (isOcc){
+                float centerX = getX() + gridCellW / 2f;
+                float centerY = getY() + gridCellH / 2f;
+
+                // Snap the troop to the center position of the grid cell
+                hitbox.x = centerX;
+                hitbox.y = centerY;
+            } else if (isOcc) {
             }
         }
         private float[] getCenter() {
