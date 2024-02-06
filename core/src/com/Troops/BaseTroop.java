@@ -21,24 +21,25 @@
         protected float stateTime = 0;
         protected float hp;
         protected float sp, dmg;
-        protected boolean troopOnMouse;
+        public boolean troopOnMouse;
         public BaseTroop(int x, int y, float hp) {
             hitbox.set(x, y, TROOP_WIDTH, TROOP_HEIGHT);
             this.hp = hp;
 
         }
 
-        public void takeDamage(float damage, ArrayList tempArr) {
+        public void takeDamage(float damage, ArrayList<BaseTroop> tempArr) {
             hp -= damage;
-            System.out.println(this.hp);
+            System.out.println(hp);
             if (hp <= 0) {
+
                 System.out.println("dead");
                 hitbox.setPosition(-10,-10);
                 tempArr.add(this);
             }
         }
 
-        public void placeTroop(Viewport viewport, TeamScreen.Team team, ArrayList troopArr) {
+        public void placeTroop(Viewport viewport, TeamScreen.Team team, ArrayList<BaseTroop> troopArr) {
             Vector2 pos = viewport.unproject(new Vector2(Gdx.input.getX(), Gdx.input.getY()));
             if (!troopOnMouse) {
                 hitbox.set(pos.x-1,pos.y-1, TROOP_WIDTH, TROOP_HEIGHT);

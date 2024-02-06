@@ -13,7 +13,7 @@ import com.mygdx.game.TDGame;
 import java.util.ArrayList;
 
 public class Boulder extends BaseTroop {
-	protected float BOULDER_SP = .5f*Gdx.graphics.getDeltaTime();
+	protected float BOULDER_SP = 1*Gdx.graphics.getDeltaTime();
 	public Boulder(int x, int y) {
 		super(x, y, 150);
 		baseAnimation = new Animation<TextureRegion>(.7f/7, TDGame.assets.boulderwalk, PlayMode.LOOP);
@@ -40,7 +40,7 @@ public class Boulder extends BaseTroop {
 
 
 	public void boulderMov(ArrayList arr) {
-		hitbox.x -= .8f*Gdx.graphics.getDeltaTime();
+		hitbox.x -= BOULDER_SP;
 		if (hitbox.x==0*Constants.PIXELTOTILE) {
 			arr.remove(this);
 			System.out.println("llega");

@@ -20,21 +20,11 @@
             s.addActor(this);
 
             setDebug(true);
+            touched();
         }
 
-        public void touched(Rectangle hitbox) {
-            if (Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)&& !isOcc) {
-                System.out.println("click");
-                isOcc= true;
-                System.out.println(isOcc);
-                float centerX = getX() + gridCellW / 2f;
-                float centerY = getY() + gridCellH / 2f;
+        public void touched() {
 
-                // Snap the troop to the center position of the grid cell
-                hitbox.x = centerX;
-                hitbox.y = centerY;
-            } else if (isOcc) {
-            }
         }
         private float[] getCenter() {
             return new float[] { getX() + getWidth() / 2, getY() + getHeight() / 2 };

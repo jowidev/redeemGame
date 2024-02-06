@@ -23,17 +23,15 @@ public class MainMenuScreen implements Screen {
     private final OrthographicCamera cam;
     private final Table MainTable;
     public TDGame game;
-    private final Music menuSong;
     private final ScreenViewport vp;
     private final Image img;
     public MainMenuScreen(final TDGame game) {
         this.game = game;
         Texture texture = game.assets.mmBg;
         img = new Image(texture);
-        Texture bg = TDGame.assets.currBg;
+        Texture bg = TDGame.assets.bgTxT;
         Image bgImg = new Image(bg);
         skin = Assets.manager.get(SKIN);
-        menuSong = game.assets.selSong;
         img.setPosition(0,0);
         img.setSize(Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
         cam = new OrthographicCamera();
@@ -76,8 +74,8 @@ public class MainMenuScreen implements Screen {
         MainTable.setPosition(0,0);
         //MainTable.setDebug(true);
 
-        MainTable.add(bgImg).width((float) Gdx.graphics.getWidth() /1.5f).
-                height((float) Gdx.graphics.getHeight() /5.5f).
+        MainTable.add(bgImg).width((float) Gdx.graphics.getWidth() /1.75f).
+                height((float) Gdx.graphics.getHeight() /7.5f).
                 padBottom((float) Gdx.graphics.getHeight() /4.5f);
 
         MainTable.row();
@@ -91,7 +89,6 @@ public class MainMenuScreen implements Screen {
                             @Override
                             public void clicked(InputEvent event, float x, float y){
                                 game.setScreen(new TeamScreen(game));
-                                menuSong.dispose();
                             }
                         });
 
@@ -148,6 +145,5 @@ public class MainMenuScreen implements Screen {
     @Override
     public void dispose() {
         stage.dispose();
-        menuSong.dispose();
     }
 }
