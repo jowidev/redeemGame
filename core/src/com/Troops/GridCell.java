@@ -24,7 +24,9 @@
         }
 
         public void touched() {
-
+            if (Gdx.input.isButtonJustPressed(1)) {
+                System.out.println("click");
+            }
         }
         private float[] getCenter() {
             return new float[] { getX() + getWidth() / 2, getY() + getHeight() / 2 };

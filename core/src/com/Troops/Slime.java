@@ -27,7 +27,7 @@ public class Slime extends BaseTroop {
 		//Client.placeObject(troopOnMouse, hitbox, "slime");
 	}
 	@Override
-	public void update(Viewport vp, Slime slime, ArrayList troopArr, ArrayList tempArr) {
+	public void update(Viewport vp, Slime slime, ArrayList troopArr, ArrayList tempArr, int points) {
 
 	}
 

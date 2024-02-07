@@ -22,24 +22,24 @@
         protected float hp;
         protected float sp, dmg;
         public boolean troopOnMouse;
-        public BaseTroop(int x, int y, float hp) {
+        protected float troopCost;
+        public BaseTroop(int x, int y, float hp) { //basetroop padre tropas heredan de esto
             hitbox.set(x, y, TROOP_WIDTH, TROOP_HEIGHT);
             this.hp = hp;
 
         }
 
-        public void takeDamage(float damage, ArrayList<BaseTroop> tempArr) {
+        public void takeDamage(float damage, ArrayList<BaseTroop> tempArr) { //daño
             hp -= damage;
             System.out.println(hp);
             if (hp <= 0) {
-
                 System.out.println("dead");
-                hitbox.setPosition(-10,-10);
                 tempArr.add(this);
+                hitbox.setPosition(-10,-10);
             }
         }
 
-        public void placeTroop(Viewport viewport, TeamScreen.Team team, ArrayList<BaseTroop> troopArr) {
+        public void placeTroop(Viewport viewport, TeamScreen.Team team, ArrayList<BaseTroop> troopArr) { //crear la hitbox
             Vector2 pos = viewport.unproject(new Vector2(Gdx.input.getX(), Gdx.input.getY()));
             if (!troopOnMouse) {
                 hitbox.set(pos.x-1,pos.y-1, TROOP_WIDTH, TROOP_HEIGHT);
@@ -66,7 +66,7 @@
         }
 
 	    public abstract void update(Viewport vp, ArrayList tempArr);
-        public abstract void update(Viewport vp, Slime slime, ArrayList troopArr, ArrayList tempArr);
+        public abstract void update(Viewport vp, Slime slime, ArrayList troopArr, ArrayList tempArr, int points);
         public void setHp(float hp) {this.hp = hp;}
 
         public float getHp() {return hp;}

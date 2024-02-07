@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.g2d.Animation.PlayMode;
 import com.badlogic.gdx.utils.compression.lzma.Base;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.mygdx.game.Constants;
+import com.mygdx.game.GameScreen;
 import com.mygdx.game.TDGame;
 
 import java.util.ArrayList;
@@ -21,7 +22,7 @@ public class Boulder extends BaseTroop {
 	}
 
 
-	public void HitboxCheck(Slime slime, ArrayList<BaseTroop> troopArr, ArrayList tempArr) {
+	public void HitboxCheck(Slime slime, ArrayList<BaseTroop> troopArr, ArrayList tempArr, int points) {
 		boolean isColliding = false;
 
 		if (slime != null) {
@@ -34,17 +35,19 @@ public class Boulder extends BaseTroop {
 		}
 
 		if (!isColliding) {
-			boulderMov(troopArr);
+			boulderMov(tempArr,points);
 		}
 	}
 
 
-	public void boulderMov(ArrayList arr) {
+	public int boulderMov(ArrayList<BaseTroop> arr, int points) {
 		hitbox.x -= BOULDER_SP;
-		if (hitbox.x==0*Constants.PIXELTOTILE) {
-			arr.remove(this);
+		if (hitbox.x<=0&&hitbox.x>=-2) {
+			arr.add(this);
+			points+=1;
 			System.out.println("llega");
 		}
+		return points;
 	}
 
 	@Override
@@ -53,9 +56,9 @@ public class Boulder extends BaseTroop {
 	}
 
 	@Override
-	public void update(Viewport vp, Slime slime, ArrayList troopArr, ArrayList tempArr) {
+	public void update(Viewport vp, Slime slime, ArrayList troopArr, ArrayList tempArr, int points) {
 		placeTroop(vp, TeamScreen.Team.BOULDER, troopArr);
-		HitboxCheck(slime, troopArr, tempArr);
+		HitboxCheck(slime, troopArr, tempArr, points);
 
 		//Client.placeObject(troopOnMouse, hitbox, "boulder");
 	}

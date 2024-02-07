@@ -103,7 +103,18 @@ public class MainMenuScreen implements Screen {
                             }
                         }
                 );
+        addButton("Lore").
+                addListener(
+                        new ClickListener(){
+                            @Override
+                            public void clicked(InputEvent event, float x, float y){
+                                String websiteURL2 = "https://youtu.be/RTWEDmzV2KE";
+                                Gdx.net.openURI(websiteURL2);
 
+
+                            }
+                        }
+                );
         addButton("Salir").
                 addListener(
                         new ClickListener(){

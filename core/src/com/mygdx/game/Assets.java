@@ -34,10 +34,12 @@ public class Assets {
 	public final Texture bando;
 	public final Texture mmBg;
 	public final Texture mmBgg;
+	public final Texture lawn;
 	public static final AssetDescriptor<Skin> SKIN = new AssetDescriptor<Skin>("flat-earth/skin/flat-earth-ui.json", Skin.class, new SkinLoader.SkinParameter("flat-earth/skin/flat-earth-ui.atlas"));
 	public Assets() {
 		loadToManager(); //meter aca lo que haya que cargar
 		this.atlas = manager.get("game.atlas");
+		this.lawn = manager.get("miscAssets/cortacesped.png");
 		this.mmBgg = manager.get("miscAssets/promotionalbg2.png");
 		this.mmBg = manager.get("miscAssets/promotionalbg.png");
 		this.slimewalk = atlas.findRegions("slimes/planta");
@@ -62,6 +64,7 @@ public class Assets {
 		private void loadToManager() {
 			manager.load(SKIN);
 			manager.load("game.atlas", TextureAtlas.class);
+			manager.load("miscAssets/cortacesped.png", Texture.class);
 			manager.load("miscAssets/promotionalbg2.png", Texture.class);
 			manager.load("miscAssets/promotionalbg.png", Texture.class);
 			manager.load("slimes/slimeCurr.png", Texture.class);

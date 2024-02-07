@@ -1,8 +1,7 @@
 package com.mygdx.game;
 
-import com.MenuScreens.Timer;
+import com.MenuScreens.HUD;
 import com.MenuScreens.TeamScreen;
-import com.Server.Client;
 import com.Troops.*;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
@@ -10,14 +9,11 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.viewport.FitViewport;
-import com.sun.org.apache.bcel.internal.generic.IF_ACMPEQ;
 
 import java.util.ArrayList;
 
@@ -27,7 +23,7 @@ public class GameScreen implements Screen {
     private Boulder boulder;
     private final ArrayList<BaseTroop> troopArr = new ArrayList<>();
     private final ArrayList<BaseTroop> tempArr = new ArrayList<>();
-    private float money;
+    private float money = 0;
 
     private final TiledMap map;
     private final OrthogonalTiledMapRenderer mapRenderer;
@@ -37,14 +33,14 @@ public class GameScreen implements Screen {
 
     private final Music mainsong;
     public boolean songPlaying = true;
-    private final Timer timer;
-    private Lawnmower lm;
+    private final HUD HUD;
+    public int points = 0;
     private ArrayList<Lawnmower> lms;
     public GameScreen(TDGame game, TeamScreen.Team team) {
         this.game = game;
         mainsong = game.assets.finalbattle;
         this.map = new TmxMapLoader().load("tilemap/tilemap.tmx");
-        timer = new Timer(game);
+        HUD = new HUD(game, money);
         mapRenderer = new OrthogonalTiledMapRenderer(map, Constants.PIXELTOTILE, TDGame.batch);
         lms = new ArrayList<>();
 
@@ -53,21 +49,21 @@ public class GameScreen implements Screen {
         fVp = new FitViewport(Constants.GAME_WORLD_WIDTH_tile, Constants.GAME_WORLD_HEIGHT_tile, cam);
         cam.position.set(Constants.GAME_WORLD_WIDTH_tile / 2, Constants.GAME_WORLD_HEIGHT_tile / 2, 0);
         Gdx.input.setInputProcessor(st);
-
-        GridCell gs = new GridCell(st);
+        GridStage gs = new GridStage(st);
         st.addActor(gs);
 
-        for (int i = 0; i < 24; i += 2) {
+        for (float i = 1.2f; i < 10; i += 2.1f) {
             lms.add(new Lawnmower(0, i));
         }
 
 
+
         if (team == TeamScreen.Team.SLIME) {
-            st.addActor(timer.getSlimeTable());
+            st.addActor(HUD.getSlimeTable());
         } else {
-            st.addActor(timer.getBoulderTable());
+            st.addActor(HUD.getBoulderTable());
         }
-        st.addActor(timer.getTimerTable());
+        st.addActor(HUD.getTimerTable());
 
 
         mainsong.setLooping(true);
@@ -79,7 +75,7 @@ public class GameScreen implements Screen {
 
     private void inputHandling() {
         if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_1)) {
-            slime = new Slime(Gdx.input.getX(), Gdx.input.getY());
+            slime = new Slime(Gdx.input.getX(), Gdx.input.getY() );
         }
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_0)) {
@@ -113,25 +109,24 @@ public class GameScreen implements Screen {
 
         st.act(Gdx.graphics.getDeltaTime());
         if (slime != null&&!troopArr.contains(slime)) slime.update(fVp, troopArr);
-        if (boulder != null&&!troopArr.contains(boulder)) boulder.update(fVp, slime, troopArr, tempArr);
+        if (boulder != null&&!troopArr.contains(boulder)) boulder.update(fVp, slime, troopArr, tempArr, points);
 
         TDGame.batch.begin();
 
         troopRendering();
         renderTimer(delta);
-
+        HUD.updateMoney(delta);
         TDGame.batch.end();
-
         st.draw();
         inputHandling();
         resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
     }
 
     public void renderTimer(float delta) {
-        if (timer != null) {
-            timer.update(game, delta);
-            if (timer.getTime() <= 0) {
-                timer.stop();
+        if (HUD != null) {
+            HUD.update(game, delta);
+            if (HUD.getTime() <= 0) {
+                HUD.stop();
                 //timer things
             }
         }
@@ -160,7 +155,7 @@ public class GameScreen implements Screen {
                 if (troop instanceof Slime) {
                     troop.update(fVp,troopArr);
                 } else {
-                    troop.update(fVp,slime, troopArr, tempArr);
+                    troop.update(fVp,slime, troopArr, tempArr, points);
                 }
                 troop.render();
             }

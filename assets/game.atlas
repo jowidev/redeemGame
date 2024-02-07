@@ -185,63 +185,70 @@ filter: Nearest, Nearest
 repeat: none
 miscAssets/Timer
   rotate: false
-  xy: 3558, 2984
+  xy: 2916, 3095
   size: 288, 120
   orig: 288, 120
   offset: 0, 0
   index: -1
 miscAssets/TroopBg
   rotate: false
-  xy: 2, 2
+  xy: 3558, 3529
   size: 168, 168
   orig: 168, 168
   offset: 0, 0
   index: -1
 miscAssets/bando
   rotate: false
-  xy: 1460, 1335
+  xy: 2, 2
   size: 528, 135
   orig: 528, 135
   offset: 0, 0
   index: -1
+miscAssets/cortacesped
+  rotate: false
+  xy: 2, 957
+  size: 1920, 1106
+  orig: 1920, 1106
+  offset: 0, 0
+  index: -1
 miscAssets/currBg
   rotate: false
-  xy: 484, 568
+  xy: 1924, 1497
   size: 196, 84
   orig: 196, 84
   offset: 0, 0
   index: -1
 miscAssets/logo
   rotate: false
-  xy: 2916, 2555
+  xy: 1460, 888
   size: 397, 67
   orig: 397, 67
   offset: 0, 0
   index: -1
 miscAssets/logoTray
   rotate: false
-  xy: 2, 172
+  xy: 1924, 1583
   size: 480, 480
   orig: 480, 480
   offset: 0, 0
   index: -1
 miscAssets/promotionalbg
   rotate: false
-  xy: 2, 654
+  xy: 2, 139
   size: 1456, 816
   orig: 1456, 816
   offset: 0, 0
   index: -1
 miscAssets/promotionalbg2
   rotate: false
-  xy: 2, 1472
+  xy: 2, 2065
   size: 2912, 1632
   orig: 2912, 1632
   offset: 0, 0
   index: -1
 miscAssets/sddefault
   rotate: false
-  xy: 2916, 2624
+  xy: 2916, 3217
   size: 640, 480
   orig: 640, 480
   offset: 0, 0

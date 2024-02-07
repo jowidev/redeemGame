@@ -13,17 +13,19 @@ public class Lawnmower {
     public Rectangle hitbox = new Rectangle();
     private Texture texture;
     private boolean running = false;
-    public Lawnmower(int x, int y) {
-        hitbox.set(x,y,.2f,2);
-        texture = new Texture("miscAssets/sddefault.png");
+    public Lawnmower(float x, float y) {
+        hitbox.set(x,y,2,2);
+        texture = TDGame.assets.lawn;
     }
     public void draw() {
         TDGame.batch.draw(texture, hitbox.x, hitbox.y, 2, 2);
     }
     public void instakill(Boulder boulder, ArrayList<BaseTroop> tempArr, ArrayList<BaseTroop> troopArr) {
         if (boulder != null && !running) {
-            if (boulder.hitbox.overlaps(hitbox)) {
-                running = true;
+            for (BaseTroop troop : troopArr) {
+                if (troop instanceof Boulder&&troop.hitbox.overlaps(hitbox)) {
+                    running = true;
+                }
             }
         }
         if (running) {
