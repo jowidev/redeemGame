@@ -11,13 +11,12 @@ import com.mygdx.game.TDGame;
 import static com.mygdx.game.Assets.SKIN;
 
 public class HUD extends Table {
-    private float money;
     private float moneyTimer = 0; // Nuevo temporizador para el sistema de plata
-    private static final float MONEY_INTERVAL = 7f; // Intervalo para agregar dinero (en segundos)
+    private static final float MONEY_INTERVAL = 12.5f; // Intervalo para agregar dinero (en segundos)
     private static final int MONEY_AMOUNT = 5; // Cantidad de dinero a agregar cada vez
     private final Table timerTable;
-    private Table slimeTable;
-    private Table boulderTable;
+    private final Table slimeTable;
+    private final Table boulderTable;
     private final Stack stack;
     private final Stack stack2;
     private final Stack stack3;
@@ -28,8 +27,9 @@ public class HUD extends Table {
     private Label slimeMoneyLabel;
     private Label boulderMoneyLabel;
     private Skin skin;
+    private float money;
 
-    public HUD(TDGame game, float initialMoney) {
+    public HUD(TDGame game, float money) {
         skin = Assets.manager.get(SKIN);
         Texture signImg = game.assets.timerBg;
         Texture currBg = game.assets.currBg;
@@ -38,15 +38,15 @@ public class HUD extends Table {
         Image bgCurr2 = new Image(currBg);
         showTime = (int) time;
         timerTable = new Table();
-
+        this.money = money;
 
         stack = new Stack();
         numberLabel = new Label(String.valueOf(showTime), skin);
-        slimeMoneyLabel = new Label("$" + String.valueOf(money), skin);
+        slimeMoneyLabel = new Label("$" + money, skin);
         slimeMoneyLabel.setScale(2);
         slimeMoneyLabel.setFontScale(1.25f);
         slimeMoneyLabel.setAlignment(Align.center);
-        boulderMoneyLabel = new Label("$" + String.valueOf(money), skin);
+        boulderMoneyLabel = new Label("$" + money, skin);
         boulderMoneyLabel.setScale(2);
         boulderMoneyLabel.setFontScale(1.25f);
         boulderMoneyLabel.setAlignment(Align.center);
@@ -71,7 +71,6 @@ public class HUD extends Table {
 
 
 
-        money = 0;
 
 
     }
@@ -132,8 +131,8 @@ public class HUD extends Table {
             moneyTimer -= MONEY_INTERVAL;
 
             money += MONEY_AMOUNT;
-            slimeMoneyLabel.setText("$"+ String.valueOf(money));
-            boulderMoneyLabel.setText("$"+ String.valueOf(money));
+            slimeMoneyLabel.setText("$"+ money);
+            boulderMoneyLabel.setText("$"+ money);
         }
     }
 

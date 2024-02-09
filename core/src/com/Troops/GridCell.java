@@ -1,18 +1,20 @@
     package com.Troops;
 
+    import com.Troops.TeamTroops.Slime;
     import com.badlogic.gdx.Gdx;
-    import com.badlogic.gdx.Input;
-    import com.badlogic.gdx.math.Rectangle;
+    import com.badlogic.gdx.math.Vector;
+    import com.badlogic.gdx.math.Vector2;
     import com.badlogic.gdx.scenes.scene2d.Actor;
     import com.badlogic.gdx.scenes.scene2d.Stage;
     import com.badlogic.gdx.scenes.scene2d.Touchable;
+    import com.badlogic.gdx.utils.viewport.Viewport;
     import com.mygdx.game.Constants;
 
     public class GridCell extends Actor {
         private boolean isOcc = false;
         public float gridCellW = Gdx.graphics.getWidth() * (Constants.PIXELTOTILE * 3.25f);
         public float gridCellH = Gdx.graphics.getHeight() * (Constants.PIXELTOTILE * 5.25f);
-        public GridCell(Stage s) {
+        public GridCell(Stage s, Slime troop) {
 
             setTouchable(Touchable.enabled);
             setColor(1,0,0,1);
@@ -20,14 +22,27 @@
             s.addActor(this);
 
             setDebug(true);
-            touched();
+            touched(troop, s.getViewport());
         }
 
-        public void touched() {
-            if (Gdx.input.isButtonJustPressed(1)) {
-                System.out.println("click");
+
+        public void touched(Slime troop, Viewport viewport) {
+            if (troop != null && troop.troopOnMouse) {
+                if (Gdx.input.isButtonJustPressed(0)) {
+                    Vector2 mousePos = viewport.unproject(new Vector2(Gdx.input.getX(),Gdx.input.getY()));
+                    if (mousePos.x >= getX() && mousePos.x < getX() + gridCellW &&
+                            mousePos.y >= getY() && mousePos.y < getY() + gridCellH) {
+                        System.out.println("click");
+                        Vector2 troopPos = viewport.unproject(new Vector2(getCenterX(),getCenterY()));
+                        System.out.println(troopPos.x);
+                        System.out.println(troopPos.y);
+                        troop.hitbox.setPosition(troopPos.x,troopPos.y);
+                    }
+                }
             }
         }
+
+//getX and getY
         private float[] getCenter() {
             return new float[] { getX() + getWidth() / 2, getY() + getHeight() / 2 };
         }
@@ -39,13 +54,5 @@
         private float getCenterY() {
             return getCenter()[1];
         }
-        public void snapToGrid(BaseTroop troop) {
-            float gridX = troop.hitbox.getX() * (gridCellW / 2);
-            float gridY = troop.hitbox.getY() * (gridCellH / 2);
 
-            float nearestX = gridX / (gridCellW / 2);
-            float nearestY = gridY / (gridCellH / 2);
-
-            troop.hitbox.setPosition(getCenterX(), getCenterY());
-        }
     }

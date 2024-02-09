@@ -2,7 +2,9 @@ package com.mygdx.game;
 
 import com.MenuScreens.HUD;
 import com.MenuScreens.TeamScreen;
+import com.Server.Client;
 import com.Troops.*;
+import com.Troops.TeamTroops.*;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
@@ -23,7 +25,7 @@ public class GameScreen implements Screen {
     private Boulder boulder;
     private final ArrayList<BaseTroop> troopArr = new ArrayList<>();
     private final ArrayList<BaseTroop> tempArr = new ArrayList<>();
-    private float money = 0;
+    private float money = 999;
 
     private final TiledMap map;
     private final OrthogonalTiledMapRenderer mapRenderer;
@@ -35,7 +37,9 @@ public class GameScreen implements Screen {
     public boolean songPlaying = true;
     private final HUD HUD;
     public int points = 0;
-    private ArrayList<Lawnmower> lms;
+    private ArrayList<Defense> lms;
+    public GridCell gs;
+    public Client client;
     public GameScreen(TDGame game, TeamScreen.Team team) {
         this.game = game;
         mainsong = game.assets.finalbattle;
@@ -49,13 +53,14 @@ public class GameScreen implements Screen {
         fVp = new FitViewport(Constants.GAME_WORLD_WIDTH_tile, Constants.GAME_WORLD_HEIGHT_tile, cam);
         cam.position.set(Constants.GAME_WORLD_WIDTH_tile / 2, Constants.GAME_WORLD_HEIGHT_tile / 2, 0);
         Gdx.input.setInputProcessor(st);
-        GridStage gs = new GridStage(st);
+        gs = new GridCell(st, slime);
         st.addActor(gs);
 
         for (float i = 1.2f; i < 10; i += 2.1f) {
-            lms.add(new Lawnmower(0, i));
+            lms.add(new Defense(0, i));
         }
 
+        client = new Client(this);
 
 
         if (team == TeamScreen.Team.SLIME) {
@@ -70,18 +75,30 @@ public class GameScreen implements Screen {
         mainsong.setVolume(.01f);
         mainsong.play();
 
-        // client.start();
+        client.start();
     }
 
     private void inputHandling() {
         if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_1)) {
-            slime = new Slime(Gdx.input.getX(), Gdx.input.getY() );
+            //slime = new Slime(Gdx.input.getX(), Gdx.input.getY() );
+            slime = new ShieldSlime(Gdx.input.getX(),Gdx.input.getY());
+        }
+        if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_2)) {
+            slime = new MoneySlime(Gdx.input.getX(),Gdx.input.getY(),money);
+        }
+        if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_3)) {
+            slime = new ShooterSlime(Gdx.input.getX(),Gdx.input.getY());
         }
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_0)) {
-            boulder = new Boulder(Gdx.input.getX(), Gdx.input.getY());
+            boulder = new BasicBoulder(Gdx.input.getX(),Gdx.input.getY());
         }
-
+        if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_9)) {
+            boulder = new FastBoulder(Gdx.input.getX(),Gdx.input.getY());
+        }
+        if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_8)) {
+            boulder = new ArmoredBoulder(Gdx.input.getX(),Gdx.input.getY());
+        }
         if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
             Gdx.app.exit();
         }
@@ -106,13 +123,12 @@ public class GameScreen implements Screen {
 
         mapRenderer.setView((OrthographicCamera) fVp.getCamera());
         mapRenderer.render();
-
+        //System.out.println(troopArr);
         st.act(Gdx.graphics.getDeltaTime());
-        if (slime != null&&!troopArr.contains(slime)) slime.update(fVp, troopArr);
+        if (slime != null&&!troopArr.contains(slime)) slime.update(fVp, boulder,troopArr);
         if (boulder != null&&!troopArr.contains(boulder)) boulder.update(fVp, slime, troopArr, tempArr, points);
-
         TDGame.batch.begin();
-
+        gs.touched(slime, st.getViewport());
         troopRendering();
         renderTimer(delta);
         HUD.updateMoney(delta);
@@ -144,7 +160,7 @@ public class GameScreen implements Screen {
             }
         }
 
-        for (Lawnmower lm : lms) {
+        for (Defense lm : lms) {
             if (lm != null) {
                 lm.draw();
                 lm.instakill(boulder, tempArr, troopArr);
@@ -153,7 +169,7 @@ public class GameScreen implements Screen {
         for (BaseTroop troop : troopArr) {
             if (troop != null) {
                 if (troop instanceof Slime) {
-                    troop.update(fVp,troopArr);
+                    troop.update(fVp,boulder,troopArr);
                 } else {
                     troop.update(fVp,slime, troopArr, tempArr, points);
                 }
@@ -185,9 +201,9 @@ public class GameScreen implements Screen {
 
         // Create the troop based on the team and render it
         if (team == TeamScreen.Team.SLIME) {
-            slime = new Slime(x, y);
+            slime = new ShieldSlime(x, y);
         } else if (team == TeamScreen.Team.BOULDER) {
-            boulder = new Boulder(x, y);
+            boulder = new BasicBoulder(x, y);
         }
     }
     @Override

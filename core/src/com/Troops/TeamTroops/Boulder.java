@@ -1,22 +1,20 @@
-package com.Troops;
+package com.Troops.TeamTroops;
 
 import com.MenuScreens.TeamScreen;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g2d.Animation.PlayMode;
-import com.badlogic.gdx.utils.compression.lzma.Base;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.mygdx.game.Constants;
-import com.mygdx.game.GameScreen;
 import com.mygdx.game.TDGame;
 
 import java.util.ArrayList;
 
-public class Boulder extends BaseTroop {
-	protected float BOULDER_SP = 1*Gdx.graphics.getDeltaTime();
-	public Boulder(int x, int y) {
-		super(x, y, 150);
+public abstract class Boulder extends BaseTroop {
+	protected float sp = 1*Gdx.graphics.getDeltaTime();
+	public Boulder(int x, int y, float hp, float troopCost, float sp) {
+		super(x, y, hp, troopCost);
+		this.sp = sp;
 		baseAnimation = new Animation<TextureRegion>(.7f/7, TDGame.assets.boulderwalk, PlayMode.LOOP);
 
 	}
@@ -41,7 +39,7 @@ public class Boulder extends BaseTroop {
 
 
 	public int boulderMov(ArrayList<BaseTroop> arr, int points) {
-		hitbox.x -= BOULDER_SP;
+		hitbox.x -= sp*Gdx.graphics.getDeltaTime();
 		if (hitbox.x<=0&&hitbox.x>=-2) {
 			arr.add(this);
 			points+=1;
@@ -51,7 +49,7 @@ public class Boulder extends BaseTroop {
 	}
 
 	@Override
-	public void update(Viewport vp, ArrayList tempArr) {
+	public void update(Viewport vp, Boulder boulder, ArrayList tempArr) {
 
 	}
 
@@ -60,7 +58,6 @@ public class Boulder extends BaseTroop {
 		placeTroop(vp, TeamScreen.Team.BOULDER, troopArr);
 		HitboxCheck(slime, troopArr, tempArr, points);
 
-		//Client.placeObject(troopOnMouse, hitbox, "boulder");
 	}
 
 }

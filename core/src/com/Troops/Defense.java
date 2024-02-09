@@ -1,19 +1,19 @@
 package com.Troops;
 
-import com.MenuScreens.TeamScreen;
+import com.Troops.TeamTroops.BaseTroop;
+import com.Troops.TeamTroops.Boulder;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import com.mygdx.game.TDGame;
 
 import java.util.ArrayList;
 
-public class Lawnmower {
+public class Defense {
     public Rectangle hitbox = new Rectangle();
     private Texture texture;
     private boolean running = false;
-    public Lawnmower(float x, float y) {
+    public Defense(float x, float y) {
         hitbox.set(x,y,2,2);
         texture = TDGame.assets.lawn;
     }
