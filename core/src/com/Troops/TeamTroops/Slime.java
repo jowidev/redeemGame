@@ -17,11 +17,11 @@ public abstract class Slime extends BaseTroop {
 
 		//if (TDGame.assets.slimewalk.size==0)System.out.println("o");
 	}
-	
+
 
 
 	@Override
-	public void update(Viewport vp,Boulder boulder,ArrayList troopArr) {
+	public void update(Viewport vp,Boulder boulder,ArrayList<BaseTroop> troopArr) {
 		placeTroop(vp, TeamScreen.Team.SLIME, troopArr);
 
 	}

@@ -12,8 +12,9 @@ import static com.mygdx.game.Assets.SKIN;
 
 public class HUD extends Table {
     private float moneyTimer = 0; // Nuevo temporizador para el sistema de plata
-    private static final float MONEY_INTERVAL = 12.5f; // Intervalo para agregar dinero (en segundos)
+    private static final float MONEY_INTERVAL = 3.0f; // Intervalo para agregar dinero (en segundos)
     private static final int MONEY_AMOUNT = 5; // Cantidad de dinero a agregar cada vez
+    private static final int SLIME_BONUS_AMOUNT = 1;
     private final Table timerTable;
     private final Table slimeTable;
     private final Table boulderTable;
@@ -124,15 +125,19 @@ public class HUD extends Table {
 
 
     }
-    public void updateMoney(float delta) {
+    public void updateMoney(float delta, int numberOfSlimes, boolean hasMoneySlime) {
         moneyTimer += delta;
 
         if (moneyTimer >= MONEY_INTERVAL) {
             moneyTimer -= MONEY_INTERVAL;
 
-            money += MONEY_AMOUNT;
-            slimeMoneyLabel.setText("$"+ money);
-            boulderMoneyLabel.setText("$"+ money);
+            if (hasMoneySlime) {
+                money += MONEY_AMOUNT + (numberOfSlimes * SLIME_BONUS_AMOUNT);
+            } else {
+                money += MONEY_AMOUNT;
+            }
+            slimeMoneyLabel.setText("$" + money);
+            boulderMoneyLabel.setText("$" + money);
         }
     }
 

@@ -25,11 +25,12 @@ public class GameScreen implements Screen {
     private Boulder boulder;
     private final ArrayList<BaseTroop> troopArr = new ArrayList<>();
     private final ArrayList<BaseTroop> tempArr = new ArrayList<>();
-    private float money = 999;
-
+    private final ArrayList<Bullet> bulletArr = new ArrayList<>();
+    private final ArrayList<Bullet> bulletTemp = new ArrayList<>();
+    private float money = 0;
     private final TiledMap map;
     private final OrthogonalTiledMapRenderer mapRenderer;
-    public Stage st;
+    private Stage st;
     public OrthographicCamera cam;
     public FitViewport fVp;
 
@@ -80,16 +81,14 @@ public class GameScreen implements Screen {
 
     private void inputHandling() {
         if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_1)) {
-            //slime = new Slime(Gdx.input.getX(), Gdx.input.getY() );
             slime = new ShieldSlime(Gdx.input.getX(),Gdx.input.getY());
         }
         if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_2)) {
             slime = new MoneySlime(Gdx.input.getX(),Gdx.input.getY(),money);
         }
         if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_3)) {
-            slime = new ShooterSlime(Gdx.input.getX(),Gdx.input.getY());
+            slime = new ShooterSlime(Gdx.input.getX(),Gdx.input.getY(), bulletArr);
         }
-
         if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_0)) {
             boulder = new BasicBoulder(Gdx.input.getX(),Gdx.input.getY());
         }
@@ -131,7 +130,9 @@ public class GameScreen implements Screen {
         gs.touched(slime, st.getViewport());
         troopRendering();
         renderTimer(delta);
-        HUD.updateMoney(delta);
+        int numberOfMoneySlimes = countMoneySlimesOnBoard();
+        boolean hasMoneySlime = checkForMoneySlime();
+        HUD.updateMoney(delta, numberOfMoneySlimes, hasMoneySlime);
         TDGame.batch.end();
         st.draw();
         inputHandling();
@@ -152,7 +153,7 @@ public class GameScreen implements Screen {
         if (slime != null) {
             if (!troopArr.contains(slime)) {
                 slime.render();
-           }
+            }
         }
         if (boulder != null) {
             if (!troopArr.contains(boulder)) {
@@ -166,6 +167,17 @@ public class GameScreen implements Screen {
                 lm.instakill(boulder, tempArr, troopArr);
             }
         }
+        for (Bullet bullet : bulletArr) {
+            if (bullet != null) {
+                bullet.draw();
+                bullet.update(troopArr, tempArr, bulletTemp);
+            }
+        }
+
+        for (Bullet bullet : bulletTemp) {
+            bulletArr.remove(bullet);
+        }
+        System.out.println(bulletArr);
         for (BaseTroop troop : troopArr) {
             if (troop != null) {
                 if (troop instanceof Slime) {
@@ -206,6 +218,23 @@ public class GameScreen implements Screen {
             boulder = new BasicBoulder(x, y);
         }
     }
+    public boolean checkForMoneySlime() {
+        for (BaseTroop troop : troopArr) {
+            if (troop instanceof MoneySlime) {
+                return true;
+            }
+        }
+        return false;
+    }
+    public int countMoneySlimesOnBoard() {
+        int count = 0;
+        for (BaseTroop troop : troopArr) {
+            if (troop instanceof MoneySlime) {
+                count++;
+            }
+        }
+        return count;
+    }
     @Override
     public void pause() {}
     @Override
@@ -221,4 +250,9 @@ public class GameScreen implements Screen {
         mainsong.dispose();
         st.dispose();
     }
+
+    public Stage getSt() {
+        return st;
+    }
+
 }

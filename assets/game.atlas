@@ -185,14 +185,14 @@ filter: Nearest, Nearest
 repeat: none
 miscAssets/Timer
   rotate: false
-  xy: 2916, 3095
+  xy: 2916, 3075
   size: 288, 120
   orig: 288, 120
   offset: 0, 0
   index: -1
 miscAssets/TroopBg
   rotate: false
-  xy: 3558, 3529
+  xy: 3418, 3529
   size: 168, 168
   orig: 168, 168
   offset: 0, 0
@@ -232,6 +232,13 @@ miscAssets/logoTray
   orig: 480, 480
   offset: 0, 0
   index: -1
+miscAssets/monochurro
+  rotate: false
+  xy: 2916, 3197
+  size: 500, 500
+  orig: 500, 500
+  offset: 0, 0
+  index: -1
 miscAssets/promotionalbg
   rotate: false
   xy: 2, 139
@@ -244,13 +251,6 @@ miscAssets/promotionalbg2
   xy: 2, 2065
   size: 2912, 1632
   orig: 2912, 1632
-  offset: 0, 0
-  index: -1
-miscAssets/sddefault
-  rotate: false
-  xy: 2916, 3217
-  size: 640, 480
-  orig: 640, 480
   offset: 0, 0
   index: -1
 

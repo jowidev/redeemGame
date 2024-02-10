@@ -21,7 +21,6 @@ public class MoneySlime extends Slime {
 
         if (timer >= SLIME_INTERVAL) {
             timer -= SLIME_INTERVAL;
-            System.out.println("slime");
             money += SLIME_MONEY;
 
         }
