@@ -30,11 +30,11 @@ public abstract class BaseTroop extends Actor { //voy a tener que pasarle un boo
         this.troopCost = troopCost;
     }
 
-    public void takeDamage(float damage, ArrayList<BaseTroop> tempArr) { //daÃ±o
+    public void takeDamage(float damage, ArrayList<BaseTroop> tempArr) { //daño
         hp -= damage;
-        System.out.println(hp);
+        //System.out.println(hp);
         if (hp <= 0) {
-            System.out.println("dead");
+            //System.out.println("dead");
             tempArr.add(this);
             hitbox.setSize(0,0);
             hitbox.setPosition(-10,-10);

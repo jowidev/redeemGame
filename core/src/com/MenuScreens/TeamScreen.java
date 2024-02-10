@@ -30,9 +30,7 @@ public class TeamScreen implements Screen {
     public TeamScreen(final TDGame game) {
         this.game = game;
         skin = Assets.manager.get(SKIN);
-        Texture bando = TDGame.assets.bando;
-        Image bandoImg = new Image(bando);
-        selSong = TDGame.assets.trumpsong;
+
         Texture bg2 = game.assets.mmBgg;
         bg = new Image(bg2);
         cam = new OrthographicCamera();
@@ -42,10 +40,9 @@ public class TeamScreen implements Screen {
 
         cam.setToOrtho(false,800, 600);
         Gdx.input.setInputProcessor(stage);
-        posTeamTable(bandoImg);
+        posTeamTable();
         stage.addActor(bg);
         stage.addActor(teamTable);
-        selSong.setVolume(.1f);
         createButtons();
 
     }
@@ -53,7 +50,7 @@ public class TeamScreen implements Screen {
         SLIME, BOULDER;
     }
 
-    private void posTeamTable(Image bandoImg) {
+    private void posTeamTable() {
         teamTable = new Table();
         teamTable.setFillParent(true);
         teamTable.setPosition(0,0);
@@ -66,7 +63,6 @@ public class TeamScreen implements Screen {
                             @Override
                             public void clicked(InputEvent event, float x, float y){
                                 game.setScreen(new GameScreen(game, Team.SLIME));
-                                selSong.dispose();
 
                             }
                         });
@@ -76,7 +72,6 @@ public class TeamScreen implements Screen {
                             @Override
                             public void clicked(InputEvent event, float x, float y){
                                 game.setScreen(new GameScreen(game, Team.BOULDER));
-                                selSong.dispose();
                             }
                         }
                 );

@@ -43,7 +43,7 @@ public class GameScreen implements Screen {
     public Client client;
     public GameScreen(TDGame game, TeamScreen.Team team) {
         this.game = game;
-        mainsong = game.assets.finalbattle;
+        mainsong = game.assets.mainsong2;
         this.map = new TmxMapLoader().load("tilemap/tilemap.tmx");
         HUD = new HUD(game, money);
         mapRenderer = new OrthogonalTiledMapRenderer(map, Constants.PIXELTOTILE, TDGame.batch);
@@ -177,7 +177,6 @@ public class GameScreen implements Screen {
         for (Bullet bullet : bulletTemp) {
             bulletArr.remove(bullet);
         }
-        System.out.println(bulletArr);
         for (BaseTroop troop : troopArr) {
             if (troop != null) {
                 if (troop instanceof Slime) {

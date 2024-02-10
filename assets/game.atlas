@@ -1,65 +1,58 @@
 
 game.png
-size: 512, 512
+size: 512, 64
 format: RGBA8888
 filter: Nearest, Nearest
 repeat: none
-boulders/boulder
-  rotate: false
-  xy: 2, 102
-  size: 48, 48
-  orig: 48, 48
-  offset: 0, 0
-  index: 0
-boulders/boulder
-  rotate: false
-  xy: 262, 430
-  size: 48, 48
-  orig: 48, 48
-  offset: 0, 0
-  index: 1
-boulders/boulder
-  rotate: false
-  xy: 2, 52
-  size: 48, 48
-  orig: 48, 48
-  offset: 0, 0
-  index: 2
-boulders/boulder
-  rotate: false
-  xy: 52, 102
-  size: 48, 48
-  orig: 48, 48
-  offset: 0, 0
-  index: 3
-boulders/boulder
-  rotate: false
-  xy: 262, 380
-  size: 48, 48
-  orig: 48, 48
-  offset: 0, 0
-  index: 4
-boulders/boulder
-  rotate: false
-  xy: 312, 430
-  size: 48, 48
-  orig: 48, 48
-  offset: 0, 0
-  index: 5
 boulders/boulder
   rotate: false
   xy: 2, 2
   size: 48, 48
   orig: 48, 48
   offset: 0, 0
-  index: 6
-boulders/boulderCurr
+  index: 0
+boulders/boulder
   rotate: false
-  xy: 2, 152
-  size: 258, 326
-  orig: 258, 326
+  xy: 52, 2
+  size: 48, 48
+  orig: 48, 48
   offset: 0, 0
-  index: -1
+  index: 1
+boulders/boulder
+  rotate: false
+  xy: 102, 2
+  size: 48, 48
+  orig: 48, 48
+  offset: 0, 0
+  index: 2
+boulders/boulder
+  rotate: false
+  xy: 152, 2
+  size: 48, 48
+  orig: 48, 48
+  offset: 0, 0
+  index: 3
+boulders/boulder
+  rotate: false
+  xy: 202, 2
+  size: 48, 48
+  orig: 48, 48
+  offset: 0, 0
+  index: 4
+boulders/boulder
+  rotate: false
+  xy: 252, 2
+  size: 48, 48
+  orig: 48, 48
+  offset: 0, 0
+  index: 5
+boulders/boulder
+  rotate: false
+  xy: 302, 2
+  size: 48, 48
+  orig: 48, 48
+  offset: 0, 0
+  index: 6
 
 game2.png
 size: 2048, 512
@@ -89,94 +82,94 @@ tilemap/RPG_Nature_Tileset_Autumn
   index: -1
 
 game3.png
-size: 2048, 1024
+size: 1024, 256
 format: RGBA8888
 filter: Nearest, Nearest
 repeat: none
 slimes/Player Roll 48x48
   rotate: false
-  xy: 1004, 954
+  xy: 254, 203
   size: 336, 48
   orig: 336, 48
   offset: 0, 0
   index: -1
+slimes/bullet
+  rotate: false
+  xy: 2, 2
+  size: 250, 249
+  orig: 250, 249
+  offset: 0, 0
+  index: -1
 slimes/planta
   rotate: false
-  xy: 1004, 904
+  xy: 254, 153
   size: 48, 48
   orig: 48, 48
   offset: 0, 0
   index: 0
 slimes/planta
   rotate: false
-  xy: 1342, 954
+  xy: 592, 203
   size: 48, 48
   orig: 48, 48
   offset: 0, 0
   index: 1
 slimes/planta
   rotate: false
-  xy: 1004, 854
+  xy: 254, 103
   size: 48, 48
   orig: 48, 48
   offset: 0, 0
   index: 2
 slimes/planta
   rotate: false
-  xy: 1054, 904
+  xy: 304, 153
   size: 48, 48
   orig: 48, 48
   offset: 0, 0
   index: 3
 slimes/planta
   rotate: false
-  xy: 1392, 954
+  xy: 642, 203
   size: 48, 48
   orig: 48, 48
   offset: 0, 0
   index: 4
 slimes/planta
   rotate: false
-  xy: 1004, 804
+  xy: 254, 53
   size: 48, 48
   orig: 48, 48
   offset: 0, 0
   index: 5
 slimes/planta
   rotate: false
-  xy: 1054, 854
+  xy: 304, 103
   size: 48, 48
   orig: 48, 48
   offset: 0, 0
   index: 6
 slimes/planta
   rotate: false
-  xy: 1104, 904
+  xy: 354, 153
   size: 48, 48
   orig: 48, 48
   offset: 0, 0
   index: 7
 slimes/planta
   rotate: false
-  xy: 1442, 954
+  xy: 692, 203
   size: 48, 48
   orig: 48, 48
   offset: 0, 0
   index: 8
 slimes/planta
   rotate: false
-  xy: 1004, 754
+  xy: 254, 3
   size: 48, 48
   orig: 48, 48
   offset: 0, 0
   index: 9
-slimes/slimeCurr
-  rotate: false
-  xy: 2, 2
-  size: 1000, 1000
-  orig: 1000, 1000
-  offset: 0, 0
-  index: -1
 
 game4.png
 size: 4096, 4096
@@ -185,70 +178,56 @@ filter: Nearest, Nearest
 repeat: none
 miscAssets/Timer
   rotate: false
-  xy: 2916, 3075
+  xy: 1460, 767
   size: 288, 120
   orig: 288, 120
   offset: 0, 0
   index: -1
-miscAssets/TroopBg
-  rotate: false
-  xy: 3418, 3529
-  size: 168, 168
-  orig: 168, 168
-  offset: 0, 0
-  index: -1
 miscAssets/bando
   rotate: false
-  xy: 2, 2
+  xy: 1924, 1860
   size: 528, 135
   orig: 528, 135
   offset: 0, 0
   index: -1
 miscAssets/cortacesped
   rotate: false
-  xy: 2, 957
+  xy: 2, 889
   size: 1920, 1106
   orig: 1920, 1106
   offset: 0, 0
   index: -1
 miscAssets/currBg
   rotate: false
-  xy: 1924, 1497
+  xy: 2916, 3063
   size: 196, 84
   orig: 196, 84
   offset: 0, 0
   index: -1
 miscAssets/logo
   rotate: false
-  xy: 1460, 888
+  xy: 2, 2
   size: 397, 67
   orig: 397, 67
   offset: 0, 0
   index: -1
 miscAssets/logoTray
   rotate: false
-  xy: 1924, 1583
+  xy: 2916, 3149
   size: 480, 480
   orig: 480, 480
   offset: 0, 0
   index: -1
-miscAssets/monochurro
-  rotate: false
-  xy: 2916, 3197
-  size: 500, 500
-  orig: 500, 500
-  offset: 0, 0
-  index: -1
 miscAssets/promotionalbg
   rotate: false
-  xy: 2, 139
+  xy: 2, 71
   size: 1456, 816
   orig: 1456, 816
   offset: 0, 0
   index: -1
 miscAssets/promotionalbg2
   rotate: false
-  xy: 2, 2065
+  xy: 2, 1997
   size: 2912, 1632
   orig: 2912, 1632
   offset: 0, 0

@@ -3,7 +3,6 @@ package com.Troops.TeamTroops;
 import com.MenuScreens.TeamScreen;
 import com.Troops.Bullet;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import java.util.ArrayList;
 
@@ -39,10 +38,8 @@ public class ShooterSlime extends Slime {
                         timer +=Gdx.graphics.getDeltaTime();
                         if (timer >= 2) {
                             timer -= 2;
-                            System.out.println("shoot");
                             bulletArr.add(new Bullet(slimeCenterX,slimeCenterY, troopArr));
                         }
-
                     }
                 }
             }

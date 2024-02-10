@@ -14,11 +14,11 @@ public class Defense {
     private Texture texture;
     private boolean running = false;
     public Defense(float x, float y) {
-        hitbox.set(x,y,2,2);
+        hitbox.set(x,y,1,1);
         texture = TDGame.assets.lawn;
     }
     public void draw() {
-        TDGame.batch.draw(texture, hitbox.x, hitbox.y, 2, 2);
+        TDGame.batch.draw(texture, hitbox.x, hitbox.y, 1.5f, 1.5f);
     }
     public void instakill(Boulder boulder, ArrayList<BaseTroop> tempArr, ArrayList<BaseTroop> troopArr) {
         if (boulder != null && !running) {

@@ -11,7 +11,7 @@ import com.mygdx.game.TDGame;
 import java.util.ArrayList;
 
 public abstract class Boulder extends BaseTroop {
-	protected float sp = 1*Gdx.graphics.getDeltaTime();
+	protected float sp;
 	public Boulder(int x, int y, float hp, float troopCost, float sp) {
 		super(x, y, hp, troopCost);
 		this.sp = sp;

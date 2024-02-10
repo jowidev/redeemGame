@@ -13,7 +13,7 @@ public class TDGame extends Game {
 		assets = new Assets();
 		batch = new SpriteBatch();
 
-		this.setScreen(new GameScreen(this, TeamScreen.Team.BOULDER)); //va ultimo
+		this.setScreen(new MainMenuScreen(this)); //va ultimo
 	}
 	public void resize(int w, int h) {}
 	@Override
