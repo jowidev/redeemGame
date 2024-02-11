@@ -40,6 +40,7 @@ public class GameScreen implements Screen {
     public int points = 0;
     private ArrayList<Defense> lms;
     public GridCell gs;
+    public GridStage grid;
     public Client client;
     public GameScreen(TDGame game, TeamScreen.Team team) {
         this.game = game;
@@ -54,8 +55,9 @@ public class GameScreen implements Screen {
         fVp = new FitViewport(Constants.GAME_WORLD_WIDTH_tile, Constants.GAME_WORLD_HEIGHT_tile, cam);
         cam.position.set(Constants.GAME_WORLD_WIDTH_tile / 2, Constants.GAME_WORLD_HEIGHT_tile / 2, 0);
         Gdx.input.setInputProcessor(st);
-        gs = new GridCell(st, slime);
-        st.addActor(gs);
+        //gs = new GridCell(st, slime);
+        grid = new GridStage(st,slime);
+        st.addActor(grid);
 
         for (float i = 1.2f; i < 10; i += 2.1f) {
             lms.add(new Defense(0, i));
@@ -73,7 +75,7 @@ public class GameScreen implements Screen {
 
 
         mainsong.setLooping(true);
-        mainsong.setVolume(.01f);
+        mainsong.setVolume(.07f);
         mainsong.play();
 
         client.start();
@@ -127,7 +129,12 @@ public class GameScreen implements Screen {
         if (slime != null&&!troopArr.contains(slime)) slime.update(fVp, boulder,troopArr);
         if (boulder != null&&!troopArr.contains(boulder)) boulder.update(fVp, slime, troopArr, tempArr, points);
         TDGame.batch.begin();
-        gs.touched(slime, st.getViewport());
+        for (int i=0; i<9;i++) {
+            for (int j=0; j<5;j++) {
+                grid.gridCells[i][j].touched(slime, fVp);
+            }
+        }
+        //gs.touched(slime, st.getViewport());
         troopRendering();
         renderTimer(delta);
         int numberOfMoneySlimes = countMoneySlimesOnBoard();

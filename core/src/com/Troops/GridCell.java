@@ -14,11 +14,11 @@
         private boolean isOcc = false;
         public float gridCellW = Gdx.graphics.getWidth() * (Constants.PIXELTOTILE * 3.25f);
         public float gridCellH = Gdx.graphics.getHeight() * (Constants.PIXELTOTILE * 5.25f);
-        public GridCell(Stage s, Slime troop) {
+        public GridCell(int x, int y,Stage s, Slime troop) {
 
             setTouchable(Touchable.enabled);
             setColor(1,0,0,1);
-            setBounds(64,64, gridCellW, gridCellH);
+            setBounds(x,y, gridCellW, gridCellH);
             s.addActor(this);
 
             setDebug(true);

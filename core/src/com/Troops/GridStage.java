@@ -8,7 +8,9 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.mygdx.game.Constants;
 
 public class GridStage extends Actor {
-    private GridCell[][] gridCells;
+
+
+    public GridCell[][] gridCells;
 
     public GridStage(Stage s, BaseTroop troop) {
         gridCells = new GridCell[9][5];
@@ -20,7 +22,7 @@ public class GridStage extends Actor {
             for (int c = 0; c < 9; c++) {
                 float cellX = pX + c * cellW;
                 float cellY = pY + r * cellH;
-                gridCells[c][r] = new GridCell(s, (Slime) troop);
+                gridCells[c][r] = new GridCell((int) cellX, (int) cellY,s, (Slime) troop);
                 gridCells[c][r].setDebug(true);
             }
         }
