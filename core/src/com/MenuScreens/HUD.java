@@ -122,8 +122,6 @@ public class HUD extends Table {
         timerTable.add(stack)
                 .width(Gdx.graphics.getWidth() * (Constants.PIXELTOTILE * 2))
                 .height(Gdx.graphics.getHeight() * (Constants.PIXELTOTILE * 2));
-
-
     }
     public void updateMoney(float delta, int numberOfSlimes, boolean hasMoneySlime) {
         moneyTimer += delta;

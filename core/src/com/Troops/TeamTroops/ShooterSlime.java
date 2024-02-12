@@ -32,12 +32,13 @@ public class ShooterSlime extends Slime {
                     float distanceX = boulderCenterX - slimeCenterX;
                     float distanceY = boulderCenterY - slimeCenterY;
 
+                    System.out.println("x"+distanceX);
+                    System.out.println("y"+distanceY);
 
-
-                    if (distanceX > 0 && distanceY < 1) {
+                    if (distanceX > 0 && distanceY>=0&&distanceY<2) {
                         timer +=Gdx.graphics.getDeltaTime();
-                        if (timer >= 7) {
-                            timer -= 7;
+                        if (timer >= 2) {
+                            timer -= 2;
                             bulletArr.add(new Bullet(slimeCenterX,slimeCenterY, troopArr));
                         }
                     }

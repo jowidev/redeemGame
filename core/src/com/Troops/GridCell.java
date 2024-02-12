@@ -1,10 +1,7 @@
     package com.Troops;
 
     import com.Troops.TeamTroops.BaseTroop;
-    import com.Troops.TeamTroops.Boulder;
-    import com.Troops.TeamTroops.Slime;
     import com.badlogic.gdx.Gdx;
-    import com.badlogic.gdx.math.Vector;
     import com.badlogic.gdx.math.Vector2;
     import com.badlogic.gdx.scenes.scene2d.Actor;
     import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -23,28 +20,18 @@
             setBounds(x,y, gridCellW, gridCellH);
             s.addActor(this);
             troopPos = new Vector2(x,y);
-            setDebug(true);
+            //setDebug(true);
         }
 
 
-        public void touched(Boulder boulder, Slime slime, Viewport viewport) {
-            if (boulder != null && boulder.troopOnMouse) {
+        public void touched(BaseTroop troop, Viewport viewport) {
+            if (troop != null && troop.troopPlaced) {
                 if (Gdx.input.isButtonJustPressed(0)) {
                     Vector2 mousePos = viewport.unproject(new Vector2(Gdx.input.getX(),Gdx.input.getY()));
                     if (mousePos.x >= getX() && mousePos.x < getX() + gridCellW &&
                             mousePos.y >= getY() && mousePos.y < getY() + gridCellH) {
                         Vector2 troopPos = new Vector2(getCenterX()*(Constants.PIXELTOTILE/2),getCenterY()*(Constants.PIXELTOTILE/2));
-                        boulder.hitbox.setPosition(troopPos.x-1, troopPos.y-1);
-                    } //no lo puedo creer que funciona
-                }
-            }
-            else if (slime != null && slime.troopOnMouse) {
-                if (Gdx.input.isButtonJustPressed(0)) {
-                    Vector2 mousePos = viewport.unproject(new Vector2(Gdx.input.getX(),Gdx.input.getY()));
-                    if (mousePos.x >= getX() && mousePos.x < getX() + gridCellW &&
-                            mousePos.y >= getY() && mousePos.y < getY() + gridCellH) {
-                        Vector2 troopPos = new Vector2(getCenterX()*(Constants.PIXELTOTILE/2),getCenterY()*(Constants.PIXELTOTILE/2));
-                        slime.hitbox.setPosition(troopPos.x-1, troopPos.y-1);
+                        troop.hitbox.setPosition(troopPos.x-1, troopPos.y-1);
                     } //no lo puedo creer que funciona
                 }
             }

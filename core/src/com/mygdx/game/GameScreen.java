@@ -113,9 +113,7 @@ public class GameScreen implements Screen {
             songPlaying = !songPlaying;
         }
 
-        if (Gdx.input.isKeyJustPressed(Input.Keys.BACKSPACE)) {
-            troopArr.clear();
-        }
+
     }
 
 
@@ -133,11 +131,8 @@ public class GameScreen implements Screen {
         if (boulder != null&&!troopArr.contains(boulder)) boulder.update(fVp, slime, troopArr, tempArr, points);
         TDGame.batch.begin();
 
-        for (int i=0; i<9;i++) {
-                for (int j=0; j<5;j++) {
-                    grid.gridCells[i][j].touched(boulder, slime,st.getViewport());
-                }
-        }
+
+        gridChecker();
         troopRendering();
         renderTimer(delta);
         int numberOfMoneySlimes = countMoneySlimesOnBoard();
@@ -149,6 +144,28 @@ public class GameScreen implements Screen {
         resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
     }
 
+    public void gridChecker() {
+        for (int i=0; i<9;i++) {
+            for (int j=0; j<5;j++) {
+                if (i<6) {
+                    grid.gridCells[i][j].touched(slime,st.getViewport());
+                }
+                else {
+                    grid.gridCells[i][j].touched(boulder,st.getViewport());
+                }
+            }
+        }
+        /*        for (int i=0; i<9;i++) {
+            for (int j=0; j<5;j++) {
+                if (i<6) {
+                    grid.gridCells[i][j].touched(slime,st.getViewport());
+                }
+                else {
+                    grid.gridCells[i][j].touched(boulder,st.getViewport());
+                }
+            }
+        }*/
+    }
     public void renderTimer(float delta) {
         if (HUD != null) {
             HUD.update(game, delta);
@@ -177,6 +194,7 @@ public class GameScreen implements Screen {
                 lm.instakill(boulder, tempArr, troopArr);
             }
         }
+
         for (Bullet bullet : bulletArr) {
             if (bullet != null) {
                 bullet.draw();
