@@ -1,5 +1,7 @@
     package com.Troops;
 
+    import com.Troops.TeamTroops.BaseTroop;
+    import com.Troops.TeamTroops.Boulder;
     import com.Troops.TeamTroops.Slime;
     import com.badlogic.gdx.Gdx;
     import com.badlogic.gdx.math.Vector;
@@ -11,36 +13,39 @@
     import com.mygdx.game.Constants;
 
     public class GridCell extends Actor {
-        public Vector2 troopPoss;
+        public Vector2 troopPos;
         public float gridCellW = Gdx.graphics.getWidth() * (Constants.PIXELTOTILE * 3.25f);
         public float gridCellH = Gdx.graphics.getHeight() * (Constants.PIXELTOTILE * 5.25f);
-        public GridCell(int x, int y,Stage s, Slime troop) {
+        public GridCell(float x, float y,Stage s) {
 
             setTouchable(Touchable.enabled);
             setColor(1,0,0,1);
             setBounds(x,y, gridCellW, gridCellH);
             s.addActor(this);
-            troopPoss = new Vector2(x,y);
+            troopPos = new Vector2(x,y);
             setDebug(true);
-            touched(troop, s.getViewport());
         }
 
 
-        public void touched(Slime troop, Viewport viewport) {
-            if (troop != null && troop.troopOnMouse) {
+        public void touched(Boulder boulder, Slime slime, Viewport viewport) {
+            if (boulder != null && boulder.troopOnMouse) {
                 if (Gdx.input.isButtonJustPressed(0)) {
                     Vector2 mousePos = viewport.unproject(new Vector2(Gdx.input.getX(),Gdx.input.getY()));
                     if (mousePos.x >= getX() && mousePos.x < getX() + gridCellW &&
                             mousePos.y >= getY() && mousePos.y < getY() + gridCellH) {
-                        Vector2 pixelPos = new Vector2(troopPoss.x, troopPoss.y);
-                        Vector2 gamePos = viewport.project(pixelPos);
-
-                        System.out.println("click");
-                        Vector2 troopPos = viewport.unproject(troopPoss);
-                        System.out.println(mousePos.x);
-                        System.out.println(mousePos.y);
-                        troop.hitbox.setPosition(mousePos.x,mousePos.y);
-                    }
+                        Vector2 troopPos = new Vector2(getCenterX()*(Constants.PIXELTOTILE/2),getCenterY()*(Constants.PIXELTOTILE/2));
+                        boulder.hitbox.setPosition(troopPos.x-1, troopPos.y-1);
+                    } //no lo puedo creer que funciona
+                }
+            }
+            else if (slime != null && slime.troopOnMouse) {
+                if (Gdx.input.isButtonJustPressed(0)) {
+                    Vector2 mousePos = viewport.unproject(new Vector2(Gdx.input.getX(),Gdx.input.getY()));
+                    if (mousePos.x >= getX() && mousePos.x < getX() + gridCellW &&
+                            mousePos.y >= getY() && mousePos.y < getY() + gridCellH) {
+                        Vector2 troopPos = new Vector2(getCenterX()*(Constants.PIXELTOTILE/2),getCenterY()*(Constants.PIXELTOTILE/2));
+                        slime.hitbox.setPosition(troopPos.x-1, troopPos.y-1);
+                    } //no lo puedo creer que funciona
                 }
             }
         }

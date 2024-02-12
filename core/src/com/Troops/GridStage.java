@@ -12,7 +12,7 @@ public class GridStage extends Actor {
 
     public GridCell[][] gridCells;
 
-    public GridStage(Stage s, BaseTroop troop) {
+    public GridStage(Stage s) {
         gridCells = new GridCell[9][5];
         float cellW = Gdx.graphics.getWidth() * (Constants.PIXELTOTILE * 3.21f);
         float cellH = Gdx.graphics.getHeight() * (Constants.PIXELTOTILE * 5.4f);
@@ -23,8 +23,7 @@ public class GridStage extends Actor {
                 float cellX = pX + c * cellW;
                 float cellY = pY + r * cellH;
 
-                gridCells[c][r] = new GridCell((int) cellX, (int) cellY,s, (Slime) troop);
-                gridCells[c][r].setDebug(true);
+                gridCells[c][r] = new GridCell(cellX,cellY,s);
             }
         }
     }

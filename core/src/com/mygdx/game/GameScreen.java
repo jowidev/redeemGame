@@ -27,7 +27,7 @@ public class GameScreen implements Screen {
     private final ArrayList<BaseTroop> tempArr = new ArrayList<>();
     private final ArrayList<Bullet> bulletArr = new ArrayList<>();
     private final ArrayList<Bullet> bulletTemp = new ArrayList<>();
-    private float money = 0;
+    private float money = 10;
     private final TiledMap map;
     private final OrthogonalTiledMapRenderer mapRenderer;
     private Stage st;
@@ -56,7 +56,7 @@ public class GameScreen implements Screen {
         cam.position.set(Constants.GAME_WORLD_WIDTH_tile / 2, Constants.GAME_WORLD_HEIGHT_tile / 2, 0);
         Gdx.input.setInputProcessor(st);
         //gs = new GridCell(64,64,st, slime);
-        grid = new GridStage(st,slime);
+        grid = new GridStage(st);
         //st.addActor(grid);
         //st.addActor(gs);
         for (float i = 1.2f; i < 10; i += 2.1f) {
@@ -78,18 +78,18 @@ public class GameScreen implements Screen {
     }
     private void createMusic() {
         mainsong.setLooping(true);
-        mainsong.setVolume(.07f);
+        mainsong.setVolume(.0f);
         mainsong.play();
     }
     private void inputHandling() {
         if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_1)) {
-            slime = new ShieldSlime(0,0);
-        }
-        if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_2)) {
             slime = new MoneySlime(Gdx.input.getX(),Gdx.input.getY(),money);
         }
-        if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_3)) {
+        if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_2)) {
             slime = new ShooterSlime(Gdx.input.getX(),Gdx.input.getY(), bulletArr);
+        }
+        if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_3)) {
+            slime = new ShieldSlime(0,0);
         }
         if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_0)) {
             boulder = new BasicBoulder(Gdx.input.getX(),Gdx.input.getY());
@@ -112,6 +112,10 @@ public class GameScreen implements Screen {
             }
             songPlaying = !songPlaying;
         }
+
+        if (Gdx.input.isKeyJustPressed(Input.Keys.BACKSPACE)) {
+            troopArr.clear();
+        }
     }
 
 
@@ -124,17 +128,16 @@ public class GameScreen implements Screen {
 
         mapRenderer.setView((OrthographicCamera) fVp.getCamera());
         mapRenderer.render();
-        //System.out.println(troopArr);
         st.act(Gdx.graphics.getDeltaTime());
         if (slime != null&&!troopArr.contains(slime)) slime.update(fVp, boulder,troopArr);
         if (boulder != null&&!troopArr.contains(boulder)) boulder.update(fVp, slime, troopArr, tempArr, points);
         TDGame.batch.begin();
-        /*for (int i=0; i<9;i++) {
-            for (int j=0; j<5;j++) {
-                grid.gridCells[i][j].touched(slime, st.getViewport());
-            }
-        }*/
-        //gs.touched(slime,st.getViewport());
+
+        for (int i=0; i<9;i++) {
+                for (int j=0; j<5;j++) {
+                    grid.gridCells[i][j].touched(boulder, slime,st.getViewport());
+                }
+        }
         troopRendering();
         renderTimer(delta);
         int numberOfMoneySlimes = countMoneySlimesOnBoard();

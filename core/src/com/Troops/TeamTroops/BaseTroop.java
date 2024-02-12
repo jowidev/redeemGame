@@ -24,7 +24,6 @@ public abstract class BaseTroop extends Actor { //voy a tener que pasarle un boo
     protected float sp, dmg;
     public boolean troopOnMouse;
     protected float troopCost;
-    protected float initialX, initialY;
     public BaseTroop(int x, int y, float hp, float troopCost) { //basetroop padre tropas heredan de esto
         hitbox.set(x, y, TROOP_WIDTH, TROOP_HEIGHT);
         this.hp = hp;
@@ -36,7 +35,6 @@ public abstract class BaseTroop extends Actor { //voy a tener que pasarle un boo
         hp -= damage;
         //System.out.println(hp);
         if (hp <= 0) {
-            //System.out.println("dead");
             tempArr.add(this);
             hitbox.setSize(0,0);
             hitbox.setPosition(-10,-10);
@@ -54,13 +52,15 @@ public abstract class BaseTroop extends Actor { //voy a tener que pasarle un boo
                 //Client.placeObject(troopOnMouse, hitbox, "slime");
                 TDGame.assets.slimeplaced.play();
                 troopArr.add(this);
+
             }
             else {
                 //Client.placeObject(troopOnMouse, hitbox, "boulder");
-
                 TDGame.assets.boulderPlaced.play();
                 troopArr.add(this);
+
             }
+
         }
     }
 
@@ -68,7 +68,6 @@ public abstract class BaseTroop extends Actor { //voy a tener que pasarle un boo
         stateTime += Gdx.graphics.getDeltaTime();
         TextureRegion currentFrame = baseAnimation.getKeyFrame(stateTime, true);
         TDGame.batch.draw(currentFrame, hitbox.x, hitbox.y,2,2);
-
     }
 
     public abstract void update(Viewport vp, Boulder boulder, ArrayList<BaseTroop> tempArr);

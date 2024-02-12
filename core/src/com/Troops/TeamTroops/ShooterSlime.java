@@ -29,15 +29,15 @@ public class ShooterSlime extends Slime {
                     float boulderCenterX = troop.hitbox.x + troop.hitbox.width / 2;
                     float boulderCenterY = troop.hitbox.y + troop.hitbox.height / 2;
 
-                    float distanceX = Math.abs(boulderCenterX - slimeCenterX);
-                    float distanceY = Math.abs(boulderCenterY - slimeCenterY);
+                    float distanceX = boulderCenterX - slimeCenterX;
+                    float distanceY = boulderCenterY - slimeCenterY;
 
 
 
                     if (distanceX > 0 && distanceY < 1) {
                         timer +=Gdx.graphics.getDeltaTime();
-                        if (timer >= 2) {
-                            timer -= 2;
+                        if (timer >= 7) {
+                            timer -= 7;
                             bulletArr.add(new Bullet(slimeCenterX,slimeCenterY, troopArr));
                         }
                     }
