@@ -11,7 +11,7 @@
     import com.mygdx.game.Constants;
 
     public class GridCell extends Actor {
-        private boolean isOcc = false;
+        public Vector2 troopPoss;
         public float gridCellW = Gdx.graphics.getWidth() * (Constants.PIXELTOTILE * 3.25f);
         public float gridCellH = Gdx.graphics.getHeight() * (Constants.PIXELTOTILE * 5.25f);
         public GridCell(int x, int y,Stage s, Slime troop) {
@@ -20,7 +20,7 @@
             setColor(1,0,0,1);
             setBounds(x,y, gridCellW, gridCellH);
             s.addActor(this);
-
+            troopPoss = new Vector2(x,y);
             setDebug(true);
             touched(troop, s.getViewport());
         }
@@ -32,11 +32,14 @@
                     Vector2 mousePos = viewport.unproject(new Vector2(Gdx.input.getX(),Gdx.input.getY()));
                     if (mousePos.x >= getX() && mousePos.x < getX() + gridCellW &&
                             mousePos.y >= getY() && mousePos.y < getY() + gridCellH) {
+                        Vector2 pixelPos = new Vector2(troopPoss.x, troopPoss.y);
+                        Vector2 gamePos = viewport.project(pixelPos);
+
                         System.out.println("click");
-                        Vector2 troopPos = viewport.unproject(new Vector2(getCenterX(),getCenterY()));
-                        System.out.println(troopPos.x);
-                        System.out.println(troopPos.y);
-                        troop.hitbox.setPosition(troopPos.x,troopPos.y);
+                        Vector2 troopPos = viewport.unproject(troopPoss);
+                        System.out.println(mousePos.x);
+                        System.out.println(mousePos.y);
+                        troop.hitbox.setPosition(mousePos.x,mousePos.y);
                     }
                 }
             }

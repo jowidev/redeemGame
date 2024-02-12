@@ -24,10 +24,12 @@ public abstract class BaseTroop extends Actor { //voy a tener que pasarle un boo
     protected float sp, dmg;
     public boolean troopOnMouse;
     protected float troopCost;
+    protected float initialX, initialY;
     public BaseTroop(int x, int y, float hp, float troopCost) { //basetroop padre tropas heredan de esto
         hitbox.set(x, y, TROOP_WIDTH, TROOP_HEIGHT);
         this.hp = hp;
         this.troopCost = troopCost;
+
     }
 
     public void takeDamage(float damage, ArrayList<BaseTroop> tempArr) { //daño

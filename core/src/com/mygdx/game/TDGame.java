@@ -13,7 +13,7 @@ public class TDGame extends Game {
 		assets = new Assets();
 		batch = new SpriteBatch();
 
-		this.setScreen(new MainMenuScreen(this)); //va ultimo
+		this.setScreen(new GameScreen(this, TeamScreen.Team.SLIME)); //va ultimo
 	}
 	public void resize(int w, int h) {}
 	@Override
