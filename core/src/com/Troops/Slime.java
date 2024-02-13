@@ -1,4 +1,4 @@
-package com.Troops.TeamTroops;
+package com.Troops;
 
 import com.MenuScreens.TeamScreen;
 import com.badlogic.gdx.graphics.g2d.Animation;
@@ -10,8 +10,9 @@ import com.mygdx.game.TDGame;
 import java.util.ArrayList;
 
 public abstract class Slime extends BaseTroop {
-	public Slime(int x, int y, float hp, float troopCost, float dmg) {
-		super(x, y,hp, troopCost, dmg);
+
+	public Slime(int x, int y, float hp, float troopCost, float dmg, boolean useMouseCoords) {
+		super(x, y,hp, troopCost, dmg, useMouseCoords);
 		troopPlaced = false;
 		baseAnimation = new Animation<TextureRegion>(0.033f, TDGame.assets.slimewalk, PlayMode.LOOP);
 
@@ -21,8 +22,10 @@ public abstract class Slime extends BaseTroop {
 
 
 	@Override
-	public void update(Viewport vp,Boulder boulder,ArrayList<BaseTroop> troopArr) {
+	public void update(Viewport vp, Boulder boulder, ArrayList<BaseTroop> troopArr) {
+		if (useMouseCoords) {
 		placeTroop(vp, TeamScreen.Team.SLIME, troopArr);
+		}
 
 	}
 	@Override

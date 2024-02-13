@@ -1,10 +1,10 @@
-package com.Troops.TeamTroops;
+package com.Troops;
 
 import com.MenuScreens.TeamScreen;
 import com.Server.Client;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
@@ -26,13 +26,16 @@ public abstract class BaseTroop extends Actor { //voy a tener que pasarle un boo
     public boolean troopPlaced;
     public float troopCost;
     protected int troopRender = 2;
-    //public static final float COST;
 
-    public BaseTroop(int x, int y, float hp, float troopCost, float dmg) { //basetroop padre tropas heredan de esto
-        hitbox.set(x, y, TROOP_WIDTH, TROOP_HEIGHT);
+    protected boolean useMouseCoords;
+    float x, y;
+    public BaseTroop(float x, float y, float hp, float troopCost, float dmg, boolean useMouseCoords) { //basetroop padre tropas heredan de esto
         this.hp = hp;
         this.dmg = dmg;
+        this.x =x;
+        this.y=y;
         this.troopCost = troopCost;
+        this.useMouseCoords = useMouseCoords;
     }
 
     public void takeDamage(float damage, ArrayList<BaseTroop> tempArr) { //daño
@@ -45,29 +48,28 @@ public abstract class BaseTroop extends Actor { //voy a tener que pasarle un boo
         }
     }
 
-    public void placeTroop(Viewport viewport, TeamScreen.Team team, ArrayList<BaseTroop> troopArr) { //crear la hitbox
+    public void placeTroop(Viewport viewport, TeamScreen.Team team, ArrayList<BaseTroop> troopArr) {
         Vector2 pos = viewport.unproject(new Vector2(Gdx.input.getX(), Gdx.input.getY()));
         if (!troopPlaced) {
-            hitbox.set(pos.x-1,pos.y-1, TROOP_WIDTH, TROOP_HEIGHT);
-        }
-        if (Gdx.input.isButtonJustPressed(Input.Buttons.LEFT) && !troopPlaced) {
-            troopPlaced = true;
-            if (team.equals(TeamScreen.Team.SLIME)) {
-                Client.placeObject(true, hitbox, "slime");
-                //TDGame.assets.slimeplaced.play();
-                troopArr.add(this);
-
+            if (useMouseCoords) {
+                hitbox.set(pos.x - 1, pos.y - 1, TROOP_WIDTH, TROOP_HEIGHT);
+            } else {
+                hitbox.set(x, y, TROOP_WIDTH, TROOP_HEIGHT);
             }
-            else {
-                Client.placeObject(truec, hitbox, "boulder");
-                //TDGame.assets.boulderPlaced.play();
-                troopArr.add(this);
-
+            if (Gdx.input.isButtonJustPressed(Input.Buttons.LEFT) && !troopPlaced) {
+                troopPlaced = true;
+                if (team.equals(TeamScreen.Team.SLIME)) {
+                    Client.placeObject(troopPlaced, hitbox, "slime");
+                    //TDGame.assets.slimeplaced.play();
+                    troopArr.add(this);
+                } else {
+                    Client.placeObject(troopPlaced, hitbox, "boulder");
+                    //TDGame.assets.boulderPlaced.play();
+                    troopArr.add(this);
+                }
             }
-
         }
     }
-
     public void render() {
         stateTime += Gdx.graphics.getDeltaTime();
         TextureRegion currentFrame = baseAnimation.getKeyFrame(stateTime, true);

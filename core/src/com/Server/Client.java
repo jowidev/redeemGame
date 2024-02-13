@@ -24,7 +24,7 @@ public class Client extends Thread{
             clientSocket = new DatagramSocket(); //auto
             serverAddress = InetAddress.getByName("127.0.0.1");
             serverPort = 5000; //tiene que ser el mismo que el del server
-            String message = "cliente conectado, hola";
+            String message = "cliente conectado, hola"; //msj al server
             byte[] sendData = message.getBytes();
 
             DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, serverAddress, serverPort);

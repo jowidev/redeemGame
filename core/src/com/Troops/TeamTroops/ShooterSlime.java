@@ -1,7 +1,10 @@
 package com.Troops.TeamTroops;
 
 import com.MenuScreens.TeamScreen;
+import com.Troops.BaseTroop;
+import com.Troops.Boulder;
 import com.Troops.Bullet;
+import com.Troops.Slime;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import java.util.ArrayList;
@@ -11,8 +14,8 @@ public class ShooterSlime extends Slime {
     private ArrayList<Bullet> bulletArr;
     public static final float COST = 25;
 
-    public ShooterSlime(int x, int y, ArrayList<Bullet> bulletArr) {
-        super(x, y, 75, COST,0);
+    public ShooterSlime(int x, int y, ArrayList<Bullet> bulletArr, boolean useMouseCoords) {
+        super(x, y, 75, COST,0, useMouseCoords);
         this.bulletArr = bulletArr;
     }
 

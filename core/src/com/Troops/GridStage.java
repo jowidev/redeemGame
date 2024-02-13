@@ -1,7 +1,5 @@
 package com.Troops;
 
-import com.Troops.TeamTroops.BaseTroop;
-import com.Troops.TeamTroops.Slime;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;

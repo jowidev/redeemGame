@@ -1,6 +1,5 @@
     package com.Troops;
 
-    import com.Troops.TeamTroops.BaseTroop;
     import com.badlogic.gdx.Gdx;
     import com.badlogic.gdx.math.Vector2;
     import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -8,7 +7,6 @@
     import com.badlogic.gdx.scenes.scene2d.Touchable;
     import com.badlogic.gdx.utils.viewport.Viewport;
     import com.mygdx.game.Constants;
-    import com.mygdx.game.TDGame;
 
     public class GridCell extends Actor {
         //public boolean troopOnPlace = false;

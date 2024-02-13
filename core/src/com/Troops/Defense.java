@@ -1,7 +1,5 @@
 package com.Troops;
 
-import com.Troops.TeamTroops.BaseTroop;
-import com.Troops.TeamTroops.Boulder;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Rectangle;

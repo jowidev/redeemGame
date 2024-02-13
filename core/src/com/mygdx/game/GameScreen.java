@@ -85,7 +85,7 @@ public class GameScreen implements Screen {
         //if(team == TeamScreen.Team.SLIME) {
             if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_1)) {
                 if (HUD.hasEnoughMoney(MoneySlime.COST)) {
-                    slime = new MoneySlime(Gdx.input.getX(),Gdx.input.getY(),money);
+                    slime = new MoneySlime(Gdx.input.getX(),Gdx.input.getY(),money,true);
                     HUD.decreaseSlimeMoney(MoneySlime.COST);
                 } else {
                     notEnoughMoney();
@@ -94,7 +94,7 @@ public class GameScreen implements Screen {
 
             if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_2)) {
                 if (HUD.hasEnoughMoney(ShooterSlime.COST)) {
-                    slime = new ShooterSlime(Gdx.input.getX(),Gdx.input.getY(), bulletArr);
+                    slime = new ShooterSlime(Gdx.input.getX(),Gdx.input.getY(), bulletArr,true);
                     HUD.decreaseSlimeMoney(ShooterSlime.COST);
                 } else {
                     notEnoughMoney();
@@ -102,7 +102,7 @@ public class GameScreen implements Screen {
             }
             if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_3)) {
                 if (HUD.hasEnoughMoney(ShieldSlime.COST)) {
-                    slime = new ShieldSlime(Gdx.input.getX(), Gdx.input.getY());
+                    slime = new ShieldSlime(Gdx.input.getX(), Gdx.input.getY(),true);
                     HUD.decreaseSlimeMoney(ShieldSlime.COST);
                 } else {
                     notEnoughMoney();
@@ -112,7 +112,7 @@ public class GameScreen implements Screen {
         //else {
             if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_8)) {
                 if (HUD.hasEnoughMoney(BasicBoulder.COST)) {
-                    boulder = new BasicBoulder(Gdx.input.getX(),Gdx.input.getY());
+                    boulder = new BasicBoulder(Gdx.input.getX(),Gdx.input.getY(),true);
                     HUD.decreaseBoulderMoney(BasicBoulder.COST);
                 } else {
                     notEnoughMoney();
@@ -120,7 +120,7 @@ public class GameScreen implements Screen {
             }
             if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_9)) {
                 if (HUD.hasEnoughMoney(FastBoulder.COST)) {
-                    boulder = new FastBoulder(Gdx.input.getX(),Gdx.input.getY());
+                    boulder = new FastBoulder(Gdx.input.getX(),Gdx.input.getY(),true);
                     HUD.decreaseBoulderMoney(FastBoulder.COST);
                 } else {
                     notEnoughMoney();
@@ -128,7 +128,7 @@ public class GameScreen implements Screen {
             }
             if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_0)) {
                 if (HUD.hasEnoughMoney(ArmoredBoulder.COST)) {
-                    boulder = new ArmoredBoulder(Gdx.input.getX(),Gdx.input.getY());
+                    boulder = new ArmoredBoulder(Gdx.input.getX(),Gdx.input.getY(),true);
                     HUD.decreaseBoulderMoney(ArmoredBoulder.COST);
                 } else {
                     notEnoughMoney();
@@ -250,6 +250,7 @@ public class GameScreen implements Screen {
     public void resize(int width, int height) {
         fVp.update(width, height, true);
     }
+
     public void handleReceivedTroopCoordinates(String message, TeamScreen.Team team) {
         // Example: "Slime placed at x,y:100:200"
         if (message.startsWith("Slime placed at") || message.startsWith("Boulder placed at")) {
@@ -266,11 +267,11 @@ public class GameScreen implements Screen {
 
         // Create the troop based on the team and render it
         if (team == TeamScreen.Team.SLIME) {
-            slime = new ShieldSlime(x, y);
+            slime = new ShieldSlime(x, y,false);
             //slime.update(fVp,boulder, tempArr);
 
         } else if (team == TeamScreen.Team.BOULDER) {
-            boulder = new BasicBoulder(x, y);
+            boulder = new BasicBoulder(x, y,false);
             //boulder.update(fVp, slime, troopArr, tempArr, boulderReached);
         }
     }

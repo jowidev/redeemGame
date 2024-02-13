@@ -22,7 +22,7 @@ public class Server {
             // Inicializar la lista de clientes
             clients = new ArrayList<>();
 
-            System.out.println("Server is ready to receive messages.");
+            System.out.println("Server activo.");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -48,6 +48,7 @@ public class Server {
                         // Nuevo cliente, registrar su dirección y puerto
                         clients.add(new ClientInfo(clientAddress, clientPort));
                         chabonesConectados++;
+
                     }
                 } else {
                     String rejectionMessage = "Server is full. Try again later.";

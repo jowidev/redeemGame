@@ -1,6 +1,8 @@
 package com.Troops.TeamTroops;
 
 import com.MenuScreens.TeamScreen;
+import com.Troops.Boulder;
+import com.Troops.Slime;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
@@ -12,8 +14,8 @@ public class MoneySlime extends Slime {
     public static final float COST = 15;
     private float timer;
     private float money;
-    public MoneySlime(int x, int y, float money) {
-        super(x, y, 75, COST, 0);
+    public MoneySlime(int x, int y, float money, boolean useMouseCoords) {
+        super(x, y, 75, COST, 0,useMouseCoords);
         this.money = money;
         troopCost = 15;
     }
@@ -28,7 +30,7 @@ public class MoneySlime extends Slime {
         }
     }
     @Override
-    public void update(Viewport vp, Boulder boulder,ArrayList troopArr) {
+    public void update(Viewport vp, Boulder boulder, ArrayList troopArr) {
         placeTroop(vp, TeamScreen.Team.SLIME, troopArr);
         generateMoney();
     }

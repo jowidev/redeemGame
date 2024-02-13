@@ -1,4 +1,4 @@
-package com.Troops.TeamTroops;
+package com.Troops;
 
 import com.MenuScreens.TeamScreen;
 import com.badlogic.gdx.Gdx;
@@ -12,9 +12,11 @@ import java.util.ArrayList;
 
 public abstract class Boulder extends BaseTroop {
 	protected float sp;
-	public Boulder(int x, int y, float hp, float troopCost, float sp, float dmg) {
-		super(x, y, hp, troopCost, dmg);
+	protected boolean useMouseCoords;
+	public Boulder(int x, int y, float hp, float troopCost, float sp, float dmg, boolean useMouseCoords) {
+		super(x, y, hp, troopCost, dmg, useMouseCoords);
 		this.sp = sp;
+		this.useMouseCoords = useMouseCoords;
 		baseAnimation = new Animation<TextureRegion>(.7f/7, TDGame.assets.boulderwalk, PlayMode.LOOP);
 
 	}
@@ -56,7 +58,9 @@ public abstract class Boulder extends BaseTroop {
 
 	@Override
 	public void update(Viewport vp, Slime slime, ArrayList troopArr, ArrayList tempArr, boolean boulderReached) {
+		if (useMouseCoords) {
 		placeTroop(vp, TeamScreen.Team.BOULDER, troopArr);
+		}
 		HitboxCheck(slime, troopArr, tempArr, boulderReached);
 
 	}
