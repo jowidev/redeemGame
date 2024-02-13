@@ -260,7 +260,6 @@ public class GameScreen implements Screen {
             // Render the troop in the game screen
             renderReceivedTroop(x, y, team);
 
-            // Render the troop in the game screen
         }
     }
     private void renderReceivedTroop(int x, int y, TeamScreen.Team team) {
@@ -274,7 +273,6 @@ public class GameScreen implements Screen {
             boulder = new BasicBoulder(x, y);
             //boulder.update(fVp, slime, troopArr, tempArr, boulderReached);
         }
-        System.out.println("hoa");
     }
     public boolean checkForMoneySlime() {
         for (BaseTroop troop : troopArr) {

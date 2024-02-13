@@ -1,6 +1,7 @@
 package com.Troops.TeamTroops;
 
 import com.MenuScreens.TeamScreen;
+import com.Server.Client;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 
@@ -52,13 +53,13 @@ public abstract class BaseTroop extends Actor { //voy a tener que pasarle un boo
         if (Gdx.input.isButtonJustPressed(Input.Buttons.LEFT) && !troopPlaced) {
             troopPlaced = true;
             if (team.equals(TeamScreen.Team.SLIME)) {
-                //Client.placeObject(troopOnMouse, hitbox, "slime");
+                Client.placeObject(true, hitbox, "slime");
                 //TDGame.assets.slimeplaced.play();
                 troopArr.add(this);
 
             }
             else {
-                //Client.placeObject(troopOnMouse, hitbox, "boulder");
+                Client.placeObject(truec, hitbox, "boulder");
                 //TDGame.assets.boulderPlaced.play();
                 troopArr.add(this);
 

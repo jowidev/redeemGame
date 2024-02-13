@@ -40,7 +40,7 @@ public class Client extends Thread{
  public static void placeObject(boolean objectOnMouse, Rectangle objectHitbox, String objectType) {
     try {
         if (objectOnMouse && Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)) {
-            String message = objectType + " placed at x,y:" + objectHitbox.x + ":" + objectHitbox.y;
+            String message = objectType + " placed at x,y:" + (int) objectHitbox.x + ":" + (int)objectHitbox.y;
             byte[] sendData = message.getBytes();
             DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, serverAddress, serverPort);
             clientSocket.send(sendPacket);
