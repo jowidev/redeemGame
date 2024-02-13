@@ -9,11 +9,13 @@ import java.util.ArrayList;
 public class MoneySlime extends Slime {
     public static final float SLIME_MONEY = 5;
     public static final float SLIME_INTERVAL = 2.5f;
+    public static final float COST = 15;
     private float timer;
     private float money;
     public MoneySlime(int x, int y, float money) {
-        super(x, y, 75, 15);
+        super(x, y, 75, COST, 0);
         this.money = money;
+        troopCost = 15;
     }
 
     public void generateMoney() {

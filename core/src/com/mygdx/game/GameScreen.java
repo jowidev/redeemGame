@@ -27,24 +27,26 @@ public class GameScreen implements Screen {
     private final ArrayList<BaseTroop> tempArr = new ArrayList<>();
     private final ArrayList<Bullet> bulletArr = new ArrayList<>();
     private final ArrayList<Bullet> bulletTemp = new ArrayList<>();
-    private float money = 10;
+    private float money = 999;
     private final TiledMap map;
     private final OrthogonalTiledMapRenderer mapRenderer;
     private Stage st;
     public OrthographicCamera cam;
     public FitViewport fVp;
-
     private final Music mainsong;
     public boolean songPlaying = true;
     private final HUD HUD;
-    public int points = 0;
+    public boolean boulderReached = false;
     private ArrayList<Defense> lms;
-    public GridCell gs;
     public GridStage grid;
     public Client client;
-    public GameScreen(TDGame game, TeamScreen.Team team) {
+    protected TeamScreen.Team team;
+
+
+    public GameScreen(TDGame game, TeamScreen.Team t) {
         this.game = game;
         mainsong = game.assets.mainsong2;
+        this.team = t;
         this.map = new TmxMapLoader().load("tilemap/tilemap.tmx");
         HUD = new HUD(game, money);
         mapRenderer = new OrthogonalTiledMapRenderer(map, Constants.PIXELTOTILE, TDGame.batch);
@@ -55,10 +57,8 @@ public class GameScreen implements Screen {
         fVp = new FitViewport(Constants.GAME_WORLD_WIDTH_tile, Constants.GAME_WORLD_HEIGHT_tile, cam);
         cam.position.set(Constants.GAME_WORLD_WIDTH_tile / 2, Constants.GAME_WORLD_HEIGHT_tile / 2, 0);
         Gdx.input.setInputProcessor(st);
-        //gs = new GridCell(64,64,st, slime);
         grid = new GridStage(st);
-        //st.addActor(grid);
-        //st.addActor(gs);
+
         for (float i = 1.2f; i < 10; i += 2.1f) {
             lms.add(new Defense(0, i));
         }
@@ -82,24 +82,59 @@ public class GameScreen implements Screen {
         mainsong.play();
     }
     private void inputHandling() {
-        if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_1)) {
-            slime = new MoneySlime(Gdx.input.getX(),Gdx.input.getY(),money);
-        }
-        if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_2)) {
-            slime = new ShooterSlime(Gdx.input.getX(),Gdx.input.getY(), bulletArr);
-        }
-        if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_3)) {
-            slime = new ShieldSlime(0,0);
-        }
-        if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_0)) {
-            boulder = new BasicBoulder(Gdx.input.getX(),Gdx.input.getY());
-        }
-        if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_9)) {
-            boulder = new FastBoulder(Gdx.input.getX(),Gdx.input.getY());
-        }
-        if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_8)) {
-            boulder = new ArmoredBoulder(Gdx.input.getX(),Gdx.input.getY());
-        }
+        //if(team == TeamScreen.Team.SLIME) {
+            if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_1)) {
+                if (HUD.hasEnoughMoney(MoneySlime.COST)) {
+                    slime = new MoneySlime(Gdx.input.getX(),Gdx.input.getY(),money);
+                    HUD.decreaseSlimeMoney(MoneySlime.COST);
+                } else {
+                    notEnoughMoney();
+                }
+            }
+
+            if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_2)) {
+                if (HUD.hasEnoughMoney(ShooterSlime.COST)) {
+                    slime = new ShooterSlime(Gdx.input.getX(),Gdx.input.getY(), bulletArr);
+                    HUD.decreaseSlimeMoney(ShooterSlime.COST);
+                } else {
+                    notEnoughMoney();
+                }
+            }
+            if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_3)) {
+                if (HUD.hasEnoughMoney(ShieldSlime.COST)) {
+                    slime = new ShieldSlime(Gdx.input.getX(), Gdx.input.getY());
+                    HUD.decreaseSlimeMoney(ShieldSlime.COST);
+                } else {
+                    notEnoughMoney();
+                }
+            }
+       // }
+        //else {
+            if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_8)) {
+                if (HUD.hasEnoughMoney(BasicBoulder.COST)) {
+                    boulder = new BasicBoulder(Gdx.input.getX(),Gdx.input.getY());
+                    HUD.decreaseBoulderMoney(BasicBoulder.COST);
+                } else {
+                    notEnoughMoney();
+                }
+            }
+            if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_9)) {
+                if (HUD.hasEnoughMoney(FastBoulder.COST)) {
+                    boulder = new FastBoulder(Gdx.input.getX(),Gdx.input.getY());
+                    HUD.decreaseBoulderMoney(FastBoulder.COST);
+                } else {
+                    notEnoughMoney();
+                }
+            }
+            if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_0)) {
+                if (HUD.hasEnoughMoney(ArmoredBoulder.COST)) {
+                    boulder = new ArmoredBoulder(Gdx.input.getX(),Gdx.input.getY());
+                    HUD.decreaseBoulderMoney(ArmoredBoulder.COST);
+                } else {
+                    notEnoughMoney();
+                }
+            }
+        //}
         if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
             Gdx.app.exit();
         }
@@ -112,8 +147,10 @@ public class GameScreen implements Screen {
             }
             songPlaying = !songPlaying;
         }
-
-
+    }
+    public void notEnoughMoney() {
+        TDGame.assets.error.setVolume(1,.5f);
+        TDGame.assets.error.play();
     }
 
 
@@ -128,7 +165,7 @@ public class GameScreen implements Screen {
         mapRenderer.render();
         st.act(Gdx.graphics.getDeltaTime());
         if (slime != null&&!troopArr.contains(slime)) slime.update(fVp, boulder,troopArr);
-        if (boulder != null&&!troopArr.contains(boulder)) boulder.update(fVp, slime, troopArr, tempArr, points);
+        if (boulder != null&&!troopArr.contains(boulder)) boulder.update(fVp, slime, troopArr, tempArr, boulderReached);
         TDGame.batch.begin();
 
 
@@ -155,16 +192,6 @@ public class GameScreen implements Screen {
                 }
             }
         }
-        /*        for (int i=0; i<9;i++) {
-            for (int j=0; j<5;j++) {
-                if (i<6) {
-                    grid.gridCells[i][j].touched(slime,st.getViewport());
-                }
-                else {
-                    grid.gridCells[i][j].touched(boulder,st.getViewport());
-                }
-            }
-        }*/
     }
     public void renderTimer(float delta) {
         if (HUD != null) {
@@ -210,7 +237,7 @@ public class GameScreen implements Screen {
                 if (troop instanceof Slime) {
                     troop.update(fVp,boulder,troopArr);
                 } else {
-                    troop.update(fVp,slime, troopArr, tempArr, points);
+                    troop.update(fVp,slime, troopArr, tempArr, boulderReached);
                 }
                 troop.render();
             }
@@ -241,9 +268,13 @@ public class GameScreen implements Screen {
         // Create the troop based on the team and render it
         if (team == TeamScreen.Team.SLIME) {
             slime = new ShieldSlime(x, y);
+            //slime.update(fVp,boulder, tempArr);
+
         } else if (team == TeamScreen.Team.BOULDER) {
             boulder = new BasicBoulder(x, y);
+            //boulder.update(fVp, slime, troopArr, tempArr, boulderReached);
         }
+        System.out.println("hoa");
     }
     public boolean checkForMoneySlime() {
         for (BaseTroop troop : troopArr) {

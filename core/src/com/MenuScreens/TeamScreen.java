@@ -22,7 +22,6 @@ public class TeamScreen implements Screen {
     private final OrthographicCamera cam;
     private final Stage stage;
     public Skin skin;
-    public Music selSong;
     private Table teamTable;
     public TDGame game;
     private ScreenViewport sVp;
@@ -44,7 +43,6 @@ public class TeamScreen implements Screen {
         stage.addActor(bg);
         stage.addActor(teamTable);
         createButtons();
-
     }
     public enum Team {
         SLIME, BOULDER;

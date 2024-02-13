@@ -12,17 +12,17 @@ import java.util.ArrayList;
 
 public abstract class Boulder extends BaseTroop {
 	protected float sp;
-	public Boulder(int x, int y, float hp, float troopCost, float sp) {
-		super(x, y, hp, troopCost);
+	public Boulder(int x, int y, float hp, float troopCost, float sp, float dmg) {
+		super(x, y, hp, troopCost, dmg);
 		this.sp = sp;
 		baseAnimation = new Animation<TextureRegion>(.7f/7, TDGame.assets.boulderwalk, PlayMode.LOOP);
 
 	}
 
 
-	public void HitboxCheck(Slime slime, ArrayList<BaseTroop> troopArr, ArrayList tempArr, int points) {
+	public boolean HitboxCheck(Slime slime, ArrayList<BaseTroop> troopArr, ArrayList tempArr, boolean boulderReached) {
 		boolean isColliding = false;
-
+		boolean reached = false;
 		if (slime != null) {
 			for (BaseTroop troop : troopArr) {
 				if (troop instanceof Slime && troop.hitbox.overlaps(hitbox)) {
@@ -33,17 +33,18 @@ public abstract class Boulder extends BaseTroop {
 		}
 
 		if (!isColliding) {
-			boulderMov(tempArr,points);
+			reached = boulderMov(tempArr,boulderReached);
 		}
+		System.out.println(reached);
+		return reached;
 	}
 
 
-	public int boulderMov(ArrayList<BaseTroop> arr, int points) {
+	public boolean boulderMov(ArrayList<BaseTroop> arr, boolean points) {
 		hitbox.x -= sp*Gdx.graphics.getDeltaTime();
 		if (hitbox.x<=0&&hitbox.x>=-2) {
 			arr.add(this);
-			points+=1;
-			System.out.println("llega");
+			points = true;
 		}
 		return points;
 	}
@@ -54,9 +55,9 @@ public abstract class Boulder extends BaseTroop {
 	}
 
 	@Override
-	public void update(Viewport vp, Slime slime, ArrayList troopArr, ArrayList tempArr, int points) {
+	public void update(Viewport vp, Slime slime, ArrayList troopArr, ArrayList tempArr, boolean boulderReached) {
 		placeTroop(vp, TeamScreen.Team.BOULDER, troopArr);
-		HitboxCheck(slime, troopArr, tempArr, points);
+		HitboxCheck(slime, troopArr, tempArr, boulderReached);
 
 	}
 

@@ -10,8 +10,8 @@ import com.mygdx.game.TDGame;
 import java.util.ArrayList;
 
 public abstract class Slime extends BaseTroop {
-	public Slime(int x, int y, float hp, float troopCost) {
-		super(x, y,hp, troopCost);
+	public Slime(int x, int y, float hp, float troopCost, float dmg) {
+		super(x, y,hp, troopCost, dmg);
 		troopPlaced = false;
 		baseAnimation = new Animation<TextureRegion>(0.033f, TDGame.assets.slimewalk, PlayMode.LOOP);
 
@@ -26,7 +26,7 @@ public abstract class Slime extends BaseTroop {
 
 	}
 	@Override
-	public void update(Viewport vp, Slime slime, ArrayList troopArr, ArrayList tempArr, int points) {
+	public void update(Viewport vp, Slime slime, ArrayList troopArr, ArrayList tempArr, boolean points) {
 
 	}
 

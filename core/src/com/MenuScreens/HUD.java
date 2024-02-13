@@ -12,9 +12,9 @@ import static com.mygdx.game.Assets.SKIN;
 
 public class HUD extends Table {
     private float moneyTimer = 0; // Nuevo temporizador para el sistema de plata
-    public static final float MONEY_INTERVAL = 3.0f; // Intervalo para agregar dinero (en segundos)
-    public static final int MONEY_AMOUNT = 5; // Cantidad de dinero a agregar cada vez
-    public static final int SLIME_BONUS_AMOUNT = 1;
+    private static final float MONEY_INTERVAL = 3.0f; // Intervalo para agregar dinero (en segundos)
+    private static final int MONEY_AMOUNT = 5; // Cantidad de dinero a agregar cada vez
+    private static final int SLIME_BONUS_AMOUNT = 1;
     private final Table timerTable;
     private final Table slimeTable;
     private final Table boulderTable;
@@ -23,6 +23,8 @@ public class HUD extends Table {
     private final Stack stack3;
     private float time = 90;
     private int showTime;
+    private float slimeMoney;
+    private float boulderMoney;
     private final Label numberLabel;
     private boolean running = true;
     private Label slimeMoneyLabel;
@@ -40,6 +42,8 @@ public class HUD extends Table {
         showTime = (int) time;
         timerTable = new Table();
         this.money = money;
+        this.slimeMoney = money;
+        this.boulderMoney = money;
 
         stack = new Stack();
         numberLabel = new Label(String.valueOf(showTime), skin);
@@ -122,6 +126,8 @@ public class HUD extends Table {
         timerTable.add(stack)
                 .width(Gdx.graphics.getWidth() * (Constants.PIXELTOTILE * 2))
                 .height(Gdx.graphics.getHeight() * (Constants.PIXELTOTILE * 2));
+
+
     }
     public void updateMoney(float delta, int numberOfSlimes, boolean hasMoneySlime) {
         moneyTimer += delta;
@@ -137,6 +143,20 @@ public class HUD extends Table {
             slimeMoneyLabel.setText("$" + money);
             boulderMoneyLabel.setText("$" + money);
         }
+    }
+    public boolean hasEnoughMoney(float troopCost) {
+        return money >= troopCost;
+    }
+
+    public void decreaseSlimeMoney(float troopCost) {
+        money -= troopCost;
+        slimeMoneyLabel.setText("$" + money);
+    }
+
+    //metodopara disminuir el dinero de los boulders
+    public void decreaseBoulderMoney(float troopCost) {
+        money -= troopCost;
+        boulderMoneyLabel.setText("$" + money);
     }
 
     public int getTime() {

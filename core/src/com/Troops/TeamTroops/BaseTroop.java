@@ -3,6 +3,7 @@ package com.Troops.TeamTroops;
 import com.MenuScreens.TeamScreen;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
@@ -20,13 +21,16 @@ public abstract class BaseTroop extends Actor { //voy a tener que pasarle un boo
     public Rectangle hitbox = new Rectangle();
     protected float stateTime = 0;
     protected float hp;
-    protected float sp, dmg;
+    protected float dmg;
     public boolean troopPlaced;
-    protected float troopCost;
+    public float troopCost;
     protected int troopRender = 2;
-    public BaseTroop(int x, int y, float hp, float troopCost) { //basetroop padre tropas heredan de esto
+    //public static final float COST;
+
+    public BaseTroop(int x, int y, float hp, float troopCost, float dmg) { //basetroop padre tropas heredan de esto
         hitbox.set(x, y, TROOP_WIDTH, TROOP_HEIGHT);
         this.hp = hp;
+        this.dmg = dmg;
         this.troopCost = troopCost;
     }
 
@@ -35,7 +39,7 @@ public abstract class BaseTroop extends Actor { //voy a tener que pasarle un boo
         //System.out.println(hp);
         if (hp <= 0) {
             tempArr.add(this);
-            hitbox.set(-10,-10,0,0);
+            hitbox.setSize(0,0);
             troopRender=0;
         }
     }
@@ -49,13 +53,13 @@ public abstract class BaseTroop extends Actor { //voy a tener que pasarle un boo
             troopPlaced = true;
             if (team.equals(TeamScreen.Team.SLIME)) {
                 //Client.placeObject(troopOnMouse, hitbox, "slime");
-                TDGame.assets.slimeplaced.play();
+                //TDGame.assets.slimeplaced.play();
                 troopArr.add(this);
 
             }
             else {
                 //Client.placeObject(troopOnMouse, hitbox, "boulder");
-                TDGame.assets.boulderPlaced.play();
+                //TDGame.assets.boulderPlaced.play();
                 troopArr.add(this);
 
             }
@@ -70,7 +74,7 @@ public abstract class BaseTroop extends Actor { //voy a tener que pasarle un boo
     }
 
     public abstract void update(Viewport vp, Boulder boulder, ArrayList<BaseTroop> tempArr);
-    public abstract void update(Viewport vp, Slime slime, ArrayList troopArr, ArrayList tempArr, int points);
+    public abstract void update(Viewport vp, Slime slime, ArrayList troopArr, ArrayList tempArr, boolean boulderReached);
     public void setHp(float hp) {this.hp = hp;}
 
     public float getHp() {return hp;}

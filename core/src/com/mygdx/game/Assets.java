@@ -32,10 +32,12 @@ public class Assets {
 	public final Texture mmBgg;
 	public final Texture lawn;
 	public final Texture bullet;
+	public final Sound error;
 	public static final AssetDescriptor<Skin> SKIN = new AssetDescriptor<Skin>("flat-earth/skin/flat-earth-ui.json", Skin.class, new SkinLoader.SkinParameter("flat-earth/skin/flat-earth-ui.atlas"));
 	public Assets() {
 		loadToManager(); //meter aca lo que haya que cargar
 		this.bullet = manager.get("slimes/bullet.png");
+		this.error = manager.get("miscAssets/error.mp3");
 		this.atlas = manager.get("game.atlas");
 		this.lawn = manager.get("miscAssets/cortacesped.png");
 		this.mmBgg = manager.get("miscAssets/promotionalbg2.png");
@@ -60,6 +62,7 @@ public class Assets {
 			manager.load(SKIN);
 			manager.load("slimes/bullet.png", Texture.class);
 			manager.load("game.atlas", TextureAtlas.class);
+			manager.load("miscAssets/error.mp3", Sound.class);
 			manager.load("miscAssets/cortacesped.png", Texture.class);
 			manager.load("miscAssets/promotionalbg2.png", Texture.class);
 			manager.load("miscAssets/promotionalbg.png", Texture.class);

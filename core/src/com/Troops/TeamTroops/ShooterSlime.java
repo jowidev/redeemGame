@@ -9,8 +9,10 @@ import java.util.ArrayList;
 public class ShooterSlime extends Slime {
     float timer = 0;
     private ArrayList<Bullet> bulletArr;
+    public static final float COST = 25;
+
     public ShooterSlime(int x, int y, ArrayList<Bullet> bulletArr) {
-        super(x, y, 75, 35);
+        super(x, y, 75, COST,0);
         this.bulletArr = bulletArr;
     }
 
@@ -31,9 +33,6 @@ public class ShooterSlime extends Slime {
 
                     float distanceX = boulderCenterX - slimeCenterX;
                     float distanceY = boulderCenterY - slimeCenterY;
-
-                    System.out.println("x"+distanceX);
-                    System.out.println("y"+distanceY);
 
                     if (distanceX > 0 && distanceY>=0&&distanceY<2) {
                         timer +=Gdx.graphics.getDeltaTime();

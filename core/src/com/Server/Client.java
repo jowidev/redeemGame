@@ -23,7 +23,7 @@ public class Client extends Thread{
         try {
             clientSocket = new DatagramSocket(); //auto
             serverAddress = InetAddress.getByName("127.0.0.1");
-            serverPort = 5000; //tiene que ser el mismo que el del serevr
+            serverPort = 5000; //tiene que ser el mismo que el del server
             String message = "cliente conectado, hola";
             byte[] sendData = message.getBytes();
 

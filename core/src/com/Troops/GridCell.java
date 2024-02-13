@@ -8,19 +8,17 @@
     import com.badlogic.gdx.scenes.scene2d.Touchable;
     import com.badlogic.gdx.utils.viewport.Viewport;
     import com.mygdx.game.Constants;
+    import com.mygdx.game.TDGame;
 
     public class GridCell extends Actor {
-        public Vector2 troopPos;
+        //public boolean troopOnPlace = false;
         public float gridCellW = Gdx.graphics.getWidth() * (Constants.PIXELTOTILE * 3.25f);
         public float gridCellH = Gdx.graphics.getHeight() * (Constants.PIXELTOTILE * 5.25f);
         public GridCell(float x, float y,Stage s) {
-
             setTouchable(Touchable.enabled);
-            setColor(1,0,0,1);
             setBounds(x,y, gridCellW, gridCellH);
             s.addActor(this);
-            troopPos = new Vector2(x,y);
-            //setDebug(true);
+            setDebug(true);
         }
 
 
@@ -32,6 +30,10 @@
                             mousePos.y >= getY() && mousePos.y < getY() + gridCellH) {
                         Vector2 troopPos = new Vector2(getCenterX()*(Constants.PIXELTOTILE/2),getCenterY()*(Constants.PIXELTOTILE/2));
                         troop.hitbox.setPosition(troopPos.x-1, troopPos.y-1);
+
+                        /*if (troop.hitbox.getX()==troopPos.x-1&&troop.hitbox.getY()==troopPos.y-1) {
+                            troopOnPlace = true;
+                        } else  troopOnPlace = false;*/
                     } //no lo puedo creer que funciona
                 }
             }
