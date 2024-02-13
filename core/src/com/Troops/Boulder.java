@@ -37,7 +37,6 @@ public abstract class Boulder extends BaseTroop {
 		if (!isColliding) {
 			reached = boulderMov(tempArr,boulderReached);
 		}
-		System.out.println(reached);
 		return reached;
 	}
 

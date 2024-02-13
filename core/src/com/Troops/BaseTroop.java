@@ -59,12 +59,12 @@ public abstract class BaseTroop extends Actor { //voy a tener que pasarle un boo
             if (Gdx.input.isButtonJustPressed(Input.Buttons.LEFT) && !troopPlaced) {
                 troopPlaced = true;
                 if (team.equals(TeamScreen.Team.SLIME)) {
-                    Client.placeObject(troopPlaced, hitbox, "slime");
-                    //TDGame.assets.slimeplaced.play();
+                    Client.placeTroopServer(hitbox, "slime");
+                    TDGame.assets.slimeplaced.play();
                     troopArr.add(this);
                 } else {
-                    Client.placeObject(troopPlaced, hitbox, "boulder");
-                    //TDGame.assets.boulderPlaced.play();
+                    Client.placeTroopServer(hitbox, "boulder");
+                    TDGame.assets.boulderPlaced.play();
                     troopArr.add(this);
                 }
             }

@@ -12,8 +12,6 @@ public class Server {
     private int chabonesConectados = 0;
     private DatagramSocket serverSocket;
     private List<ClientInfo> clients;
-
-    // Constructor del servidor
     public Server() {
         try {
             // Inicializar el socket del servidor en el puerto especificado
@@ -90,7 +88,7 @@ public class Server {
     }
 
     // Método para enviar un mensaje a todos los clientes
-    private void sendToAllClients(String message) {
+    private void sendToAllClients(String message) { //le manda a los chabones conectados{
         byte[] sendData = message.getBytes();
 
         for (ClientInfo client : clients) {

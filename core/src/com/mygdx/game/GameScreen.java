@@ -136,6 +136,7 @@ public class GameScreen implements Screen {
             }
         //}
         if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
+
             Gdx.app.exit();
         }
 
@@ -253,11 +254,11 @@ public class GameScreen implements Screen {
 
     public void handleReceivedTroopCoordinates(String message, TeamScreen.Team team) {
         // Example: "Slime placed at x,y:100:200"
-        if (message.startsWith("Slime placed at") || message.startsWith("Boulder placed at")) {
+        if (message.startsWith("slime placed at") || message.startsWith("boulder placed at")) {
             String[] parts = message.split(":");
             int x = (int) Float.parseFloat(parts[4]);
             int y = (int) Float.parseFloat(parts[5]);
-
+            System.out.println("saoutreaoes");
             // Render the troop in the game screen
             renderReceivedTroop(x, y, team);
 
