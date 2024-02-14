@@ -60,11 +60,8 @@ public class Client extends Thread{
                 throw new RuntimeException(e);
             }
             String receivedMessage = new String(receivePacket.getData(), 0, receivePacket.getLength());
-            System.out.println("el server dijo: " + receivedMessage);
+            System.out.println("el server dijo:" + receivedMessage);
             gameScreen.handleReceivedTroopCoordinates(receivedMessage, TeamScreen.Team.SLIME);
-        }
-        //super.run();
-
-
+        }//super.run();
     }
 }

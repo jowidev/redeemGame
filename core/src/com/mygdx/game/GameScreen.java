@@ -86,11 +86,17 @@ public class GameScreen implements Screen {
             if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_1)) {
                 if (HUD.hasEnoughMoney(MoneySlime.COST)) {
                     slime = new MoneySlime(Gdx.input.getX(),Gdx.input.getY(),money,true);
-                    HUD.decreaseSlimeMoney(MoneySlime.COST);
+                    if (!slime.troopPlaced) {
+                        HUD.decreaseSlimeMoney(MoneySlime.COST);
+                    }
                 } else {
                     notEnoughMoney();
                 }
             }
+
+        if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_5)) {
+            if (HUD.hasEnoughMoney(MoneySlime.COST)) {
+                boulder = new BasicBoulder(9,1,false);}}
 
             if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_2)) {
                 if (HUD.hasEnoughMoney(ShooterSlime.COST)) {
@@ -183,7 +189,7 @@ public class GameScreen implements Screen {
     }
 
     public void gridChecker() {
-        for (int i=0; i<9;i++) {
+        /*for (int i=0; i<9;i++) {
             for (int j=0; j<5;j++) {
                 if (i<6) {
                     grid.gridCells[i][j].touched(slime,st.getViewport());
@@ -192,7 +198,13 @@ public class GameScreen implements Screen {
                     grid.gridCells[i][j].touched(boulder,st.getViewport());
                 }
             }
+        }*/
+        for (int i=0; i<9;i++) {
+            for (int j=0; j<5;j++) {
+                grid.gridCells[i][j].touched(boulder, slime,st.getViewport());
+            }
         }
+
     }
     public void renderTimer(float delta) {
         if (HUD != null) {
@@ -253,22 +265,23 @@ public class GameScreen implements Screen {
     }
 
     public void handleReceivedTroopCoordinates(String message, TeamScreen.Team team) {
-        // Example: "Slime placed at x,y:100:200"
-        if (message.startsWith("slime placed at") || message.startsWith("boulder placed at")) {
+        // Example message format: "2:3"
+        if (message.contains(":")) {
             String[] parts = message.split(":");
-            int x = (int) Float.parseFloat(parts[4]);
-            int y = (int) Float.parseFloat(parts[5]);
-            System.out.println("saoutreaoes");
+            int x = Integer.parseInt(parts[0]);
+            int y = Integer.parseInt(parts[1]);
             // Render the troop in the game screen
+            System.out.println(x);
+            System.out.println(y);
             renderReceivedTroop(x, y, team);
-
         }
     }
+
     private void renderReceivedTroop(int x, int y, TeamScreen.Team team) {
 
         // Create the troop based on the team and render it
         if (team == TeamScreen.Team.SLIME) {
-            slime = new ShieldSlime(x, y,false);
+            slime = new ShooterSlime(x, y,bulletArr,false);
             //slime.update(fVp,boulder, tempArr);
 
         } else if (team == TeamScreen.Team.BOULDER) {

@@ -18,11 +18,10 @@ public abstract class Boulder extends BaseTroop {
 		this.sp = sp;
 		this.useMouseCoords = useMouseCoords;
 		baseAnimation = new Animation<TextureRegion>(.7f/7, TDGame.assets.boulderwalk, PlayMode.LOOP);
-
 	}
 
 
-	public boolean HitboxCheck(Slime slime, ArrayList<BaseTroop> troopArr, ArrayList tempArr, boolean boulderReached) {
+	public void HitboxCheck(Slime slime, ArrayList<BaseTroop> troopArr, ArrayList tempArr, boolean boulderReached) {
 		boolean isColliding = false;
 		boolean reached = false;
 		if (slime != null) {
@@ -37,7 +36,6 @@ public abstract class Boulder extends BaseTroop {
 		if (!isColliding) {
 			reached = boulderMov(tempArr,boulderReached);
 		}
-		return reached;
 	}
 
 

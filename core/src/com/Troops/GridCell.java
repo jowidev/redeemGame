@@ -20,14 +20,29 @@
         }
 
 
-        public void touched(BaseTroop troop, Viewport viewport) {
-            if (troop != null && troop.troopPlaced) {
+        public void touched(BaseTroop boulder, BaseTroop slime, Viewport viewport) {
+            if (boulder != null && boulder.troopPlaced) {
                 if (Gdx.input.isButtonJustPressed(0)) {
                     Vector2 mousePos = viewport.unproject(new Vector2(Gdx.input.getX(),Gdx.input.getY()));
                     if (mousePos.x >= getX() && mousePos.x < getX() + gridCellW &&
                             mousePos.y >= getY() && mousePos.y < getY() + gridCellH) {
                         Vector2 troopPos = new Vector2(getCenterX()*(Constants.PIXELTOTILE/2),getCenterY()*(Constants.PIXELTOTILE/2));
-                        troop.hitbox.setPosition(troopPos.x-1, troopPos.y-1);
+                        boulder.hitbox.setPosition(troopPos.x-1, troopPos.y-1);
+
+                        /*if (troop.hitbox.getX()==troopPos.x-1&&troop.hitbox.getY()==troopPos.y-1) {
+                            troopOnPlace = true;
+                        } else  troopOnPlace = false;*/
+                    } //no lo puedo creer que funciona
+                }
+            }
+
+            if (slime != null && slime.troopPlaced) {
+                if (Gdx.input.isButtonJustPressed(0)) {
+                    Vector2 mousePos = viewport.unproject(new Vector2(Gdx.input.getX(),Gdx.input.getY()));
+                    if (mousePos.x >= getX() && mousePos.x < getX() + gridCellW &&
+                            mousePos.y >= getY() && mousePos.y < getY() + gridCellH) {
+                        Vector2 troopPos = new Vector2(getCenterX()*(Constants.PIXELTOTILE/2),getCenterY()*(Constants.PIXELTOTILE/2));
+                        slime.hitbox.setPosition(troopPos.x-1, troopPos.y-1);
 
                         /*if (troop.hitbox.getX()==troopPos.x-1&&troop.hitbox.getY()==troopPos.y-1) {
                             troopOnPlace = true;

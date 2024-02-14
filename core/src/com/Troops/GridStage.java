@@ -20,7 +20,6 @@ public class GridStage extends Actor {
             for (int c = 0; c < 9; c++) {
                 float cellX = pX + c * cellW;
                 float cellY = pY + r * cellH;
-
                 gridCells[c][r] = new GridCell(cellX,cellY,s);
             }
         }
