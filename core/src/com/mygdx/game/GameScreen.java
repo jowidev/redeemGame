@@ -264,7 +264,7 @@ public class GameScreen implements Screen {
         fVp.update(width, height, true);
     }
 
-    public void handleReceivedTroopCoordinates(String message, TeamScreen.Team team) {
+    public void handleTroopCoords(String message, TeamScreen.Team team) {
         // Example message format: "2:3"
         if (message.contains(":")) {
             String[] parts = message.split(":");

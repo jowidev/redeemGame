@@ -58,8 +58,8 @@ public class Server {
                 String receivedMessage = new String(receivePacket.getData(), 0, receivePacket.getLength());
                 System.out.println("Client said: " + receivedMessage);
 
-                // Enviar el mensaje a todos los clientes
-                sendToAllClients(receivedMessage);
+                ClientInfo senderClient = new ClientInfo(clientAddress, clientPort);
+                sendToOtherClients(receivedMessage, senderClient);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -88,19 +88,23 @@ public class Server {
     }
 
     // Método para enviar un mensaje a todos los clientes
-    private void sendToAllClients(String message) { //le manda a los chabones conectados{
+    private void sendToOtherClients(String message, ClientInfo senderClient) {
         byte[] sendData = message.getBytes();
 
         for (ClientInfo client : clients) {
-            try {
-                // Crear un paquete con el mensaje y enviarlo al cliente
-                DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, client.getAddress(), client.getPort());
-                serverSocket.send(sendPacket);
-            } catch (Exception e) {
-                e.printStackTrace();
+            if (!client.equals(senderClient)) { // Exclude the sender client
+                try {
+                    // Create a packet with the message and send it to the client
+                    DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, client.getAddress(), client.getPort());
+                    serverSocket.send(sendPacket);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         }
     }
+
+
 
     // Método principal del servidor
     public static void main(String[] args) {

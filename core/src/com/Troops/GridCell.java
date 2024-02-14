@@ -16,7 +16,7 @@
             setTouchable(Touchable.enabled);
             setBounds(x,y, gridCellW, gridCellH);
             s.addActor(this);
-            setDebug(true);
+            //setDebug(true);
         }
 
 
