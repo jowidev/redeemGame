@@ -115,6 +115,15 @@ public class MainMenuScreen implements Screen {
                             }
                         }
                 );
+        addButton("Opciones").
+                addListener(
+                        new ClickListener(){
+                            @Override
+                            public void clicked(InputEvent event, float x, float y){
+                                game.setScreen(new OptionsScreen(game));
+
+                            }
+                        });
         addButton("Salir").
                 addListener(
                         new ClickListener(){

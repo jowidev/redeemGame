@@ -78,7 +78,6 @@ public class GameScreen implements Screen {
     }
     private void createMusic() {
         mainsong.setLooping(true);
-        mainsong.setVolume(.0f);
         mainsong.play();
     }
     private void inputHandling() {

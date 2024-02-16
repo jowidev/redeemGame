@@ -16,6 +16,9 @@ public class TDGame extends Game {
 		this.setScreen(new MainMenuScreen(this)); //va ultimo
 	}
 	public void resize(int w, int h) {}
+	public void setMusicVolume(float volume) {
+		assets.mainsong2.setVolume(volume);
+	}
 	@Override
 	public void render() {
 		super.render();
