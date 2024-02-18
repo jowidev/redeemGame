@@ -20,7 +20,9 @@ public class TDGame extends Game {
 	public void render() {
 		super.render();
 	}
-
+	public void setMusicVolume(float volume) {
+		assets.mainsong2.setVolume(volume);
+	}
 	@Override
 	public void dispose() {batch.dispose();}
 }

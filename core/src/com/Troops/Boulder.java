@@ -41,7 +41,7 @@ public abstract class Boulder extends BaseTroop {
 
 	public boolean boulderMov(ArrayList<BaseTroop> arr, boolean points) {
 		hitbox.x -= sp*Gdx.graphics.getDeltaTime();
-		if (hitbox.x<=0&&hitbox.x>=-2) {
+		if (hitbox.x<=-2&&hp>0) {
 			arr.add(this);
 			points = true;
 		}

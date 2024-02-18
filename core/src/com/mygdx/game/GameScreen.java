@@ -1,5 +1,6 @@
 package com.mygdx.game;
 
+import com.MenuScreens.GameOverScreen;
 import com.MenuScreens.HUD;
 import com.MenuScreens.TeamScreen;
 import com.Server.Client;
@@ -19,6 +20,8 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 
 import java.util.ArrayList;
 
+import static com.MenuScreens.TeamScreen.Team.SLIME;
+
 public class GameScreen implements Screen {
     private TDGame game;
     private Slime slime;
@@ -29,6 +32,7 @@ public class GameScreen implements Screen {
     private final ArrayList<Bullet> bulletTemp = new ArrayList<>();
     private float money = 999;
     private final TiledMap map;
+    private int boulderPassed = 0;
     private final OrthogonalTiledMapRenderer mapRenderer;
     private Stage st;
     public OrthographicCamera cam;
@@ -66,7 +70,7 @@ public class GameScreen implements Screen {
         client = new Client(this);
 
 
-        if (team == TeamScreen.Team.SLIME) st.addActor(HUD.getSlimeTable());
+        if (team == SLIME) st.addActor(HUD.getSlimeTable());
         else st.addActor(HUD.getBoulderTable());
 
         st.addActor(HUD.getTimerTable());
@@ -175,7 +179,7 @@ public class GameScreen implements Screen {
         if (boulder != null&&!troopArr.contains(boulder)) boulder.update(fVp, slime, troopArr, tempArr, boulderReached);
         TDGame.batch.begin();
 
-
+        boulderWin();
         gridChecker();
         troopRendering();
         renderTimer(delta);
@@ -211,7 +215,16 @@ public class GameScreen implements Screen {
             HUD.update(game, delta);
             if (HUD.getTime() <= 0) {
                 HUD.stop();
-                //timer things
+                game.setScreen(new GameOverScreen(TeamScreen.Team.SLIME, game));
+            }
+        }
+    }
+    public void boulderWin() {
+        if (boulder != null && boulder.boulderMov(tempArr, boulderReached)) {
+            boulderPassed++;
+            if (boulderPassed >= 3) {
+                System.out.println("¡Los boulders ganaron!");
+                game.setScreen(new GameOverScreen(TeamScreen.Team.BOULDER, game));
             }
         }
     }
@@ -280,7 +293,7 @@ public class GameScreen implements Screen {
     private void renderReceivedTroop(int x, int y, TeamScreen.Team team) {
 
         // Create the troop based on the team and render it
-        if (team == TeamScreen.Team.SLIME) {
+        if (team == SLIME) {
             slime = new ShooterSlime(x, y,bulletArr,false);
             //slime.update(fVp,boulder, tempArr);
 

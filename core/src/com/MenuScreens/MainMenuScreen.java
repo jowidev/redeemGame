@@ -114,7 +114,16 @@ public class MainMenuScreen implements Screen {
 
                             }
                         }
-                );
+                );addButton("Opciones").
+                addListener(
+                        new ClickListener(){
+                            @Override
+                            public void clicked(InputEvent event, float x, float y){
+                                game.setScreen(new OptionsScreen(game));
+
+                            }
+                        });
+
         addButton("Salir").
                 addListener(
                         new ClickListener(){
@@ -129,7 +138,7 @@ public class MainMenuScreen implements Screen {
         TextButton button = new TextButton(name, skin);
         MainTable.add(button).
                 width((float) Gdx.graphics.getWidth() / 3.5f).
-                height((float) Gdx.graphics.getHeight() / 8).padBottom(10);
+                height((float) Gdx.graphics.getHeight() / 10).padBottom(10);
         MainTable.row();
         return button;
     }
