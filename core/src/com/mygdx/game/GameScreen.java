@@ -98,10 +98,6 @@ public class GameScreen implements Screen {
                 }
             }
 
-        if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_5)) {
-            if (HUD.hasEnoughMoney(MoneySlime.COST)) {
-                boulder = new BasicBoulder(9,1,false);}}
-
             if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_2)) {
                 if (HUD.hasEnoughMoney(ShooterSlime.COST)) {
                     slime = new ShooterSlime(Gdx.input.getX(),Gdx.input.getY(), bulletArr,true);
@@ -122,7 +118,7 @@ public class GameScreen implements Screen {
         //else {
             if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_8)) {
                 if (HUD.hasEnoughMoney(BasicBoulder.COST)) {
-                    boulder = new BasicBoulder(Gdx.input.getX(),Gdx.input.getY(),true);
+                    boulder = new BasicBoulder(Gdx.input.getX(),Gdx.input.getY(),true, game);
                     HUD.decreaseBoulderMoney(BasicBoulder.COST);
                 } else {
                     notEnoughMoney();
@@ -130,7 +126,7 @@ public class GameScreen implements Screen {
             }
             if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_9)) {
                 if (HUD.hasEnoughMoney(FastBoulder.COST)) {
-                    boulder = new FastBoulder(Gdx.input.getX(),Gdx.input.getY(),true);
+                    boulder = new FastBoulder(Gdx.input.getX(),Gdx.input.getY(),true,game);
                     HUD.decreaseBoulderMoney(FastBoulder.COST);
                 } else {
                     notEnoughMoney();
@@ -138,7 +134,7 @@ public class GameScreen implements Screen {
             }
             if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_0)) {
                 if (HUD.hasEnoughMoney(ArmoredBoulder.COST)) {
-                    boulder = new ArmoredBoulder(Gdx.input.getX(),Gdx.input.getY(),true);
+                    boulder = new ArmoredBoulder(Gdx.input.getX(),Gdx.input.getY(),true,game);
                     HUD.decreaseBoulderMoney(ArmoredBoulder.COST);
                 } else {
                     notEnoughMoney();
@@ -179,7 +175,7 @@ public class GameScreen implements Screen {
         if (boulder != null&&!troopArr.contains(boulder)) boulder.update(fVp, slime, troopArr, tempArr, boulderReached);
         TDGame.batch.begin();
 
-        boulderWin();
+        //boulderWin();
         gridChecker();
         troopRendering();
         renderTimer(delta);
@@ -219,15 +215,7 @@ public class GameScreen implements Screen {
             }
         }
     }
-    public void boulderWin() {
-        if (boulder != null && boulder.boulderMov(tempArr, boulderReached)) {
-            boulderPassed++;
-            if (boulderPassed >= 3) {
-                System.out.println("¡Los boulders ganaron!");
-                game.setScreen(new GameOverScreen(TeamScreen.Team.BOULDER, game));
-            }
-        }
-    }
+
     public void troopRendering() {
         tempArr.clear();
         if (slime != null) {
@@ -298,7 +286,7 @@ public class GameScreen implements Screen {
             //slime.update(fVp,boulder, tempArr);
 
         } else if (team == TeamScreen.Team.BOULDER) {
-            boulder = new BasicBoulder(x, y,false);
+            boulder = new BasicBoulder(x, y,false,game);
             //boulder.update(fVp, slime, troopArr, tempArr, boulderReached);
         }
     }
