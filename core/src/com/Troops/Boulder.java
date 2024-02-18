@@ -32,7 +32,8 @@ public abstract class Boulder extends BaseTroop {
 				if (troop instanceof Slime && troop.hitbox.overlaps(hitbox)) {
 					troop.takeDamage(0.5f, tempArr);
 					isColliding = true;
-				} else isColliding = false;
+					break;
+				}
 			}
 		}
 		if (!isColliding) {
@@ -41,15 +42,12 @@ public abstract class Boulder extends BaseTroop {
 	}
 
 
-	public boolean boulderMov(ArrayList<BaseTroop> tempArr) {
+	public void boulderMov(ArrayList<BaseTroop> tempArr) {
 		hitbox.x -= sp*Gdx.graphics.getDeltaTime();
 		if (hitbox.x<=-2&&hp>0) {
 			tempArr.add(this);
 			game.setScreen(new GameOverScreen(TeamScreen.Team.BOULDER, game));
-
-			return true;
 		}
-		else return false;
 	}
 
 	@Override

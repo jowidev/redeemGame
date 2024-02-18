@@ -21,14 +21,14 @@
 
 
         public void touched(BaseTroop boulder, BaseTroop slime, Viewport viewport) {
-            if (boulder != null && boulder.troopPlaced) {
+            if (boulder != null && boulder.troopPlaced && !boulder.getLocked()) {
                 if (Gdx.input.isButtonJustPressed(0)) {
                     Vector2 mousePos = viewport.unproject(new Vector2(Gdx.input.getX(),Gdx.input.getY()));
                     if (mousePos.x >= getX() && mousePos.x < getX() + gridCellW &&
                             mousePos.y >= getY() && mousePos.y < getY() + gridCellH) {
                         Vector2 troopPos = new Vector2(getCenterX()*(Constants.PIXELTOTILE/2),getCenterY()*(Constants.PIXELTOTILE/2));
                         boulder.hitbox.setPosition(troopPos.x-1, troopPos.y-1);
-
+                        boulder.setLocked(true);
                         /*if (troop.hitbox.getX()==troopPos.x-1&&troop.hitbox.getY()==troopPos.y-1) {
                             troopOnPlace = true;
                         } else  troopOnPlace = false;*/
@@ -36,14 +36,14 @@
                 }
             }
 
-            if (slime != null && slime.troopPlaced) {
+            if (slime != null && slime.troopPlaced && !slime.getLocked()) {
                 if (Gdx.input.isButtonJustPressed(0)) {
                     Vector2 mousePos = viewport.unproject(new Vector2(Gdx.input.getX(),Gdx.input.getY()));
                     if (mousePos.x >= getX() && mousePos.x < getX() + gridCellW &&
                             mousePos.y >= getY() && mousePos.y < getY() + gridCellH) {
                         Vector2 troopPos = new Vector2(getCenterX()*(Constants.PIXELTOTILE/2),getCenterY()*(Constants.PIXELTOTILE/2));
                         slime.hitbox.setPosition(troopPos.x-1, troopPos.y-1);
-
+                        slime.setLocked(true);
                         /*if (troop.hitbox.getX()==troopPos.x-1&&troop.hitbox.getY()==troopPos.y-1) {
                             troopOnPlace = true;
                         } else  troopOnPlace = false;*/
@@ -51,8 +51,6 @@
                 }
             }
         }
-
-//getX and getY
         private float[] getCenter() {
             return new float[] { getX() + getWidth() / 2, getY() + getHeight() / 2 };
         }

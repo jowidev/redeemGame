@@ -114,8 +114,7 @@ public class GameScreen implements Screen {
                     notEnoughMoney();
                 }
             }
-       // }
-        //else {
+       // } else {
             if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_8)) {
                 if (HUD.hasEnoughMoney(BasicBoulder.COST)) {
                     boulder = new BasicBoulder(Gdx.input.getX(),Gdx.input.getY(),true, game);
@@ -139,8 +138,8 @@ public class GameScreen implements Screen {
                 } else {
                     notEnoughMoney();
                 }
-            }
-        //}
+           // }
+        }
         if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
 
             Gdx.app.exit();

@@ -26,7 +26,7 @@ public abstract class BaseTroop extends Actor { //voy a tener que pasarle un boo
     public boolean troopPlaced;
     public float troopCost;
     protected int troopRender = 2;
-
+    private boolean locked = false;
     protected boolean useMouseCoords;
     float x, y;
     public BaseTroop(float x, float y, float hp, float troopCost, float dmg, boolean useMouseCoords) { //basetroop padre tropas heredan de esto
@@ -78,7 +78,14 @@ public abstract class BaseTroop extends Actor { //voy a tener que pasarle un boo
 
     public abstract void update(Viewport vp, Boulder boulder, ArrayList<BaseTroop> tempArr);
     public abstract void update(Viewport vp, Slime slime, ArrayList troopArr, ArrayList tempArr, boolean boulderReached);
-    public void setHp(float hp) {this.hp = hp;}
 
-    public float getHp() {return hp;}
+    public boolean getLocked() {
+        return locked;
+    }
+
+    public void setLocked(boolean locked) {
+        this.locked = locked;
+    }
+
+
 }
