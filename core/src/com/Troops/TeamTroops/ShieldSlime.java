@@ -6,6 +6,6 @@ public class ShieldSlime extends Slime {
     public static final float COST = 20;
 
     public ShieldSlime(int x, int y, boolean useMouseCoords) {
-        super(x, y,300,COST,1,useMouseCoords);
+        super(x, y,275,COST,1,useMouseCoords);
     }
 }

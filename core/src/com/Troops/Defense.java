@@ -15,7 +15,7 @@ public class Defense {
         hitbox.set(x,y,1,1);
         texture = TDGame.assets.lawn;
     }
-    public void draw() {
+    public void render() {
         TDGame.batch.draw(texture, hitbox.x, hitbox.y, 1.5f, 1.5f);
     }
     public void instakill(Boulder boulder, ArrayList<BaseTroop> tempArr, ArrayList<BaseTroop> troopArr) {

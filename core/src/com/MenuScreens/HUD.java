@@ -21,7 +21,7 @@ public class HUD extends Table {
     private final Stack stack;
     private final Stack stack2;
     private final Stack stack3;
-    private float time = 90;
+    private float time = 121;
     private int showTime;
     private float slimeMoney;
     private float boulderMoney;

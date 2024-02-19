@@ -14,7 +14,7 @@ public class ShooterSlime extends Slime {
     private ArrayList<Bullet> bulletArr;
     public static final float COST = 25;
 
-    public ShooterSlime(int x, int y, ArrayList<Bullet> bulletArr, boolean useMouseCoords) {
+    public ShooterSlime(float x, float y, ArrayList<Bullet> bulletArr, boolean useMouseCoords) {
         super(x, y, 75, COST,0, useMouseCoords);
         this.bulletArr = bulletArr;
     }
@@ -26,27 +26,37 @@ public class ShooterSlime extends Slime {
     }
 
     public void shoot(Boulder boulder, ArrayList<BaseTroop> troopArr) {
+        boolean boulderFound = false;
+        float slimeCenterX = 0;
+        float slimeCenterY = 0;
+        float boulderCenterX = 0;
+        float boulderCenterY = 0;
         if (boulder != null) {
             for (BaseTroop troop : troopArr) {
                 if (troop instanceof Boulder) {
-                    float slimeCenterX = this.hitbox.x + this.hitbox.width / 2;
-                    float slimeCenterY = this.hitbox.y + this.hitbox.height / 2;
-                    float boulderCenterX = troop.hitbox.x + troop.hitbox.width / 2;
-                    float boulderCenterY = troop.hitbox.y + troop.hitbox.height / 2;
+                    slimeCenterX = this.hitbox.x + this.hitbox.width / 2;
+                    slimeCenterY = this.hitbox.y + this.hitbox.height / 2;
+                    boulderCenterX = troop.hitbox.x + troop.hitbox.width / 2;
+                    boulderCenterY = troop.hitbox.y + troop.hitbox.height / 2;
 
                     float distanceX = boulderCenterX - slimeCenterX;
                     float distanceY = boulderCenterY - slimeCenterY;
-
-                    if (distanceX > 0 && distanceY>=0&&distanceY<2) {
-                        timer +=Gdx.graphics.getDeltaTime();
-                        if (timer >= 2) {
-                            timer -= 2;
-                            bulletArr.add(new Bullet(slimeCenterX,slimeCenterY, troopArr));
-                        }
+                    if (distanceX > 0 && distanceY >= 0 && distanceY < 2) {
+                        boulderFound = true;
+                        break;
                     }
+
+
                 }
             }
 
+        }
+        if (boulderFound) {
+            timer +=Gdx.graphics.getDeltaTime();
+            if (timer >= 1.2f) {
+                timer -= 1.2f;
+                bulletArr.add(new Bullet(slimeCenterX,slimeCenterY, troopArr));
+            }
         }
     }
 

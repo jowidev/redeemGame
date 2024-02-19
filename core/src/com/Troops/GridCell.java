@@ -9,14 +9,13 @@
     import com.mygdx.game.Constants;
 
     public class GridCell extends Actor {
-        //public boolean troopOnPlace = false;
         public float gridCellW = Gdx.graphics.getWidth() * (Constants.PIXELTOTILE * 3.25f);
         public float gridCellH = Gdx.graphics.getHeight() * (Constants.PIXELTOTILE * 5.25f);
         public GridCell(float x, float y,Stage s) {
             setTouchable(Touchable.enabled);
             setBounds(x,y, gridCellW, gridCellH);
             s.addActor(this);
-            setDebug(true);
+            //setDebug(true);
         }
 
 
@@ -29,9 +28,6 @@
                         Vector2 troopPos = new Vector2(getCenterX()*(Constants.PIXELTOTILE/2),getCenterY()*(Constants.PIXELTOTILE/2));
                         boulder.hitbox.setPosition(troopPos.x-1, troopPos.y-1);
                         boulder.setLocked(true);
-                        /*if (troop.hitbox.getX()==troopPos.x-1&&troop.hitbox.getY()==troopPos.y-1) {
-                            troopOnPlace = true;
-                        } else  troopOnPlace = false;*/
                     } //no lo puedo creer que funciona
                 }
             }
@@ -44,9 +40,6 @@
                         Vector2 troopPos = new Vector2(getCenterX()*(Constants.PIXELTOTILE/2),getCenterY()*(Constants.PIXELTOTILE/2));
                         slime.hitbox.setPosition(troopPos.x-1, troopPos.y-1);
                         slime.setLocked(true);
-                        /*if (troop.hitbox.getX()==troopPos.x-1&&troop.hitbox.getY()==troopPos.y-1) {
-                            troopOnPlace = true;
-                        } else  troopOnPlace = false;*/
                     } //no lo puedo creer que funciona
                 }
             }

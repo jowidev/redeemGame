@@ -11,7 +11,7 @@ import java.util.ArrayList;
 
 public abstract class Slime extends BaseTroop {
 
-	public Slime(int x, int y, float hp, float troopCost, float dmg, boolean useMouseCoords) {
+	public Slime(float x, float y, float hp, float troopCost, float dmg, boolean useMouseCoords) {
 		super(x, y,hp, troopCost, dmg, useMouseCoords);
 		troopPlaced = false;
 		baseAnimation = new Animation<TextureRegion>(0.033f, TDGame.assets.slimewalk, PlayMode.LOOP);

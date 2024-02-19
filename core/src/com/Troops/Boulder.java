@@ -47,21 +47,16 @@ public abstract class Boulder extends BaseTroop {
 		if (hitbox.x<=-2&&hp>0) {
 			tempArr.add(this);
 			game.setScreen(new GameOverScreen(TeamScreen.Team.BOULDER, game));
+
 		}
 	}
 
 	@Override
-	public void update(Viewport vp, Boulder boulder, ArrayList tempArr) {
-
-	}
-
+	public void update(Viewport vp, Boulder boulder, ArrayList tempArr){}
 	@Override
 	public void update(Viewport vp, Slime slime, ArrayList troopArr, ArrayList tempArr, boolean boulderReached) {
 		HitboxCheck(slime, troopArr, tempArr);
-		if (useMouseCoords) {
-		placeTroop(vp, TeamScreen.Team.BOULDER, troopArr);
-		}
-
+		if (useMouseCoords) placeTroop(vp, TeamScreen.Team.BOULDER, troopArr);
 	}
 
 }

@@ -26,7 +26,7 @@ public class Bullet extends Actor {
         }
 
     }
-    public void draw() {
+    public void render() {
         TDGame.batch.draw(texture, bulletHitbox.x, bulletHitbox.y, .75f,.75f);
     }
 }

@@ -37,10 +37,10 @@ public class Client extends Thread{
         }
     }
 
- public static void placeTroopServer(Rectangle hitbox, String objectType) { //este le manda el msj
+ public static void placeTroopServer(Rectangle hitbox, String team) { //este le manda el msj
     try {
         if (Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)) {
-            String message =(int)hitbox.x + ":" + (int)hitbox.y; // objectType + " placed at x,y:
+            String message =team+":"+(int)hitbox.x + ":" + (int)hitbox.y; // objectType + " placed at x,y:
             byte[] sendData = message.getBytes();
             DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, serverAddress, serverPort);
             clientSocket.send(sendPacket);
@@ -61,7 +61,7 @@ public class Client extends Thread{
             }
             String receivedMessage = new String(receivePacket.getData(), 0, receivePacket.getLength());
             System.out.println("el server dijo:" + receivedMessage);
-            gameScreen.handleReceivedTroopCoordinates(receivedMessage, TeamScreen.Team.SLIME);
+            gameScreen.handleTroopCoords(receivedMessage, TeamScreen.Team.SLIME);
         }//super.run();
     }
 }

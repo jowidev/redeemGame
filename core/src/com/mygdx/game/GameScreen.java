@@ -32,29 +32,26 @@ public class GameScreen implements Screen {
     private final ArrayList<Bullet> bulletTemp = new ArrayList<>();
     private float money = 999;
     private final TiledMap map;
-    private int boulderPassed = 0;
     private final OrthogonalTiledMapRenderer mapRenderer;
     private Stage st;
     public OrthographicCamera cam;
     public FitViewport fVp;
-    private final Music mainsong;
+    private final Music mainSong;
     public boolean songPlaying = true;
     private final HUD HUD;
     public boolean boulderReached = false;
-    private ArrayList<Defense> lms;
+    private ArrayList<Defense> defenses;
     public GridStage grid;
     public Client client;
     protected TeamScreen.Team team;
-
-
     public GameScreen(TDGame game, TeamScreen.Team t) {
         this.game = game;
-        mainsong = game.assets.mainsong2;
+        mainSong = game.assets.mainsong2;
         this.team = t;
         this.map = new TmxMapLoader().load("tilemap/tilemap.tmx");
         HUD = new HUD(game, money);
         mapRenderer = new OrthogonalTiledMapRenderer(map, Constants.PIXELTOTILE, TDGame.batch);
-        lms = new ArrayList<>();
+        defenses = new ArrayList<>();
 
         cam = new OrthographicCamera();
         st = new Stage();
@@ -64,7 +61,7 @@ public class GameScreen implements Screen {
         grid = new GridStage(st);
 
         for (float i = 1.2f; i < 10; i += 2.1f) {
-            lms.add(new Defense(0, i));
+            defenses.add(new Defense(0, i));
         }
 
         client = new Client(this);
@@ -81,35 +78,33 @@ public class GameScreen implements Screen {
         client.start();
     }
     private void createMusic() {
-        mainsong.setLooping(true);
-        mainsong.setVolume(.0f);
-        mainsong.play();
+        mainSong.setLooping(true);
+        mainSong.setVolume(.25f);
+        mainSong.play();
     }
-    private void inputHandling() {
+    private void handleInput() {
         //if(team == TeamScreen.Team.SLIME) {
+
             if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_1)) {
                 if (HUD.hasEnoughMoney(MoneySlime.COST)) {
-                    slime = new MoneySlime(Gdx.input.getX(),Gdx.input.getY(),money,true);
-                    if (!slime.troopPlaced) {
-                        HUD.decreaseSlimeMoney(MoneySlime.COST);
-                    }
+                    createSlime(1, Gdx.input.getX(),Gdx.input.getY());
+
                 } else {
                     notEnoughMoney();
                 }
             }
-
             if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_2)) {
                 if (HUD.hasEnoughMoney(ShooterSlime.COST)) {
-                    slime = new ShooterSlime(Gdx.input.getX(),Gdx.input.getY(), bulletArr,true);
-                    HUD.decreaseSlimeMoney(ShooterSlime.COST);
+                    createSlime(2, Gdx.input.getX(),Gdx.input.getY());
+
                 } else {
                     notEnoughMoney();
                 }
             }
             if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_3)) {
                 if (HUD.hasEnoughMoney(ShieldSlime.COST)) {
-                    slime = new ShieldSlime(Gdx.input.getX(), Gdx.input.getY(),true);
-                    HUD.decreaseSlimeMoney(ShieldSlime.COST);
+                    createSlime(3, Gdx.input.getX(),Gdx.input.getY());
+
                 } else {
                     notEnoughMoney();
                 }
@@ -117,41 +112,72 @@ public class GameScreen implements Screen {
        // } else {
             if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_8)) {
                 if (HUD.hasEnoughMoney(BasicBoulder.COST)) {
-                    boulder = new BasicBoulder(Gdx.input.getX(),Gdx.input.getY(),true, game);
-                    HUD.decreaseBoulderMoney(BasicBoulder.COST);
+                    createBoulder(1,Gdx.input.getX(),Gdx.input.getY());
                 } else {
                     notEnoughMoney();
                 }
             }
             if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_9)) {
                 if (HUD.hasEnoughMoney(FastBoulder.COST)) {
-                    boulder = new FastBoulder(Gdx.input.getX(),Gdx.input.getY(),true,game);
-                    HUD.decreaseBoulderMoney(FastBoulder.COST);
+                   createBoulder(2,Gdx.input.getX(),Gdx.input.getY());
                 } else {
                     notEnoughMoney();
                 }
             }
             if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_0)) {
                 if (HUD.hasEnoughMoney(ArmoredBoulder.COST)) {
-                    boulder = new ArmoredBoulder(Gdx.input.getX(),Gdx.input.getY(),true,game);
-                    HUD.decreaseBoulderMoney(ArmoredBoulder.COST);
+                    createBoulder(3,Gdx.input.getX(),Gdx.input.getY());
                 } else {
                     notEnoughMoney();
                 }
            // }
         }
-        if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
-
-            Gdx.app.exit();
-        }
+        if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE))  Gdx.app.exit();
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.M)) {
-            if (songPlaying) {
-                mainsong.setVolume(0);
-            } else {
-                mainsong.setVolume(0.07f);
-            }
+            if (songPlaying) mainSong.setVolume(0);
+                else mainSong.setVolume(0.07f);
             songPlaying = !songPlaying;
+        }
+    }
+
+    private void createSlime(int type, int x, int y) {
+        switch (type) {
+            case 1:
+                slime = new MoneySlime(x, y, money, true);
+                HUD.decreaseSlimeMoney(MoneySlime.COST);
+                break;
+            case 2:
+                slime = new ShooterSlime(x,y,bulletArr,true);
+                HUD.decreaseSlimeMoney(ShooterSlime.COST);
+                break;
+            case 3:
+                slime = new ShieldSlime(x,y,true);
+                HUD.decreaseSlimeMoney(ShieldSlime.COST);
+                break;
+            default:
+                slime = null;
+
+        }
+    }
+    private void createBoulder(int type, int x, int y) {
+        switch (type) {
+            case 1:
+                boulder = new BasicBoulder(x, y, true, game);
+                HUD.decreaseBoulderMoney(BasicBoulder.COST);
+                break;
+            case 2:
+                boulder = new FastBoulder(x,y,true,game);
+                HUD.decreaseBoulderMoney(FastBoulder.COST);
+
+                break;
+            case 3:
+                boulder = new ArmoredBoulder(x,y,true, game);
+                HUD.decreaseBoulderMoney(ArmoredBoulder.COST);
+
+                break;
+            default:
+                boulder = null;
         }
     }
     public void notEnoughMoney() {
@@ -170,24 +196,98 @@ public class GameScreen implements Screen {
         mapRenderer.setView((OrthographicCamera) fVp.getCamera());
         mapRenderer.render();
         st.act(Gdx.graphics.getDeltaTime());
-        if (slime != null&&!troopArr.contains(slime)) slime.update(fVp, boulder,troopArr);
-        if (boulder != null&&!troopArr.contains(boulder)) boulder.update(fVp, slime, troopArr, tempArr, boulderReached);
+        if (slime != null && !troopArr.contains(slime)) slime.update(fVp, boulder, troopArr);
+        if (boulder != null && !troopArr.contains(boulder))
+            boulder.update(fVp, slime, troopArr, tempArr, boulderReached);
         TDGame.batch.begin();
 
-        //boulderWin();
-        gridChecker();
-        troopRendering();
-        renderTimer(delta);
-        int numberOfMoneySlimes = countMoneySlimesOnBoard();
-        boolean hasMoneySlime = checkForMoneySlime();
-        HUD.updateMoney(delta, numberOfMoneySlimes, hasMoneySlime);
+        updateGameLogic(delta);
+        renderGameLogic();
+
         TDGame.batch.end();
         st.draw();
-        inputHandling();
+        handleInput();
         resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
     }
 
-    public void gridChecker() {
+    // Updates game logic not directly linked with rendering
+    private void updateGameLogic(float delta) {
+        // Game state updates, excluding rendering-specific code
+        // Consider renaming 'gridChecker' & 'renderTimer' if they are not rendering
+        // e.g., rename 'renderTimer' to 'updateTimer'
+        int numberOfMoneySlimes = countMoneySlimes();
+        boolean hasMoneySlime = checkForMoneySlime();
+        updateTimer(delta);
+        HUD.updateMoney(delta, numberOfMoneySlimes, hasMoneySlime);
+        updateGrid();
+        updateBullets();
+        updateTroops();
+        updateDefenses();
+    }
+
+    public void renderGameLogic() {
+        renderActiveSlime();
+        renderActiveBoulder();
+        renderDefenses();
+        renderTroops();
+        renderBullets();
+
+        removeTempEntities();
+    }
+
+    private void renderTroops() {
+        for (BaseTroop troop : troopArr) {
+            troop.render();
+        }
+    }
+    private void renderBullets() {
+        for (Bullet bullet : bulletArr) {
+            bullet.render();
+        }
+    }
+    private void renderDefenses() {
+        for (Defense defense : defenses) {
+            defense.render();
+        }
+    }
+    private void renderActiveSlime() {
+        if (slime != null && !troopArr.contains(slime)) {
+            slime.render();
+        }
+
+    }
+
+    private void renderActiveBoulder() {
+        if (boulder != null && !troopArr.contains(boulder)) {
+            boulder.render();
+        }
+    }
+    private void updateTroops() {
+        for (BaseTroop troop : troopArr) {
+            if (troop instanceof Slime) {
+                troop.update(fVp, boulder, troopArr);
+            } else {
+                troop.update(fVp, slime, troopArr, tempArr, boulderReached);
+            }
+        }
+    }
+    private void updateDefenses() {
+        for (Defense defense : defenses) {
+            defense.instakill(boulder, tempArr, troopArr);
+        }
+    }
+
+    private void updateBullets() {
+        for (Bullet bullet : bulletArr) {
+            bullet.update(troopArr, tempArr, bulletTemp);
+        }
+    }
+    public void updateGrid() {
+        for (int i=0; i<9;i++) {
+            for (int j=0; j<5;j++) {
+                grid.gridCells[i][j].touched(boulder, slime,st.getViewport());
+            }
+        }
         /*for (int i=0; i<9;i++) {
             for (int j=0; j<5;j++) {
                 if (i<6) {
@@ -198,14 +298,9 @@ public class GameScreen implements Screen {
                 }
             }
         }*/
-        for (int i=0; i<9;i++) {
-            for (int j=0; j<5;j++) {
-                grid.gridCells[i][j].touched(boulder, slime,st.getViewport());
-            }
-        }
 
     }
-    public void renderTimer(float delta) {
+    public void updateTimer(float delta) {
         if (HUD != null) {
             HUD.update(game, delta);
             if (HUD.getTime() <= 0) {
@@ -215,69 +310,43 @@ public class GameScreen implements Screen {
         }
     }
 
-    public void troopRendering() {
-        tempArr.clear();
-        if (slime != null) {
-            if (!troopArr.contains(slime)) {
-                slime.render();
-            }
-        }
-        if (boulder != null) {
-            if (!troopArr.contains(boulder)) {
-                boulder.render();
-            }
-        }
-
-        for (Defense lm : lms) {
-            if (lm != null) {
-                lm.draw();
-                lm.instakill(boulder, tempArr, troopArr);
-            }
-        }
-
-        for (Bullet bullet : bulletArr) {
-            if (bullet != null) {
-                bullet.draw();
-                bullet.update(troopArr, tempArr, bulletTemp);
-            }
-        }
-
-        for (Bullet bullet : bulletTemp) {
-            bulletArr.remove(bullet);
-        }
-        for (BaseTroop troop : troopArr) {
-            if (troop != null) {
-                if (troop instanceof Slime) {
-                    troop.update(fVp,boulder,troopArr);
-                } else {
-                    troop.update(fVp,slime, troopArr, tempArr, boulderReached);
-                }
-                troop.render();
-            }
-        }
+    private void removeTempTroops() {
         for (BaseTroop tempTroop : tempArr) {
             troopArr.remove(tempTroop);
         }
+        tempArr.clear();
     }
+    private void removeTempBullets() {
+        for (Bullet bullet : bulletTemp) {
+            bulletArr.remove(bullet);
+        }
+        bulletTemp.clear();
+    }
+    private void removeTempEntities() {
+        removeTempBullets();
+        removeTempTroops();
+    }
+
     @Override
     public void resize(int width, int height) {
         fVp.update(width, height, true);
     }
 
-    public void handleReceivedTroopCoordinates(String message, TeamScreen.Team team) {
-        // Example message format: "2:3"
+    public void handleTroopCoords(String message, TeamScreen.Team team) {
+        // Example message format: "slime:2:3"
         if (message.contains(":")) {
             String[] parts = message.split(":");
-            int x = Integer.parseInt(parts[0]);
-            int y = Integer.parseInt(parts[1]);
+            String unitTeam = parts[0];
+            int x = Integer.parseInt(parts[1]);
+            int y = Integer.parseInt(parts[2]);
             // Render the troop in the game screen
-            System.out.println(x);
-            System.out.println(y);
-            renderReceivedTroop(x, y, team);
+            System.out.println(unitTeam + " " + x);
+            System.out.println(unitTeam + " " + y);
+            renderTroopCoords(x, y, team);
         }
     }
 
-    private void renderReceivedTroop(int x, int y, TeamScreen.Team team) {
+    private void renderTroopCoords(int x, int y, TeamScreen.Team team) {
 
         // Create the troop based on the team and render it
         if (team == SLIME) {
@@ -297,7 +366,7 @@ public class GameScreen implements Screen {
         }
         return false;
     }
-    public int countMoneySlimesOnBoard() {
+    public int countMoneySlimes() {
         int count = 0;
         for (BaseTroop troop : troopArr) {
             if (troop instanceof MoneySlime) {
@@ -318,7 +387,7 @@ public class GameScreen implements Screen {
         game.dispose();
         map.dispose();
         mapRenderer.dispose();
-        mainsong.dispose();
+        mainSong.dispose();
         st.dispose();
     }
 
