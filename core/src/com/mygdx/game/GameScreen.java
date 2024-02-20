@@ -23,30 +23,30 @@ import java.util.ArrayList;
 import static com.MenuScreens.TeamScreen.Team.SLIME;
 
 public class GameScreen implements Screen {
-    private TDGame game;
+    private final TDGame game;
     private Slime slime;
     private Boulder boulder;
     private final ArrayList<BaseTroop> troopArr = new ArrayList<>();
     private final ArrayList<BaseTroop> tempArr = new ArrayList<>();
     private final ArrayList<Bullet> bulletArr = new ArrayList<>();
     private final ArrayList<Bullet> bulletTemp = new ArrayList<>();
-    private float money = 999;
+    private final float money = 999;
     private final TiledMap map;
     private final OrthogonalTiledMapRenderer mapRenderer;
-    private Stage st;
+    private final Stage st;
     public OrthographicCamera cam;
     public FitViewport fVp;
     private final Music mainSong;
     public boolean songPlaying = true;
     private final HUD HUD;
     public boolean boulderReached = false;
-    private ArrayList<Defense> defenses;
+    private final ArrayList<Defense> defenses;
     public GridStage grid;
     public Client client;
     protected TeamScreen.Team team;
     public GameScreen(TDGame game, TeamScreen.Team t) {
         this.game = game;
-        mainSong = game.assets.mainsong2;
+        mainSong = TDGame.assets.mainsong2;
         this.team = t;
         this.map = new TmxMapLoader().load("tilemap/tilemap.tmx");
         HUD = new HUD(game, money);
@@ -189,32 +189,30 @@ public class GameScreen implements Screen {
     public void render(float delta) {
         Gdx.gl.glClearColor(.2f, .5f, .7f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
         cam.update();
         TDGame.batch.setProjectionMatrix(cam.combined);
-        fVp.apply();
 
+        fVp.apply();
         mapRenderer.setView((OrthographicCamera) fVp.getCamera());
         mapRenderer.render();
-        st.act(Gdx.graphics.getDeltaTime());
-        if (slime != null && !troopArr.contains(slime)) slime.update(fVp, boulder, troopArr);
-        if (boulder != null && !troopArr.contains(boulder))
-            boulder.update(fVp, slime, troopArr, tempArr, boulderReached);
-        TDGame.batch.begin();
 
+        st.act(Gdx.graphics.getDeltaTime());
+
+        TDGame.batch.begin();
         updateGameLogic(delta);
         renderGameLogic();
-
         TDGame.batch.end();
+
         st.draw();
+
         handleInput();
         resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
     }
 
-    // Updates game logic not directly linked with rendering
+
     private void updateGameLogic(float delta) {
         // Game state updates, excluding rendering-specific code
-        // Consider renaming 'gridChecker' & 'renderTimer' if they are not rendering
-        // e.g., rename 'renderTimer' to 'updateTimer'
         int numberOfMoneySlimes = countMoneySlimes();
         boolean hasMoneySlime = checkForMoneySlime();
         updateTimer(delta);
@@ -223,6 +221,8 @@ public class GameScreen implements Screen {
         updateBullets();
         updateTroops();
         updateDefenses();
+        updateActiveBoulder();
+        updateActiveSlime();
     }
 
     public void renderGameLogic() {
@@ -254,7 +254,6 @@ public class GameScreen implements Screen {
         if (slime != null && !troopArr.contains(slime)) {
             slime.render();
         }
-
     }
 
     private void renderActiveBoulder() {
@@ -270,6 +269,17 @@ public class GameScreen implements Screen {
                 troop.update(fVp, slime, troopArr, tempArr, boulderReached);
             }
         }
+    }
+    private void updateActiveBoulder() {
+        if (boulder != null && !troopArr.contains(boulder)) {
+            boulder.update(fVp, slime, troopArr, tempArr, boulderReached);
+        }
+    }
+    private void updateActiveSlime() {
+        if (slime != null && !troopArr.contains(slime)) {
+            slime.update(fVp, boulder, troopArr);
+        }
+
     }
     private void updateDefenses() {
         for (Defense defense : defenses) {
