@@ -199,14 +199,17 @@ public class GameScreen implements Screen {
 
         st.act(Gdx.graphics.getDeltaTime());
 
-        TDGame.batch.begin();
-        updateGameLogic(delta);
-        renderGameLogic();
-        TDGame.batch.end();
 
-        st.draw();
+
+        TDGame.batch.begin();
 
         handleInput();
+        updateGameLogic(delta);
+        renderGameLogic();
+
+        TDGame.batch.end();
+        st.draw();
+
         resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
     }
 
@@ -217,12 +220,12 @@ public class GameScreen implements Screen {
         boolean hasMoneySlime = checkForMoneySlime();
         updateTimer(delta);
         HUD.updateMoney(delta, numberOfMoneySlimes, hasMoneySlime);
+        updateActiveBoulder();
+        updateActiveSlime(); //este y el del boulder van arriba de la grid
         updateGrid();
         updateBullets();
         updateTroops();
         updateDefenses();
-        updateActiveBoulder();
-        updateActiveSlime();
     }
 
     public void renderGameLogic() {
