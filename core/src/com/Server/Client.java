@@ -23,7 +23,7 @@ public class Client extends Thread{
         this.gameScreen = gameScreen;
         try {
             clientSocket = new DatagramSocket(); //auto
-            serverAddress = InetAddress.getByName("127.0.0.1");
+            serverAddress = InetAddress.getByName("255.255.255.255");
             serverPort = 5000; //tiene que ser el mismo que el del server
             String message = "connect"; //msj al server
             byte[] sendData = message.getBytes();
