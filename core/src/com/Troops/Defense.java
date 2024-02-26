@@ -18,8 +18,8 @@ public class Defense {
     public void render() {
         TDGame.batch.draw(texture, hitbox.x, hitbox.y, 1.5f, 1.5f);
     }
-    public void instakill(Boulder boulder, ArrayList<BaseTroop> tempArr, ArrayList<BaseTroop> troopArr) {
-        if (boulder != null && !running) {
+    public void instakill(ArrayList<BaseTroop> tempArr, ArrayList<BaseTroop> troopArr) {
+        if (!running) {
             for (BaseTroop troop : troopArr) {
                 if (troop instanceof Boulder&&troop.hitbox.overlaps(hitbox)) {
                     running = true;

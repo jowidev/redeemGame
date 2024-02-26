@@ -21,7 +21,6 @@ public class Assets {
 	public final Array<AtlasRegion> slimewalk;
 	public final Array<AtlasRegion> boulderwalk;
 	public final Music mainsong2;
-	public final Music finalbattle;
 	public final Sound slimeplaced;
 	private final TextureAtlas atlas;
 	public final Texture bgTxT;
@@ -33,19 +32,28 @@ public class Assets {
 	public final Texture lawn;
 	public final Texture bullet;
 	public final Sound error;
+	public final Texture moneyImg;
+	public final Texture woodenSword;
+	public final Texture shieldImg;
+	public final Texture speed;
+	public final Texture armor;
 	public static final AssetDescriptor<Skin> SKIN = new AssetDescriptor<Skin>("flat-earth/skin/flat-earth-ui.json", Skin.class, new SkinLoader.SkinParameter("flat-earth/skin/flat-earth-ui.atlas"));
 	public Assets() {
 		loadToManager(); //meter aca lo que haya que cargar
+		this.armor = manager.get("boulders/armor.png");
 		this.bullet = manager.get("slimes/bullet.png");
+		this.speed = manager.get("boulders/speed.png");
+		this.woodenSword = manager.get("boulders/woodenSword.png");
 		this.error = manager.get("miscAssets/error.mp3");
 		this.atlas = manager.get("game.atlas");
+		this.shieldImg = manager.get("slimes/shield.png");
+		this.moneyImg = manager.get("slimes/money.png");
 		this.lawn = manager.get("miscAssets/cortacesped.png");
 		this.mmBgg = manager.get("miscAssets/promotionalbg2.png");
 		this.mmBg = manager.get("miscAssets/promotionalbg.png");
 		this.slimewalk = atlas.findRegions("slimes/planta");
 		this.boulderwalk = atlas.findRegions("boulders/boulder");
 		this.mainsong2= manager.get("miscAssets/gloriousmorning.mp3");
-		this.finalbattle = manager.get("miscAssets/finalbattle.mp3");
 		this.slimeplaced = manager.get("slimes/slimeplaced.mp3");
 		this.boulderPlaced = manager.get("boulders/boulderPlaced.mp3");
 		this.bgTxT = manager.get("miscAssets/logo.png");
@@ -60,6 +68,10 @@ public class Assets {
 	}
 		private void loadToManager() {
 			manager.load(SKIN);
+			manager.load("boulders/armor.png", Texture.class);
+			manager.load("boulders/woodenSword.png", Texture.class);
+			manager.load("slimes/money.png", Texture.class);
+			manager.load("boulders/speed.png", Texture.class);
 			manager.load("slimes/bullet.png", Texture.class);
 			manager.load("game.atlas", TextureAtlas.class);
 			manager.load("miscAssets/error.mp3", Sound.class);
@@ -68,8 +80,8 @@ public class Assets {
 			manager.load("miscAssets/promotionalbg.png", Texture.class);
 			manager.load("miscAssets/logo.png", Texture.class);
 			manager.load("miscAssets/currBg.png", Texture.class);
+			manager.load("slimes/shield.png", Texture.class);
 			manager.load("miscAssets/gloriousmorning.mp3", Music.class);
-			manager.load("miscAssets/finalbattle.mp3", Music.class);
 			manager.load("slimes/slimeplaced.mp3", Sound.class);
 			manager.load("boulders/boulderPlaced.mp3", Sound.class);
 			manager.load("miscAssets/Timer.png", Texture.class);

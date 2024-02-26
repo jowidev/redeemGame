@@ -4,6 +4,7 @@ import com.MenuScreens.GameOverScreen;
 import com.MenuScreens.HUD;
 import com.MenuScreens.TeamScreen;
 import com.Server.Client;
+import com.Server.Globals;
 import com.Troops.*;
 import com.Troops.TeamTroops.*;
 import com.badlogic.gdx.Gdx;
@@ -15,22 +16,24 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.FitViewport;
+import jdk.vm.ci.code.BailoutException;
 
 import java.util.ArrayList;
 
+import static com.MenuScreens.TeamScreen.Team.BOULDER;
 import static com.MenuScreens.TeamScreen.Team.SLIME;
 
 public class GameScreen implements Screen {
     private final TDGame game;
-    private Slime slime;
-    private Boulder boulder;
     private final ArrayList<BaseTroop> troopArr = new ArrayList<>();
     private final ArrayList<BaseTroop> tempArr = new ArrayList<>();
-    private final ArrayList<Bullet> bulletArr = new ArrayList<>();
+    public final ArrayList<Bullet> bulletArr = new ArrayList<>();
     private final ArrayList<Bullet> bulletTemp = new ArrayList<>();
-    private final float money = 999;
+    public float money = 0;
     private final TiledMap map;
     private final OrthogonalTiledMapRenderer mapRenderer;
     private final Stage st;
@@ -43,7 +46,10 @@ public class GameScreen implements Screen {
     private final ArrayList<Defense> defenses;
     public GridStage grid;
     public Client client;
-    protected TeamScreen.Team team;
+    public TeamScreen.Team team;
+
+    private BaseTroop selector;
+
     public GameScreen(TDGame game, TeamScreen.Team t) {
         this.game = game;
         mainSong = TDGame.assets.mainsong2;
@@ -64,11 +70,10 @@ public class GameScreen implements Screen {
             defenses.add(new Defense(0, i));
         }
 
+        Globals.clientScreen = this;
         client = new Client(this);
 
 
-        if (team == SLIME) st.addActor(HUD.getSlimeTable());
-        else st.addActor(HUD.getBoulderTable());
 
         st.addActor(HUD.getTimerTable());
 
@@ -77,111 +82,53 @@ public class GameScreen implements Screen {
 
         client.start();
     }
+
     private void createMusic() {
         mainSong.setLooping(true);
         mainSong.setVolume(.25f);
         mainSong.play();
     }
+
     private void handleInput() {
-        //if(team == TeamScreen.Team.SLIME) {
-
-            if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_1)) {
-                if (HUD.hasEnoughMoney(MoneySlime.COST)) {
-                    createSlime(1, Gdx.input.getX(),Gdx.input.getY());
-
-                } else {
-                    notEnoughMoney();
-                }
+        if (Gdx.input.isButtonJustPressed(Input.Buttons.LEFT) && selector != null) {
+            GridCell cell = grid.getCellByCoords(Gdx.input.getX(), (Gdx.graphics.getHeight() - Gdx.input.getY()));
+            if (cell != null && cell.placeTroop(selector)) {
+                client.sendEventToServer("plant#" + cell.getId() + "#" + Globals.determineTroopType(selector));
+                selector = null;
             }
-            if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_2)) {
-                if (HUD.hasEnoughMoney(ShooterSlime.COST)) {
-                    createSlime(2, Gdx.input.getX(),Gdx.input.getY());
-
-                } else {
-                    notEnoughMoney();
-                }
-            }
-            if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_3)) {
-                if (HUD.hasEnoughMoney(ShieldSlime.COST)) {
-                    createSlime(3, Gdx.input.getX(),Gdx.input.getY());
-
-                } else {
-                    notEnoughMoney();
-                }
-            }
-       // } else {
-            if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_8)) {
-                if (HUD.hasEnoughMoney(BasicBoulder.COST)) {
-                    createBoulder(1,Gdx.input.getX(),Gdx.input.getY());
-                } else {
-                    notEnoughMoney();
-                }
-            }
-            if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_9)) {
-                if (HUD.hasEnoughMoney(FastBoulder.COST)) {
-                   createBoulder(2,Gdx.input.getX(),Gdx.input.getY());
-                } else {
-                    notEnoughMoney();
-                }
-            }
-            if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_0)) {
-                if (HUD.hasEnoughMoney(ArmoredBoulder.COST)) {
-                    createBoulder(3,Gdx.input.getX(),Gdx.input.getY());
-                } else {
-                    notEnoughMoney();
-                }
-           // }
         }
-        if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE))  Gdx.app.exit();
+
+        BaseTroop anySelected = null;
+
+        if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_1)) {
+            anySelected =
+                    Globals.clientId == 0 ?
+                    new MoneySlime(0, 0, money, true) :
+                            new BasicBoulder(0, 0, true);
+        } else if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_2)) {
+            anySelected = Globals.clientId == 0 ?
+                    new ShooterSlime(0, 0, bulletArr, true) :
+                    new FastBoulder(0, 0, true);
+        } else if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_3)) {
+            anySelected = Globals.clientId == 0 ?
+                    new ShieldSlime(0, 0, true)
+                    : new ArmoredBoulder(0, 0, true);
+        }
+        if (anySelected != null) selector = anySelected;
+        // CHECK MONEY.
+        //!!!
+
+        if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) Gdx.app.exit();
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.M)) {
             if (songPlaying) mainSong.setVolume(0);
-                else mainSong.setVolume(0.07f);
+            else mainSong.setVolume(0.07f);
             songPlaying = !songPlaying;
         }
     }
 
-    private void createSlime(int type, int x, int y) {
-        switch (type) {
-            case 1:
-                slime = new MoneySlime(x, y, money, true);
-                HUD.decreaseSlimeMoney(MoneySlime.COST);
-                break;
-            case 2:
-                slime = new ShooterSlime(x,y,bulletArr,true);
-                HUD.decreaseSlimeMoney(ShooterSlime.COST);
-                break;
-            case 3:
-                slime = new ShieldSlime(x,y,true);
-                HUD.decreaseSlimeMoney(ShieldSlime.COST);
-                break;
-            default:
-                slime = null;
-
-        }
-    }
-    private void createBoulder(int type, int x, int y) {
-        switch (type) {
-            case 1:
-                boulder = new BasicBoulder(x, y, true, game);
-                HUD.decreaseBoulderMoney(BasicBoulder.COST);
-                break;
-            case 2:
-                boulder = new FastBoulder(x,y,true,game);
-                HUD.decreaseBoulderMoney(FastBoulder.COST);
-
-                break;
-            case 3:
-                boulder = new ArmoredBoulder(x,y,true, game);
-                HUD.decreaseBoulderMoney(ArmoredBoulder.COST);
-
-                break;
-            default:
-                boulder = null;
-        }
-    }
     public void notEnoughMoney() {
-        TDGame.assets.error.setVolume(1,.5f);
+        TDGame.assets.error.setVolume(1, .5f);
         TDGame.assets.error.play();
     }
 
@@ -190,6 +137,17 @@ public class GameScreen implements Screen {
         Gdx.gl.glClearColor(.2f, .5f, .7f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
+
+        if (!Globals.ready) return;
+
+        // over = -1 ; over = 0 gana slime ; over = 1 gana boulder
+        if(Globals.over != -1){
+            game.setScreen(new GameOverScreen(Globals.over == 0 ? SLIME : BOULDER, game));
+
+            Globals.over = -1;
+            Globals.ready = false;
+            Globals.clientId = null;
+        }
         cam.update();
         TDGame.batch.setProjectionMatrix(cam.combined);
 
@@ -198,7 +156,6 @@ public class GameScreen implements Screen {
         mapRenderer.render();
 
         st.act(Gdx.graphics.getDeltaTime());
-
 
 
         TDGame.batch.begin();
@@ -218,23 +175,24 @@ public class GameScreen implements Screen {
         // Game state updates, excluding rendering-specific code
         int numberOfMoneySlimes = countMoneySlimes();
         boolean hasMoneySlime = checkForMoneySlime();
-        updateTimer(delta);
-        HUD.updateMoney(delta, numberOfMoneySlimes, hasMoneySlime);
-        updateActiveBoulder();
-        updateActiveSlime(); //este y el del boulder van arriba de la grid
-        updateGrid();
+        //updateTimer(delta);
+        //HUD.updateMoney(delta, numberOfMoneySlimes, hasMoneySlime);
+        HUD.moneyLabel((int) money);
         updateBullets();
         updateTroops();
         updateDefenses();
     }
 
     public void renderGameLogic() {
-        renderActiveSlime();
-        renderActiveBoulder();
+        if (selector != null) {
+            Vector2 pos = fVp.unproject(new Vector2(Gdx.input.getX(), Gdx.input.getY()));
+            selector.setPosition(pos.x, pos.y);
+            selector.hitbox.set(pos.x - 1, pos.y - 1, selector.TROOP_WIDTH, selector.TROOP_HEIGHT);
+            selector.render();
+        }
         renderDefenses();
         renderTroops();
         renderBullets();
-
         removeTempEntities();
     }
 
@@ -243,50 +201,32 @@ public class GameScreen implements Screen {
             troop.render();
         }
     }
+
     private void renderBullets() {
         for (Bullet bullet : bulletArr) {
             bullet.render();
         }
     }
+
     private void renderDefenses() {
         for (Defense defense : defenses) {
             defense.render();
         }
     }
-    private void renderActiveSlime() {
-        if (slime != null && !troopArr.contains(slime)) {
-            slime.render();
-        }
-    }
 
-    private void renderActiveBoulder() {
-        if (boulder != null && !troopArr.contains(boulder)) {
-            boulder.render();
-        }
-    }
     private void updateTroops() {
         for (BaseTroop troop : troopArr) {
             if (troop instanceof Slime) {
-                troop.update(fVp, boulder, troopArr);
+                troop.update(fVp, troopArr);
             } else {
-                troop.update(fVp, slime, troopArr, tempArr, boulderReached);
+                troop.update(fVp, troopArr, tempArr, boulderReached);
             }
         }
     }
-    private void updateActiveBoulder() {
-        if (boulder != null && !troopArr.contains(boulder)) {
-            boulder.update(fVp, slime, troopArr, tempArr, boulderReached);
-        }
-    }
-    private void updateActiveSlime() {
-        if (slime != null && !troopArr.contains(slime)) {
-            slime.update(fVp, boulder, troopArr);
-        }
 
-    }
     private void updateDefenses() {
         for (Defense defense : defenses) {
-            defense.instakill(boulder, tempArr, troopArr);
+            defense.instakill(tempArr, troopArr);
         }
     }
 
@@ -295,24 +235,7 @@ public class GameScreen implements Screen {
             bullet.update(troopArr, tempArr, bulletTemp);
         }
     }
-    public void updateGrid() {
-        for (int i=0; i<9;i++) {
-            for (int j=0; j<5;j++) {
-                grid.gridCells[i][j].touched(boulder, slime,st.getViewport());
-            }
-        }
-        /*for (int i=0; i<9;i++) {
-            for (int j=0; j<5;j++) {
-                if (i<6) {
-                    grid.gridCells[i][j].touched(slime,st.getViewport());
-                }
-                else {
-                    grid.gridCells[i][j].touched(boulder,st.getViewport());
-                }
-            }
-        }*/
 
-    }
     public void updateTimer(float delta) {
         if (HUD != null) {
             HUD.update(game, delta);
@@ -329,12 +252,14 @@ public class GameScreen implements Screen {
         }
         tempArr.clear();
     }
+
     private void removeTempBullets() {
         for (Bullet bullet : bulletTemp) {
             bulletArr.remove(bullet);
         }
         bulletTemp.clear();
     }
+
     private void removeTempEntities() {
         removeTempBullets();
         removeTempTroops();
@@ -345,32 +270,7 @@ public class GameScreen implements Screen {
         fVp.update(width, height, true);
     }
 
-    public void handleTroopCoords(String message, TeamScreen.Team team) {
-        // Example message format: "slime:2:3"
-        if (message.contains(":")) {
-            String[] parts = message.split(":");
-            String unitTeam = parts[0];
-            int x = Integer.parseInt(parts[1]);
-            int y = Integer.parseInt(parts[2]);
-            // Render the troop in the game screen
-            System.out.println(unitTeam + " " + x);
-            System.out.println(unitTeam + " " + y);
-            renderTroopCoords(x, y, team);
-        }
-    }
 
-    private void renderTroopCoords(int x, int y, TeamScreen.Team team) {
-
-        // Create the troop based on the team and render it
-        if (team == SLIME) {
-            slime = new ShooterSlime(x, y,bulletArr,false);
-            //slime.update(fVp,boulder, tempArr);
-
-        } else if (team == TeamScreen.Team.BOULDER) {
-            boulder = new BasicBoulder(x, y,false,game);
-            //boulder.update(fVp, slime, troopArr, tempArr, boulderReached);
-        }
-    }
     public boolean checkForMoneySlime() {
         for (BaseTroop troop : troopArr) {
             if (troop instanceof MoneySlime) {
@@ -379,6 +279,7 @@ public class GameScreen implements Screen {
         }
         return false;
     }
+
     public int countMoneySlimes() {
         int count = 0;
         for (BaseTroop troop : troopArr) {
@@ -388,13 +289,43 @@ public class GameScreen implements Screen {
         }
         return count;
     }
+
+    public boolean placeTroop(BaseTroop troop, int cellId){
+        GridCell cell = grid.getCellById(cellId);
+        if(cell != null && cell.placeTroop(troop)){
+            troopArr.add(troop);
+            return true;
+        };
+        return false;
+    }
+
+    public com.MenuScreens.HUD getHUD() {
+        return HUD;
+    }
+
+
+    public void setTeam(TeamScreen.Team t){
+        this.team = t;
+        if (team == SLIME) st.addActor(HUD.getSlimeTable());
+        else st.addActor(HUD.getBoulderTable());
+    }
+
+
     @Override
-    public void pause() {}
+    public void pause() {
+    }
+
     @Override
-    public void resume() {}
+    public void resume() {
+    }
+
     @Override
-    public void hide() {}
-    public void show() {}
+    public void hide() {
+    }
+
+    public void show() {
+    }
+
     @Override
     public void dispose() { //se llama cuando se cierra el programa
         game.dispose();

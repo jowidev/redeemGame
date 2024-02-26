@@ -1,58 +1,79 @@
 
 game.png
-size: 512, 64
+size: 1024, 1024
 format: RGBA8888
 filter: Nearest, Nearest
 repeat: none
+boulders/armor
+  rotate: false
+  xy: 2, 102
+  size: 256, 256
+  orig: 256, 256
+  offset: 0, 0
+  index: -1
 boulders/boulder
   rotate: false
-  xy: 2, 2
+  xy: 2, 52
   size: 48, 48
   orig: 48, 48
   offset: 0, 0
   index: 0
 boulders/boulder
   rotate: false
-  xy: 52, 2
+  xy: 260, 310
   size: 48, 48
   orig: 48, 48
   offset: 0, 0
   index: 1
 boulders/boulder
   rotate: false
-  xy: 102, 2
+  xy: 516, 566
   size: 48, 48
   orig: 48, 48
   offset: 0, 0
   index: 2
 boulders/boulder
   rotate: false
-  xy: 152, 2
+  xy: 774, 824
   size: 48, 48
   orig: 48, 48
   offset: 0, 0
   index: 3
 boulders/boulder
   rotate: false
-  xy: 202, 2
+  xy: 2, 2
   size: 48, 48
   orig: 48, 48
   offset: 0, 0
   index: 4
 boulders/boulder
   rotate: false
-  xy: 252, 2
+  xy: 52, 52
   size: 48, 48
   orig: 48, 48
   offset: 0, 0
   index: 5
 boulders/boulder
   rotate: false
-  xy: 302, 2
+  xy: 260, 260
   size: 48, 48
   orig: 48, 48
   offset: 0, 0
   index: 6
+boulders/speed
+  rotate: false
+  xy: 516, 616
+  size: 256, 256
+  orig: 256, 256
+  offset: 0, 0
+  index: -1
+boulders/woodenSword
+  rotate: false
+  xy: 2, 360
+  size: 512, 512
+  orig: 512, 512
+  offset: 0, 0
+  index: -1
 
 game2.png
 size: 2048, 512
@@ -82,97 +103,111 @@ tilemap/RPG_Nature_Tileset_Autumn
   index: -1
 
 game3.png
-size: 1024, 256
+size: 2048, 4096
 format: RGBA8888
 filter: Nearest, Nearest
 repeat: none
 slimes/Player Roll 48x48
   rotate: false
-  xy: 254, 203
+  xy: 484, 785
   size: 336, 48
   orig: 336, 48
   offset: 0, 0
   index: -1
 slimes/bullet
   rotate: false
-  xy: 2, 2
+  xy: 2, 102
   size: 250, 249
   orig: 250, 249
   offset: 0, 0
   index: -1
+slimes/money
+  rotate: false
+  xy: 2, 353
+  size: 480, 480
+  orig: 480, 480
+  offset: 0, 0
+  index: -1
 slimes/planta
   rotate: false
-  xy: 254, 153
+  xy: 1935, 3341
   size: 48, 48
   orig: 48, 48
   offset: 0, 0
   index: 0
 slimes/planta
   rotate: false
-  xy: 592, 203
+  xy: 2, 52
   size: 48, 48
   orig: 48, 48
   offset: 0, 0
   index: 1
 slimes/planta
   rotate: false
-  xy: 254, 103
+  xy: 254, 303
   size: 48, 48
   orig: 48, 48
   offset: 0, 0
   index: 2
 slimes/planta
   rotate: false
-  xy: 304, 153
+  xy: 484, 735
   size: 48, 48
   orig: 48, 48
   offset: 0, 0
   index: 3
 slimes/planta
   rotate: false
-  xy: 642, 203
+  xy: 822, 785
   size: 48, 48
   orig: 48, 48
   offset: 0, 0
   index: 4
 slimes/planta
   rotate: false
-  xy: 254, 53
+  xy: 1935, 3291
   size: 48, 48
   orig: 48, 48
   offset: 0, 0
   index: 5
 slimes/planta
   rotate: false
-  xy: 304, 103
+  xy: 1985, 3341
   size: 48, 48
   orig: 48, 48
   offset: 0, 0
   index: 6
 slimes/planta
   rotate: false
-  xy: 354, 153
+  xy: 2, 2
   size: 48, 48
   orig: 48, 48
   offset: 0, 0
   index: 7
 slimes/planta
   rotate: false
-  xy: 692, 203
+  xy: 52, 52
   size: 48, 48
   orig: 48, 48
   offset: 0, 0
   index: 8
 slimes/planta
   rotate: false
-  xy: 254, 3
+  xy: 254, 253
   size: 48, 48
   orig: 48, 48
   offset: 0, 0
   index: 9
+slimes/shield
+  rotate: false
+  xy: 2, 835
+  size: 1931, 2554
+  orig: 1931, 2554
+  offset: 0, 0
+  index: -1
 
 game4.png
-size: 4096, 4096
+size: 4096, 2048
 format: RGBA8888
 filter: Nearest, Nearest
 repeat: none
@@ -181,13 +216,6 @@ miscAssets/Timer
   xy: 1460, 767
   size: 288, 120
   orig: 288, 120
-  offset: 0, 0
-  index: -1
-miscAssets/bando
-  rotate: false
-  xy: 1924, 1860
-  size: 528, 135
-  orig: 528, 135
   offset: 0, 0
   index: -1
 miscAssets/cortacesped
@@ -199,7 +227,7 @@ miscAssets/cortacesped
   index: -1
 miscAssets/currBg
   rotate: false
-  xy: 2916, 3063
+  xy: 1924, 1093
   size: 196, 84
   orig: 196, 84
   offset: 0, 0
@@ -213,7 +241,7 @@ miscAssets/logo
   index: -1
 miscAssets/logoTray
   rotate: false
-  xy: 2916, 3149
+  xy: 3382, 1515
   size: 480, 480
   orig: 480, 480
   offset: 0, 0
@@ -227,9 +255,9 @@ miscAssets/promotionalbg
   index: -1
 miscAssets/promotionalbg2
   rotate: false
-  xy: 2, 1997
-  size: 2912, 1632
-  orig: 2912, 1632
+  xy: 1924, 1179
+  size: 1456, 816
+  orig: 1456, 816
   offset: 0, 0
   index: -1
 

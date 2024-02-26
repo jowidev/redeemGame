@@ -1,5 +1,6 @@
 package com.MenuScreens;
 
+import com.Server.Globals;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
@@ -21,7 +22,7 @@ public class HUD extends Table {
     private final Stack stack;
     private final Stack stack2;
     private final Stack stack3;
-    private float time = 121;
+    private float time = 151;
     private int showTime;
     private float slimeMoney;
     private float boulderMoney;
@@ -144,6 +145,11 @@ public class HUD extends Table {
             boulderMoneyLabel.setText("$" + money);
         }
     }
+
+    public void moneyLabel(int money){
+        slimeMoneyLabel.setText("$" + money);
+        boulderMoneyLabel.setText("$" + money);
+    }
     public boolean hasEnoughMoney(float troopCost) {
         return money >= troopCost;
     }
@@ -162,6 +168,11 @@ public class HUD extends Table {
     public int getTime() {
         return (int) time;
     }
+    public void setTime(int time) {
+        this.time = time;
+        numberLabel.setText(String.valueOf(time));
+    }
+
     public Table getSlimeTable() {
         return slimeTable;
     }

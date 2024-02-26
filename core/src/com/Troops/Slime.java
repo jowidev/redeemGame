@@ -22,14 +22,14 @@ public abstract class Slime extends BaseTroop {
 
 
 	@Override
-	public void update(Viewport vp, Boulder boulder, ArrayList<BaseTroop> troopArr) {
+	public void update(Viewport vp, ArrayList<BaseTroop> troopArr) {
 		if (useMouseCoords) {
 		placeTroop(vp, TeamScreen.Team.SLIME, troopArr);
 		}
 
 	}
 	@Override
-	public void update(Viewport vp, Slime slime, ArrayList troopArr, ArrayList tempArr, boolean points) {
+	public void update(Viewport vp, ArrayList troopArr, ArrayList tempArr, boolean points) {
 
 	}
 

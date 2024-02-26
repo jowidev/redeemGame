@@ -5,6 +5,7 @@ import com.Troops.Boulder;
 import com.Troops.Slime;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import com.mygdx.game.TDGame;
 
 import java.util.ArrayList;
 
@@ -18,6 +19,8 @@ public class MoneySlime extends Slime {
         super(x, y, 75, COST, 0,useMouseCoords);
         this.money = money;
         troopCost = 15;
+        typeText = TDGame.assets.moneyImg;
+
     }
 
     public void generateMoney() {
@@ -30,7 +33,7 @@ public class MoneySlime extends Slime {
         }
     }
     @Override
-    public void update(Viewport vp, Boulder boulder, ArrayList troopArr) {
+    public void update(Viewport vp, ArrayList troopArr) {
         placeTroop(vp, TeamScreen.Team.SLIME, troopArr);
         generateMoney();
     }

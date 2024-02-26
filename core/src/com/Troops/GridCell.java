@@ -9,40 +9,29 @@
     import com.mygdx.game.Constants;
 
     public class GridCell extends Actor {
+
+        private int id;
+        private boolean boulderCell;
         public float gridCellW = Gdx.graphics.getWidth() * (Constants.PIXELTOTILE * 3.25f);
         public float gridCellH = Gdx.graphics.getHeight() * (Constants.PIXELTOTILE * 5.25f);
-        public GridCell(float x, float y,Stage s) {
+        public GridCell(int id, float x, float y,Stage s, boolean boulderCell) {
             setTouchable(Touchable.enabled);
             setBounds(x,y, gridCellW, gridCellH);
             s.addActor(this);
+            this.id = id;
+            this.boulderCell = boulderCell;
             //setDebug(true);
         }
 
-
-        public void touched(BaseTroop boulder, BaseTroop slime, Viewport viewport) {
-            if (boulder != null && boulder.troopPlaced && !boulder.getLocked()) {
-                if (Gdx.input.isButtonJustPressed(0)) {
-                    Vector2 mousePos = viewport.unproject(new Vector2(Gdx.input.getX(),Gdx.input.getY()));
-                    if (mousePos.x >= getX() && mousePos.x < getX() + gridCellW &&
-                            mousePos.y >= getY() && mousePos.y < getY() + gridCellH) {
-                        Vector2 troopPos = new Vector2(getCenterX()*(Constants.PIXELTOTILE/2),getCenterY()*(Constants.PIXELTOTILE/2));
-                        boulder.hitbox.setPosition(troopPos.x-1, troopPos.y-1);
-                        boulder.setLocked(true);
-                    } //no lo puedo creer que funciona
-                }
-            }
-
-            if (slime != null && slime.troopPlaced && !slime.getLocked()) {
-                if (Gdx.input.isButtonJustPressed(0)) {
-                    Vector2 mousePos = viewport.unproject(new Vector2(Gdx.input.getX(),Gdx.input.getY()));
-                    if (mousePos.x >= getX() && mousePos.x < getX() + gridCellW &&
-                            mousePos.y >= getY() && mousePos.y < getY() + gridCellH) {
-                        Vector2 troopPos = new Vector2(getCenterX()*(Constants.PIXELTOTILE/2),getCenterY()*(Constants.PIXELTOTILE/2));
-                        slime.hitbox.setPosition(troopPos.x-1, troopPos.y-1);
-                        slime.setLocked(true);
-                    } //no lo puedo creer que funciona
-                }
-            }
+        public boolean placeTroop(BaseTroop troop){
+            if(troop == null || (troop instanceof Boulder != this.boulderCell)) return false;
+            Vector2 troopPos = new Vector2(getCenterX()*(Constants.PIXELTOTILE/2),getCenterY()*(Constants.PIXELTOTILE/2));
+            troop.hitbox.set(troopPos.x - 1, troopPos.y - 1, troop.TROOP_WIDTH, troop.TROOP_HEIGHT);
+            troop.hitbox.setPosition(troopPos.x-1, troopPos.y-1);
+            troop.setLocked(true);
+            troop.troopPlaced = true;
+            //no lo puedo creer que funciona
+            return true;
         }
         private float[] getCenter() {
             return new float[] { getX() + getWidth() / 2, getY() + getHeight() / 2 };
@@ -56,4 +45,12 @@
             return getCenter()[1];
         }
 
+
+        public int getId() {
+            return id;
+        }
+
+        public boolean isBoulderCell() {
+            return boulderCell;
+        }
     }

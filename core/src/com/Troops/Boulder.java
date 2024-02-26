@@ -14,26 +14,23 @@ import java.util.ArrayList;
 public abstract class Boulder extends BaseTroop {
 	protected float sp;
 	protected boolean useMouseCoords;
-	private TDGame game;
-	public Boulder(int x, int y, float hp, float troopCost, float sp, float dmg, boolean useMouseCoords, TDGame game) {
+	public Boulder(int x, int y, float hp, float troopCost, float sp, float dmg, boolean useMouseCoords) {
 		super(x, y, hp, troopCost, dmg, useMouseCoords);
 		this.sp = sp;
-		this.game = game;
 		this.useMouseCoords = useMouseCoords;
 		baseAnimation = new Animation<TextureRegion>(.7f/7, TDGame.assets.boulderwalk, PlayMode.LOOP);
 	}
 
 
-	public void HitboxCheck(Slime slime, ArrayList<BaseTroop> troopArr, ArrayList tempArr) {
+	public void HitboxCheck(ArrayList<BaseTroop> troopArr, ArrayList tempArr) {
 		boolean isColliding = false;
 
-		if (slime != null) {
-			for (BaseTroop troop : troopArr) {
-				if (troop instanceof Slime && troop.hitbox.overlaps(hitbox)) {
-					troop.takeDamage(0.5f, tempArr);
-					isColliding = true;
-					break;
-				}
+
+		for (BaseTroop troop : troopArr) {
+			if (troop instanceof Slime && troop.hitbox.overlaps(hitbox)) {
+				troop.takeDamage(0.5f, tempArr);
+				isColliding = true;
+				break;
 			}
 		}
 		if (!isColliding) {
@@ -46,16 +43,16 @@ public abstract class Boulder extends BaseTroop {
 		hitbox.x -= sp*Gdx.graphics.getDeltaTime();
 		if (hitbox.x<=-2&&hp>0) {
 			tempArr.add(this);
-			game.setScreen(new GameOverScreen(TeamScreen.Team.BOULDER, game));
+//			game.setScreen(new GameOverScreen(TeamScreen.Team.BOULDER, game));
 
 		}
 	}
 
 	@Override
-	public void update(Viewport vp, Boulder boulder, ArrayList tempArr){}
+	public void update(Viewport vp, ArrayList tempArr){}
 	@Override
-	public void update(Viewport vp, Slime slime, ArrayList troopArr, ArrayList tempArr, boolean boulderReached) {
-		HitboxCheck(slime, troopArr, tempArr);
+	public void update(Viewport vp,ArrayList troopArr, ArrayList tempArr, boolean boulderReached) {
+		HitboxCheck(troopArr, tempArr);
 		if (useMouseCoords) placeTroop(vp, TeamScreen.Team.BOULDER, troopArr);
 	}
 

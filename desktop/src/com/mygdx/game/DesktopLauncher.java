@@ -1,9 +1,11 @@
 package com.mygdx.game;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
 import com.badlogic.gdx.tools.texturepacker.TexturePacker;
 import com.badlogic.gdx.tools.texturepacker.TexturePacker.Settings;
+import sun.security.krb5.internal.crypto.Des;
 
 public class DesktopLauncher { //funcion principal
 	public static void main (String[] arg) {
@@ -12,10 +14,12 @@ public class DesktopLauncher { //funcion principal
         settings.maxHeight = 4096;
         settings.alias = false;
 
-		TexturePacker.processIfModified(settings, "./assets", "./assets",  "game"); //name del atlas
+
+		//TexturePacker.processIfModified(settings, "./assets", "./assets",  "game"); //name del atlas
+		TexturePacker.processIfModified(settings, "../assets", "../assets",  "game"); //name del atlas
 		Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
 		config.setWindowedMode(1280,768); //usar 16:9 (1280:768)
-		config.setWindowSizeLimits(640, 480, Integer.MAX_VALUE, Integer.MAX_VALUE);
+		//config.setWindowSizeLimits(640, 480, Integer.MAX_VALUE, Integer.MAX_VALUE);
 		config.setForegroundFPS(60);
 		config.useVsync(true);
 		config.setTitle("Redeem Game");
